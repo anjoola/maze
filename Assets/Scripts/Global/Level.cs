@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class Level {
+	// TODO overhaul
+
+
 	// Name used by all the assets associated with this levels.
 	public string assetsName;
 	// Scene name.

@@ -1,29 +1,23 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MainUIController : MonoBehaviour {
 	public static GameObject instance;
-	public static GameModel currentGame;
+
+	// This game.
+	public static Game CurrentGame;
 	public static Level currentLevel;
 
 	// Menus and UI.
-	public static GameObject pauseMenu;
-	private static PauseMenuController pauseMenuController;
-	public static GameObject levelUI;
-	private static LevelUIController levelUIController;
-	public static GameObject levelComplete;
-	private static LevelCompleteController levelCompleteController;
-	public static GameObject notes;
-	private static NoteController notesController;
+	public static GameObject PauseMenu;
+	private static PauseMenuController PauseMenuController;
+	public static GameObject LevelComplete;
+	private static LevelCompleteController LevelCompleteController;
 
 	// Pauses.
 	public static bool isPaused;
-	public static bool showNotesPaused;
+	public static bool showNotePaused;
 	public static bool timeUpPaused;
-
-	// Timer.
-	public static int currTime;
-	private static bool timerEnabled;
 
 	public enum CompletionType {
 		GameOver,
@@ -33,53 +27,41 @@ public class MainUIController : MonoBehaviour {
 
 	void Awake() {
 		instance = this.gameObject;
-
+		DontDestroyOnLoad(instance);
+	
 		// Get objects.
-		pauseMenu = GameObject.Find("PauseMenu");
-		pauseMenuController = pauseMenu.GetComponent("PauseMenuController") as PauseMenuController;
-		levelUI = GameObject.Find("LevelUI");
-		levelUIController = levelUI.GetComponent("LevelUIController") as LevelUIController;
-		levelComplete = GameObject.Find("LevelComplete");
-		levelCompleteController = levelComplete.GetComponent("LevelCompleteController") as LevelCompleteController;
-		notes = GameObject.Find("NotesArea");
-		notesController = notes.GetComponent("NotesController") as NotesController;
+		PauseMenu = GameObject.Find("PauseMenu");
+		PauseMenuController = PauseMenu.GetComponent("PauseMenuController") as PauseMenuController;
+		LevelComplete = GameObject.Find("LevelComplete");
+		LevelCompleteController = LevelComplete.GetComponent("LevelCompleteController") as LevelCompleteController;
 
 		// Make sure prefabs are not destroyed.
-		DontDestroyOnLoad(gameObject);
-		DontDestroyOnLoad(transform.gameObject);
-		DontDestroyOnLoad(pauseMenu);
-		DontDestroyOnLoad(levelUI);
-		DontDestroyOnLoad(levelComplete);
-		DontDestroyOnLoad(notes);
+		DontDestroyOnLoad(LevelComplete);
+	}
+	void OnApplicationQuit() {
+		SaveController.Save();
 	}
 	void Start() {
 		// Load savefile.
-		SaveController.loadGame();
+		SaveController.Load();
 	
 		// Hide menus for now.
 		enablePauseMenu(false, true);
-		enableLevelUI(false);
+		LevelUIController.instance.Enable(false);
 		enableLevelComplete(false);
-		hideNotes(true);
-	
-		// Disable timer but start the timer thread.
-		currTime = 0;
-		timerEnabled = false;
-		InvokeRepeating("UpdateTimer", 0, 1.0f);
+		NoteController.instance.HideNote(true);
 
 		isPaused = false;
 	}
-	void OnApplicationQuit() {
-		SaveController.saveGame();
-	}
 	void Update() {
-		if (Input.GetMouseButtonDown(0) && notes != null && notes.activeSelf && notesController.dismissAnywhere) {
-			hideNotes(false);
+		// Check for dismissing the note anywhere.
+		if (Input.GetMouseButtonDown(0) && NoteController.instance.CanDismissAnywhere) {
+			NoteController.instance.HideNote();
 		}
 	}
 
 	public static bool shouldPause() {
-		return isPaused || showNotesPaused || timeUpPaused;
+		return isPaused || showNotePaused || timeUpPaused;
 	}
 
 	/* --------------------------------------------------- LEVELS ----------------------------------------------------*/
@@ -87,19 +69,19 @@ public class MainUIController : MonoBehaviour {
 	public static void startLevel() {
 		timeUpPaused = false;
 		currentLevel.start();
-		resetScore();
+		LevelUIController.instance.ResetScore();
 
 		AutoFade.LoadLevel(currentLevel.sceneName, 0.2f, 0.2f, Color.black, onStartLevelFinish);
 	}
 	public static void onStartLevelFinish() {
 		enablePauseMenu(false, true);
 		enableLevelComplete(false);
-		AudioController.resumeVolume();
+		AudioController.ResumeVolume();
 
-		enableLevelUI(true);
-		levelUIController.enableMenuButton(true);
+		LevelUIController.instance.Enable(true);
+		LevelUIController.instance.EnableMenuButton(true);
 
-		startTimer(currentLevel.maxTime);
+		LevelUIController.instance.StartTimer(currentLevel.maxTime);
 	}
 	public static void restartLevel() {
 		timeUpPaused = false;
@@ -109,144 +91,66 @@ public class MainUIController : MonoBehaviour {
 		enablePauseMenu(false, true);
 		enableLevelComplete(false);
 
-		AudioController.resumeVolume();		
-		resetScore();
+		AudioController.ResumeVolume();
+		LevelUIController.instance.ResetScore();
 		currentLevel.start();
-		enableLevelUI(true);
-		levelUIController.enableMenuButton(true);
+		LevelUIController.instance.Enable(true);
+		LevelUIController.instance.EnableMenuButton(true);
 		
-		startTimer(currentLevel.maxTime);
+		LevelUIController.instance.StartTimer(currentLevel.maxTime);
 	}
 	public static void pauseLevel() {
-		pauseTimer();
+		LevelUIController.instance.PauseTimer();
 		enablePauseMenu(true);
-		AudioController.halfVolume();
+		AudioController.ReduceVolume();
 	}
 	public static void resumeLevel() {
 		enablePauseMenu(false);
-		resumeTimer();
-		AudioController.resumeVolume();
+		LevelUIController.instance.ResumeTimer();
+		AudioController.ResumeVolume();
 	}
 	public static void exitLevel() {
 		AutoFade.LoadLevel("WorldMap", 0.2f, 0.2f, Color.black, onExitLevelComplete);
 	}
 	private static void onExitLevelComplete() {
-		hideNotes(true);
-		stopTimer();
+		NoteController.instance.HideNote(true);
+		LevelUIController.instance.StopTimer();
 
 		timeUpPaused = false;
-		enableLevelUI(false);
+		LevelUIController.instance.Enable(false);
 		enablePauseMenu(false, true);
 		enableLevelComplete(false);
 
-		AudioController.resumeVolume();
+		AudioController.ResumeVolume();
 	}
 	public static void finishLevel(CompletionType type) {
-		hideNotes(true);
+		NoteController.instance.HideNote(true);
 
 		// Stop music and timer.
-		AudioController.resumeVolume();
-		AudioController.playSFX("EndLevel", 5.0f);
-		AudioController.playAudio("LevelComplete", false);
-		stopTimer();
+		AudioController.ResumeVolume();
+		//AudioController.PlaySFX("EndLevel", 5.0f);
+		//AudioController.PlayAudio("LevelComplete", false);
+		LevelUIController.instance.StopTimer();
 		timeUpPaused = true;
 
 		// Set level completion message.
 		switch (type) {
 			case CompletionType.GameOver:
-				levelCompleteController.gameOver();
+				LevelCompleteController.gameOver();
 				break;
 			case CompletionType.LevelComplete:
-				levelCompleteController.levelComplete();
+				LevelCompleteController.levelComplete();
 				break;
 			case CompletionType.TimeUp:
-				levelCompleteController.timeUp();
+				LevelCompleteController.timeUp();
 				break;
 		}
 
-		levelUIController.enableMenuButton(false);
+		LevelUIController.instance.EnableMenuButton(false);
 		enablePauseMenu(false, true);
 		enableLevelComplete(true);
 
 		currentLevel.finish();
-	}
-
-	/* ---------------------------------------------------- TIMER ----------------------------------------------------*/
-
-	public static void startTimer(int time) {
-		currTime = time;
-		timerEnabled = true;
-		levelUIController.updateTimer(currTime);
-	}
-	public static void pauseTimer() {
-		timerEnabled = false;
-	}
-	public static void resumeTimer() {
-		timerEnabled = true;
-	}
-	public static void stopTimer() {
-		timerEnabled = false;
-	}
-	/**
-	 * Updates the timer every second if it is enabled.
-	 */
-	void UpdateTimer() {
-		if (timerEnabled && levelUI.activeSelf && !showNotesPaused) {
-			currTime--;
-			levelUIController.updateTimer(currTime);
-
-			// Timer up!
-			if (currTime == 0) {
-				timerEnabled = false;
-				timeUpPaused = true;
-
-				finishLevel(CompletionType.TimeUp);
-			}
-			// 3 2 1 countdown.
-			if (currTime <= 3) {
-				AudioController.timerBeep();
-			}
-		}
-	}
-
-	/* ---------------------------------------------------- NOTES ----------------------------------------------------*/
-
-	public static void showNotes(string note, bool pause=false) {
-		notesController.setText(note);
-		notesController.showNotes(pause);
-
-		if (pause) {
-			showNotesPaused = true;
-			try {
-				GeneralBoid.PauseBoids();
-			} catch { }
-		}
-	}
-	public void hideNotesPublic() {
-		hideNotes(false);
-	}
-	public static void hideNotes(bool hurry) {
-		notesController.hideNotes(hurry);
-
-		if (showNotesPaused) {
-			try {
-				GeneralBoid.UnpauseBoids();
-			} catch { }
-			showNotesPaused = false;
-		}
-	}
-
-	/* ---------------------------------------------------- SCORE ----------------------------------------------------*/
-
-	public static void resetScore() {
-		if (currentLevel == null) return;
-		currentLevel.score = 0;
-		levelUIController.updateScore(0);
-	}
-	public static void addScore(int score) {
-		if (currentLevel == null) return;
-		currentLevel.incrementScore(score);
-		levelUIController.updateScore(currentLevel.score);
 	}
 
 	/* ----------------------------------------------------- UI ------------------------------------------------------*/
@@ -260,24 +164,18 @@ public class MainUIController : MonoBehaviour {
 		isPaused = enabled;
 
 		if (enabled) {
-			pauseMenuController.updateText(currentLevel.assetsName, currentLevel.score);
-			pauseMenuController.slideIn();
+			PauseMenuController.updateText(currentLevel.assetsName, currentLevel.score);
+			PauseMenuController.slideIn();
 		}
 		else {
-			GeneralBoid.UnpauseBoids();
-			pauseMenuController.slideOut(hurry);
+			PauseMenuController.slideOut(hurry);
 		}
-	}
-	public static void enableLevelUI(bool enabled) {
-		if (currentLevel == null && enabled) return;
-
-		levelUI.SetActive(enabled);
 	}
 	public static void enableLevelComplete(bool enabled) {
 		if (enabled) {
-			levelCompleteController.slideIn();
+			LevelCompleteController.slideIn();
 		} else {
-			levelCompleteController.slideOut();
+			LevelCompleteController.slideOut();
 		}
 	}
 }

@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PauseMenuController : MonoBehaviour {
+	public static GameObject instance;
+
 	float DISPLAY_TIME = 0.3f;
 	float SCALE = 20;
 
@@ -16,6 +18,10 @@ public class PauseMenuController : MonoBehaviour {
 
 	private bool slidIn;
 
+	void Awake() {
+		instance = this.gameObject;
+		DontDestroyOnLoad(instance);
+	}
 	void Start() {
 		slidIn = true;
 	}
@@ -55,14 +61,14 @@ public class PauseMenuController : MonoBehaviour {
 
 	public void resume() {
 		AudioController.buttonPress();
-		GlobalStateController.resumeLevel();
+		MainUIController.resumeLevel();
 	}
 	public void restart() {
 		AudioController.buttonPress();
-		GlobalStateController.restartLevel();
+		MainUIController.restartLevel();
 	}
 	public void exitLevel() {
 		AudioController.buttonPress();
-		GlobalStateController.exitLevel();
+		MainUIController.exitLevel();
 	}
 }

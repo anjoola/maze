@@ -71,7 +71,7 @@ public class LevelCompleteController : MonoBehaviour {
 		computeStars();
 	}
 	public void computeStars() {
-		int numStars = GlobalStateController.currentLevel.computeStars();
+		int numStars = MainUIController.currentLevel.computeStars();
 		for (int j = 0; j < 5; j++) {
 			stars[j].SetActive(false);
 		}
@@ -82,10 +82,10 @@ public class LevelCompleteController : MonoBehaviour {
 
 	public void restart() {
 		AudioController.buttonPress();
-		GlobalStateController.restartLevel();
+		MainUIController.restartLevel();
 	}
 	public void exitLevel() {
 		AudioController.buttonPress();
-		GlobalStateController.exitLevel();
+		MainUIController.exitLevel();
 	}
 }

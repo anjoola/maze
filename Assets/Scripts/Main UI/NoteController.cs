@@ -3,10 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class NoteController : MonoBehaviour {
+	public static NoteController instance;
+
 	float SCALE = 0.001f;
 	float TIME = 0.2f;
-
-	public static GameObject instance;
 
 	public Text TextField;
 	public GameObject NotePanel;
@@ -17,8 +17,8 @@ public class NoteController : MonoBehaviour {
 	public bool CanDismissAnywhere;
 
 	void Awake() {
-		instance = this.gameObject;
-		DontDestroyOnLoad(instance);
+		instance = this;
+		DontDestroyOnLoad(this.gameObject);
 
 		// Move pointer up and down.
 		iTween.MoveBy(Pointer, iTween.Hash("amount", new Vector3(0, 0.1f, 0), "easeType", "linear",
@@ -31,17 +31,18 @@ public class NoteController : MonoBehaviour {
 	public void SetText(string text) {
 		TextField.text = text;
 	}
+	
 	public void ShowNote(bool canDismissAnywhere=false) {
 		// If the note is already shown, do nothing.
 		if (NoteObject.activeSelf) {
 			return;
 		}
-		this.CanDismissAnywhere = canDismissAnywhere;
+		CanDismissAnywhere = canDismissAnywhere;
 		NoteObject.SetActive(true);
 		iTween.ScaleBy(NotePanel, iTween.Hash("y", 1/SCALE, "easeType", "linear", "loopType", "none", "delay", 0.0,
 		                                      "time", TIME, "oncomplete", "activate", "oncompletetarget", NoteObject));
 	}
-	public void hideNote(bool hideQuickly=false) {
+	public void HideNote(bool hideQuickly=false) {
 		// If the note is already hidden, do nothing.
 		if (!NoteObject.activeSelf) {
 			return;
@@ -52,6 +53,7 @@ public class NoteController : MonoBehaviour {
 		                                      "time", time, "oncomplete", "deactivate",
 		                                      "oncompletetarget", NoteObject));
 	}
+	
 	public void Activate() {
 		Pointer.SetActive(true);
 	}

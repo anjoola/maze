@@ -19,6 +19,7 @@ public class SaveController {
 		MainUIController.CurrentGame = new Game();
 		return;
 		// TODO remove above
+
 		try {
 			BinaryFormatter bf = new BinaryFormatter();
 			FileStream file = File.Open(Application.persistentDataPath + SAVEFILE, FileMode.Open);

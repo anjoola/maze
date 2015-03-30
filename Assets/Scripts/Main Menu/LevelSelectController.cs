@@ -56,11 +56,12 @@ public class LevelSelectController : MonoBehaviour {
 		isZoomedOut = true;
 		isLeftSubworld = false;
 
-		if (!GlobalStateController.currentGame.played) {
-			GlobalStateController.showNotes("Welcome to Overrun! Choose a world by tapping either left or right.");
-			GlobalStateController.currentGame.played = true;
+		if (!MainUIController.CurrentGame.HasStartedGame) {
+			NoteController.instance.SetText("Welcome to Overrun! Choose a world by tapping either left or right.");
+			NoteController.instance.ShowNote();
+			MainUIController.CurrentGame.HasStartedGame = true;
 		}
-		AudioController.playAudio("WorldMapMusic");
+		AudioController.PlayAudio("WorldMapMusic");
 	}
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
@@ -69,7 +70,7 @@ public class LevelSelectController : MonoBehaviour {
 
 			// See if the user clicked on a level and try to load that level's information.
 			if (!isZoomedOut && !focusedOnLevel && !zoomBackToSubworldButton.activeSelf) {
-				foreach (Level level in GlobalStateController.currentGame.levels) {
+				foreach (Level level in MainUIController.CurrentGame.Levels) {
 					clickedOnLevel |= loadLevelInfo(mousePos, level);
 				}
 			}
@@ -142,13 +143,13 @@ public class LevelSelectController : MonoBehaviour {
 	 */
 	public void goBack() {
 		StartCoroutine(MoveCameraLoc(cameraOrigPos, false));
-		GlobalStateController.currentLevel = null;
+		MainUIController.currentLevel = null;
 	}
 	/**
 	 * Starts a level. Hides the level information UI.
 	 */
 	public void startLevel() {
-		GlobalStateController.startLevel();
+		MainUIController.startLevel();
 		enableLevelNameUI(false, false);
 		enableLevelInfoUI(false, false);
 	}
@@ -252,7 +253,7 @@ public class LevelSelectController : MonoBehaviour {
 		for (int i = level.numStars; i < 5; i++) {
 			stars[i].SetActive(false);
 		}
-		GlobalStateController.currentLevel = level;
+		MainUIController.currentLevel = level;
 	}
 
 	/* --------------------------------------------------- Camera --------------------------------------------------- */
