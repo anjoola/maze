@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// Shows a note to the player.
 public class NoteController : MonoBehaviour {
 	public static NoteController instance;
 
@@ -13,7 +14,7 @@ public class NoteController : MonoBehaviour {
 	public GameObject Pointer;
 	public GameObject NoteObject;
 
-	// True if the note can be dismissed anywhere, false if the note must be tapped to be dismissed.
+	// True if the note can be dismissed anywhere, false if the note must be tapped on to be dismissed.
 	public bool CanDismissAnywhere;
 
 	void Awake() {
@@ -28,11 +29,9 @@ public class NoteController : MonoBehaviour {
 		CanDismissAnywhere = false;
 	}
 
-	public void SetText(string text) {
+	public void ShowNote(string text, bool canDismissAnywhere=false) {
 		TextField.text = text;
-	}
-	
-	public void ShowNote(bool canDismissAnywhere=false) {
+
 		// If the note is already shown, do nothing.
 		if (NoteObject.activeSelf) {
 			return;
@@ -40,24 +39,27 @@ public class NoteController : MonoBehaviour {
 		CanDismissAnywhere = canDismissAnywhere;
 		NoteObject.SetActive(true);
 		iTween.ScaleBy(NotePanel, iTween.Hash("y", 1/SCALE, "easeType", "linear", "loopType", "none", "delay", 0.0,
-		                                      "time", TIME, "oncomplete", "activate", "oncompletetarget", NoteObject));
+		                                      "time", TIME, "oncomplete", "Activate", "oncompletetarget", NoteObject));
 	}
-	public void HideNote(bool hideQuickly=false) {
+	public void Activate() {
+		Pointer.SetActive(true);
+	}
+	public void HideNote(bool quickly=false) {
 		// If the note is already hidden, do nothing.
 		if (!NoteObject.activeSelf) {
 			return;
 		}
 		Pointer.SetActive(false);
-		float time = hideQuickly ? 0 : TIME;
+		float time = quickly ? 0 : TIME;
 		iTween.ScaleBy(NotePanel, iTween.Hash("y", SCALE, "easeType", "linear", "loopType", "none", "delay", 0.0,
-		                                      "time", time, "oncomplete", "deactivate",
+		                                      "time", time, "oncomplete", "Deactivate",
 		                                      "oncompletetarget", NoteObject));
-	}
-	
-	public void Activate() {
-		Pointer.SetActive(true);
 	}
 	public void Deactivate() {
 		NoteObject.SetActive(false);
+	}
+
+	public bool ShouldPause() {
+		return NoteObject.activeSelf && !CanDismissAnywhere;
 	}
 }

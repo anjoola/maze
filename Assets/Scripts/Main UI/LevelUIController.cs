@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+// Handles the timer, score, and showing of the menu if the user clicks on the menu button.
 public class LevelUIController : MonoBehaviour {
 	public static LevelUIController instance;
 
@@ -10,6 +11,7 @@ public class LevelUIController : MonoBehaviour {
 	public GameObject MenuButton;
 
 	public bool TimerEnabled;
+	public bool TimerPaused;
 	public int TimeLeft;
 
 	void Awake() {
@@ -21,12 +23,17 @@ public class LevelUIController : MonoBehaviour {
 		InvokeRepeating("UpdateTimer", 0, 1.0f);
 	}
 
-	public void Enable(bool enabled) {
-		this.gameObject.SetActive(enabled);
-
-		if (!enabled) {
-			StopTimer();
-		}
+	public void Disable() {
+		this.gameObject.SetActive(false);
+		StopTimer();
+	}
+	public void EnableWithTime(int time) {
+		Enable();
+		EnableMenuButton();
+		StartTimer(time);
+	}
+	public void Enable() {
+		this.gameObject.SetActive(true);
 	}
 	
 	public void AddPoints(int points) {
@@ -44,25 +51,26 @@ public class LevelUIController : MonoBehaviour {
 	public void StartTimer(int time) {
 		TimeLeft = time;
 		TimerEnabled = true;
+		TimerPaused = false;
 		UpdateTimeLeft(time);
 	}
 	public void PauseTimer() {
-		TimerEnabled = false;
+		TimerPaused = true;
 	}
 	public void ResumeTimer() {
-		TimerEnabled = true;
+		TimerPaused = false;
 	}
 	public void StopTimer() {
 		TimerEnabled = false;
+		TimerPaused = true;
 	}
 	private void UpdateTimer() {
-		if (TimerEnabled /*&& LevelUI.activeSelf && !showNotePaused*/) {
+		if (TimerEnabled && ! TimerPaused && !MainUIController.ShouldPause()) {
 			UpdateTimeLeft(--TimeLeft);
 
 			// Timer up!
 			if (TimeLeft == 0) {
 				StopTimer();
-				//timeUpPaused = true;
 
 				//finishLevel(CompletionType.TimeUp);
 			}
@@ -79,9 +87,12 @@ public class LevelUIController : MonoBehaviour {
 
 	// Shows the menu if the menu button is clicked.
 	public void ShowMenu() {
-		//PauseMenuController.pauseLevel();
+		PauseMenuController.instance.ShowPauseMenu();
 	}
-	public void EnableMenuButton(bool enabled) {
-		MenuButton.SetActive(enabled);
+	public void DisableMenuButton() {
+		MenuButton.SetActive(false);
+	}
+	public void EnableMenuButton() {
+		MenuButton.SetActive(true);
 	}
 }

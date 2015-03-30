@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class LevelCompleteController : MonoBehaviour {
+	public static LevelCompleteController instance;
+
 	string TIME_UP = "Time's Up!";
 	string GAME_OVER = "Game Over!";
 	string LEVEL_COMPLETE = "Success!";
@@ -10,82 +12,84 @@ public class LevelCompleteController : MonoBehaviour {
 	float SCALE = 20.0f;
 	float DISPLAY_TIME = 0.3f;
 
-	public GameObject topPanel;
-	public GameObject buttons;
+	public GameObject TopPanel;
+	public GameObject Buttons;
 
-	public Text levelCompleteText;
-	public GameObject overlay;
-	public GameObject[] stars;
-	public GameObject levelCompleteObj;
+	public Text Title;
+	public GameObject Overlay;
+	public GameObject[] Stars;
 
-	private bool slidIn;
+	private bool IsVisible;
 
+	void Awake() {
+		instance = this;
+		DontDestroyOnLoad(this.gameObject);
+	}
 	void Start() {
-		slidIn = true;
+		IsVisible = true;
+
+		// TODO remove later
 		for (int i = 0; i < 5; i++) {
-			stars[i].SetActive(true);
-			iTween.ScaleBy(stars[i], iTween.Hash("x", STAR_SCALE, "y", STAR_SCALE, "z", STAR_SCALE,
+			Stars[i].SetActive(true);
+			iTween.ScaleBy(Stars[i], iTween.Hash("x", STAR_SCALE, "y", STAR_SCALE, "z", STAR_SCALE,
 			                                     "easeType", "linear", "loopType", "pingPong",
 			                                     "delay", 0, "time", 0.6f));
-			stars[i].SetActive(false);
+			Stars[i].SetActive(false);
 		}
 	}
 
-	public void slideIn() {
-		if (slidIn) return;
+	public void SlideIn() {
+		if (IsVisible) return;
 
-		activate();
-		iTween.MoveBy(topPanel, iTween.Hash("y", -10, "easeType", "linear", "loopType", "none", "delay", 0.0,
+		this.gameObject.SetActive(true);
+		iTween.MoveBy(TopPanel, iTween.Hash("y", -10, "easeType", "linear", "loopType", "none", "delay", 0.0,
 		                                      "time", DISPLAY_TIME));
-		iTween.ScaleBy(buttons, iTween.Hash("x", SCALE, "y", SCALE, "z", SCALE, "easeType", "linear", "loopType", "none",
-		                                    "delay", 0.0, "time", DISPLAY_TIME));
-		slidIn = true;
+		iTween.ScaleBy(Buttons, iTween.Hash("x", SCALE, "y", SCALE, "z", SCALE, "easeType", "linear",
+		                                    "loopType", "none", "delay", 0.0, "time", DISPLAY_TIME));
+		IsVisible = true;
 	}
-	public void slideOut() {
-		if (!slidIn) return;
+	public void SlideOut() {
+		if (!IsVisible) return;
 
-		iTween.MoveBy(topPanel, iTween.Hash("y", 10, "easeType", "linear", "loopType", "none", "delay", 0.0,
+		iTween.MoveBy(TopPanel, iTween.Hash("y", 10, "easeType", "linear", "loopType", "none", "delay", 0.0,
 		                                    "time", 0));
-		iTween.ScaleBy(buttons, iTween.Hash("x", 1/SCALE, "y", 1/SCALE, "z", 1/SCALE, "easeType", "linear",
+		iTween.ScaleBy(Buttons, iTween.Hash("x", 1/SCALE, "y", 1/SCALE, "z", 1/SCALE, "easeType", "linear",
 		                                    "loopType", "none", "delay", 0.0, "time", 0,
-		                                    "oncomplete", "deactivate", "oncompletetarget", levelCompleteObj));
-		slidIn = false;
+		                                    "oncomplete", "Deactivate", "oncompletetarget", this.gameObject));
+		IsVisible = false;
 	}
-	public void activate() {
-		levelCompleteObj.SetActive(true);
-	}
-	public void deactivate() {
-		levelCompleteObj.SetActive(false);
+	public void Deactivate() {
+		this.gameObject.SetActive(false);
 	}
 
 	public void levelComplete() {
-		levelCompleteText.text = LEVEL_COMPLETE;
+		Title.text = LEVEL_COMPLETE;
 		computeStars();
 	}
 	public void timeUp() {
-		levelCompleteText.text = TIME_UP;
+		Title.text = TIME_UP;
 		computeStars();
 	}
 	public void gameOver() {
-		levelCompleteText.text = GAME_OVER;
+		Title.text = GAME_OVER;
 		computeStars();
 	}
 	public void computeStars() {
 		int numStars = MainUIController.currentLevel.computeStars();
 		for (int j = 0; j < 5; j++) {
-			stars[j].SetActive(false);
+			Stars[j].SetActive(false);
 		}
 		for (int i = 0; i < numStars; i++) {
-			stars[i].SetActive(true);
+			Stars[i].SetActive(true);
 		}
 	}
 
-	public void restart() {
-		AudioController.buttonPress();
-		MainUIController.restartLevel();
+	public void OnRestartClicked() {
+		AudioController.PlayButtonPress();
+		MainUIController.RestartLevel();
 	}
-	public void exitLevel() {
-		AudioController.buttonPress();
-		MainUIController.exitLevel();
+	public void OnQuitClicked() {
+		AudioController.PlayButtonPress();
+		MainUIController.ExitLevel();
 	}
 }

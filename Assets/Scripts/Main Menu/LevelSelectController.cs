@@ -57,8 +57,7 @@ public class LevelSelectController : MonoBehaviour {
 		isLeftSubworld = false;
 
 		if (!MainUIController.CurrentGame.HasStartedGame) {
-			NoteController.instance.SetText("Welcome to Overrun! Choose a world by tapping either left or right.");
-			NoteController.instance.ShowNote();
+			NoteController.instance.ShowNote("Welcome to Overrun! Choose a world by tapping either left or right.");
 			MainUIController.CurrentGame.HasStartedGame = true;
 		}
 		AudioController.PlayAudio("WorldMapMusic");
@@ -149,7 +148,7 @@ public class LevelSelectController : MonoBehaviour {
 	 * Starts a level. Hides the level information UI.
 	 */
 	public void startLevel() {
-		MainUIController.startLevel();
+		MainUIController.StartLevel();
 		enableLevelNameUI(false, false);
 		enableLevelInfoUI(false, false);
 	}

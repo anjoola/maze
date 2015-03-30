@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Plays audio files and adjusts the volume.
 public class AudioController : MonoBehaviour {
 	public static AudioController instance;
 	
@@ -74,7 +75,8 @@ public class AudioController : MonoBehaviour {
 	}
 
 	// TODO
-	public static void buttonPress() {
+	public static void PlayButtonPress() {
+		ResumeVolume();
 		//AudioController.playSFX("ButtonPress", 2.0f);
 	}
 	public static void timerBeep() {
