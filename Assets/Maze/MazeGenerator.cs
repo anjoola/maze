@@ -1,4 +1,3 @@
-//using UnityEngine;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -13,97 +12,6 @@ public class MazeGenerator {
 	public Maze CurrentMaze;
 	public Random random;
 	public int Size;
-	
-	public class Cell {
-		public MazeGenerator Gen;
-		public bool IsWall;
-		public int SetNumber;
-
-		public int RowNumber;
-		public int ColNumber;
-
-		public Cell(MazeGenerator gen, bool wall, int number) {
-			Gen = gen;
-			IsWall = wall;
-			SetNumber = number;
-
-			RowNumber = number / Gen.CurrentMaze.Size;
-			ColNumber = number % Gen.CurrentMaze.Size;
-
-			Gen.SetToCells[number] = new ArrayList();
-			Gen.SetToCells[number].Add(this);
-		}
-		public void ChangeSetNumber(int number) {
-			// Merge the cells from the old set with the new set.
-			while (Gen.SetToCells[SetNumber].Count > 0) {
-				Cell cell = (Cell)Gen.SetToCells[SetNumber][0];
-				Gen.SetToCells[SetNumber].RemoveAt(0);
-				Gen.SetToCells[number].Add(cell);
-			}
-			SetNumber = number;
-		}
-		public void ChangeType(bool toWall) {
-			IsWall = toWall;
-		}
-		public void DestroySetNumber() {
-			Gen.SetToCells[SetNumber].Remove(this);
-		}
-		public Cell GetCellBelow() {
-			return Gen.CurrentMaze.Rows[RowNumber + 2].Cells[ColNumber];
-		}
-		public Cell GetWallBelow() {
-			return Gen.CurrentMaze.Rows[RowNumber + 1].Cells[ColNumber];
-		}
-	}
-	public class Row {
-		public MazeGenerator Gen;
-		public Cell[] Cells;
-		public int RowNumber;
-
-		public Row(MazeGenerator gen, int size, int rowNumber, bool allWalls=false) {
-			Gen = gen;
-			Cells = new Cell[size];
-			RowNumber = rowNumber;
-			for (int col = 0; col < size; col++) {
-				Cells[col] = new Cell(gen, col % 2 == 0, rowNumber * size + col);
-				// If this is a row of all walls, change the cells in that row accordingly. We no longer need to the
-				// set numbers for the cells in this row.
-				if (allWalls) {
-					Cells[col].ChangeType(true);
-					Cells[col].DestroySetNumber();
-				}
-			}
-		}
-	}
-	public class Maze {
-		MazeGenerator Gen;
-		public int Size;
-		public Row[] Rows;
-		private int CurrentRow;
-
-		public Maze(MazeGenerator gen, int size) {
-			Gen = gen;
-			Size = size;
-			Rows = new Row[Size];
-			CurrentRow = 0;
-		}
-		public Row AddRow(bool allWalls=false) {
-			Row row = new Row(Gen, Size, CurrentRow, allWalls);
-			Rows[CurrentRow++] = row;
-			return row;
-		}
-
-		public override string ToString() {
-			string result = "";
-			for (int row = 0; row < Size; row++) {
-				for (int col = 0; col < Size; col++) {
-					result += Rows[row].Cells[col].IsWall ? "XX" : "  ";
-				}
-				result += "\n";
-			}
-			return result;
-		}
-	}
 
 	public MazeGenerator(int size) {
 		// Maze size must be an odd number!
@@ -199,12 +107,13 @@ public class MazeGenerator {
 		for (int i = 0; i < Size; i++) {
 			Cell cell = row.Cells[i];
 			cell.DestroySetNumber();
-			// TODO somehow destroy this object?
 		}
 	}
+
+	public virtual void CellTypeChangedCallback(int row, int col, bool toWall) { }
 	
 	static int Main(string[] args) {
-		MazeGenerator gen = new MazeGenerator(9);
+		MazeGenerator gen = new MazeGenerator(31);
 		gen.GenerateMaze();
 		Console.Write(gen.CurrentMaze);
 		return 0;
