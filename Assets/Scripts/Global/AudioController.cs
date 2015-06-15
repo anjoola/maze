@@ -19,7 +19,7 @@ public class AudioController : MonoBehaviour {
 	private static AudioSource GetAudioSource(string name) {
 		GameObject obj = Instantiate(Resources.Load(name)) as GameObject;
 		obj.transform.position = MainUIController.instance.transform.position;
-		return obj.audio;
+		return obj.GetComponent<AudioSource>();
 	}
 	// Plays the given audio file. If fadeIn is set to true, crossfades this audio source with the currently-playig one.
 	public static void PlayAudio(string name, bool fadeIn=true) {
