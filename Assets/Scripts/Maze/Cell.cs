@@ -1,10 +1,18 @@
 using System.Collections;
 
+/**
+ * A single cell within the maze.
+ */
 public class Cell {
 	public MazeGenerator Gen;
+
+	// Whether or not this cell is a wall.
 	public bool IsWall;
+
+	// Set number for this cells. Used for creating walls (refer to MazeGenerator.cs).
 	public int SetNumber;
-	
+
+	// Coordinates for this cell.
 	public int RowNumber;
 	public int ColNumber;
 	

@@ -1,5 +1,8 @@
 using System.Collections;
 
+/**
+ * A row in the maze.
+ */
 public class Row {
 	public MazeGenerator Gen;
 	public Cell[] Cells;

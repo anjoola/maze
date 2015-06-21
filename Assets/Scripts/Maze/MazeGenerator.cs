@@ -2,7 +2,11 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-// Maze generation algorithm from http://weblog.jamisbuck.org/2010/12/29/maze-generation-eller-s-algorithm.
+/**
+ * Generates any square-sized maze.
+ * 
+ * Maze generation algorithm from http://weblog.jamisbuck.org/2010/12/29/maze-generation-eller-s-algorithm.
+ */
 public class MazeGenerator {
 	// Probability of producing a wall.
 	public float WALL_PROBABILITY = 0.5f;

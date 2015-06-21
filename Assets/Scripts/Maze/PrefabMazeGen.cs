@@ -1,8 +1,15 @@
 using System;
 using UnityEngine;
 
+/**
+ * Generates a maze using Prefabs. Need to add all the potential maze blocks to the MazeBlocks list and set the Size.
+ * The MazeBlocks list size must be Size x Size.
+ */
 public class PrefabMazeGen : MonoBehaviour {
 	PrefabMazeGenerator Gen;
+
+	// Size of one side of the maze. (e.g. an 11 x 11 maze would have Size = 11).
+	public int Size;
 	public GameObject[] MazeBlocks;
 
 	public class PrefabMazeGenerator : MazeGenerator {
@@ -20,7 +27,7 @@ public class PrefabMazeGen : MonoBehaviour {
 	}
 
 	void Start() {
-		Gen = new PrefabMazeGenerator(MazeBlocks, 11);
+		Gen = new PrefabMazeGenerator(MazeBlocks, Size);
 		Gen.GenerateMaze();
 	}
 }

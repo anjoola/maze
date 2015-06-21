@@ -1,5 +1,8 @@
 using System.Collections;
 
+/**
+ * Abstract representation of the maze.
+ */
 public class Maze {
 	MazeGenerator Gen;
 	public int Size;
