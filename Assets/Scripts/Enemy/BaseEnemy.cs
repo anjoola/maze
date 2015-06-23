@@ -14,23 +14,25 @@ public class BaseEnemy : MonoBehaviour {
 	// Radius of detection.
 	public int Radius;
 	bool isWithinRadius;
-	public int ViewingAngle = 45;
+	public int ViewingAngle = 60;
 
 	// Player game object (for detection purposes).
 	GameObject player;
 
 	void Start() {
+		doInit();
+	}
+	protected virtual void doInit() {
+		isWithinRadius = false;
+		
 		// Get player.
 		player = GameObject.FindGameObjectWithTag("Player");
-
-		Debug.Log(this.GetComponent<SphereCollider>().radius);
+		
+		// Set collider radius to be the one specified.
 		this.GetComponent<SphereCollider>().radius = Radius;
-
-		Debug.Log (gameObject.transform.forward);
 	}
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
-			Debug.Log (player.transform.position);
 			isWithinRadius = true;
 		}
 	}
@@ -43,7 +45,7 @@ public class BaseEnemy : MonoBehaviour {
 	/**
 	 * Returns true if the player is within line of sight of the enemy, and within the viewing angle.
 	 */
-	bool inLineOfSight() {
+	protected bool inLineOfSight() {
 		if (!isWithinRadius) return false;
 
 		// Create vector from enemy to player.
@@ -52,17 +54,9 @@ public class BaseEnemy : MonoBehaviour {
 
 		// Angle between forward and where player is is less than half of viewing angle.
 		// TODO https://unity3d.com/learn/tutorials/projects/stealth/enemy-sight
-		if (angle < ViewingAngle * 0.5f) {
+		if (angle < ViewingAngle * 0.5f)
 			return true;
 
-			/*RaycastHit hit;
-			if (Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius)) {
-				if (hit.collider.gameObject == player) {
-					return true;
-				}
-			}*/
-		}
 		return false;
 	}
 }
-
