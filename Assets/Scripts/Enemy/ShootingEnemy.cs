@@ -33,7 +33,7 @@ public class ShootingEnemy : BaseEnemy {
 	 * Shoots a projectile straight ahead. Only shoots if it has been SHOOT_INTERVAL seconds since the last time a
 	 * projectile was shot.
 	 */
-	protected void shootProjectile() {
+	protected void ShootProjectile() {
 		if (Time.time - LastShootTime >= SHOOT_INTERVAL) {
 			GameObject shot = Instantiate(Projectile, Source.position, Source.rotation) as GameObject;
 			shot.GetComponent<Rigidbody>().AddForce(Source.forward * ProjectileSpeed * SHOOT_FORCE_MULTIPLIER);

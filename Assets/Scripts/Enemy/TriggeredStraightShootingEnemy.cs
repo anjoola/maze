@@ -4,8 +4,11 @@ using System.Collections;
 /**
  * Straight shooting enemy which will shoot straight at a constant rate.
  */
-public class StraightShootingEnemy : ShootingEnemy {
+public class TriggeredStraightShootingEnemy : ShootingEnemy {
+	// Only shoot if the player is detected.
 	void FixedUpdate() {
-		ShootProjectile();
+		if (InLineOfSight()) {
+			ShootProjectile();
+		}
 	}
 }

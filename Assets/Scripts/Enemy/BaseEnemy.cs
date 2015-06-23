@@ -17,7 +17,7 @@ public class BaseEnemy : MonoBehaviour {
 	public int ViewingAngle = 60;
 
 	// Player game object (for detection purposes).
-	GameObject player;
+	protected GameObject player;
 
 	void Start() {
 		doInit();
@@ -43,18 +43,23 @@ public class BaseEnemy : MonoBehaviour {
 	}
 
 	/**
-	 * Returns true if the player is within line of sight of the enemy, and within the viewing angle.
+	 * Get the angle between the enemy and the player.
 	 */
-	protected bool inLineOfSight() {
-		if (!isWithinRadius) return false;
-
-		// Create vector from enemy to player.
+	protected float AngleToPlayer() {
 		Vector3 direction = player.transform.position - transform.position;
 		float angle = Vector3.Angle(direction, transform.forward);
+		return angle;
+	}
+
+	/**
+	 * Returns true if the player is within line of sight of the enemy, and within the viewing angle.
+	 */
+	protected bool InLineOfSight() {
+		if (!isWithinRadius) return false;
 
 		// Angle between forward and where player is is less than half of viewing angle.
 		// TODO https://unity3d.com/learn/tutorials/projects/stealth/enemy-sight
-		if (angle < ViewingAngle * 0.5f)
+		if (AngleToPlayer() < ViewingAngle * 0.5f)
 			return true;
 
 		return false;
