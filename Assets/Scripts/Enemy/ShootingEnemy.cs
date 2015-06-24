@@ -11,8 +11,7 @@ public class ShootingEnemy : BaseEnemy {
 	// Projectile to shoot and location to shoot from.
 	public GameObject Projectile;
 	public GameObject ProjectileSource;
-	Transform Source;
-	
+
 	// Force to shoot the projectile.
 	public int ProjectileSpeed = 4;
 	
@@ -26,7 +25,6 @@ public class ShootingEnemy : BaseEnemy {
 	protected override void doInit() {
 		base.doInit();
 		LastShootTime = Time.time;
-		Source = ProjectileSource.transform;
 	}
 	
 	/**
@@ -35,8 +33,9 @@ public class ShootingEnemy : BaseEnemy {
 	 */
 	protected void ShootProjectile() {
 		if (Time.time - LastShootTime >= SHOOT_INTERVAL) {
-			GameObject shot = Instantiate(Projectile, Source.position, Source.rotation) as GameObject;
-			shot.GetComponent<Rigidbody>().AddForce(Source.forward * ProjectileSpeed * SHOOT_FORCE_MULTIPLIER);
+			Transform source = ProjectileSource.transform;
+			GameObject shot = Instantiate(Projectile, source.position, source.rotation) as GameObject;
+			shot.GetComponent<Rigidbody>().AddForce(source.forward * ProjectileSpeed * SHOOT_FORCE_MULTIPLIER);
 			LastShootTime = Time.time;
 		}
 	}
