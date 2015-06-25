@@ -48,7 +48,7 @@ public class MouseLookCamera : MonoBehaviour {
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit)) {
 			GameObject item = hit.collider.gameObject;
-			if (item != player) {
+			if (item != player && item.tag == "Maze") {
 				Color color = item.GetComponent<Renderer>().material.color;
 				color.a = 0.1f;
 				item.GetComponent<Renderer>().material.color = color;

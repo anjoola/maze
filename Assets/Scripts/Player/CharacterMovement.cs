@@ -32,7 +32,8 @@ public class CharacterMovement : MonoBehaviour {
 		Vector3 inputVec = new Vector3(x, 0, z);
 		inputVec *= WalkSpeed;
 		inputVec = camera.transform.TransformDirection(inputVec);
-		
+		inputVec.y = 0;
+
 		controller.Move(inputVec * Time.deltaTime);
 		return inputVec.magnitude;
 	}
