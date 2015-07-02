@@ -8,7 +8,7 @@ public class LockOnShootingEnemy : ShootingEnemy {
 	void FixedUpdate() {
 		// Rotate towards the player if within line of sight.
 		if (InLineOfSight()) {
-			transform.parent.gameObject.transform.LookAt(player.transform);
+			parent.transform.LookAt(player.transform);
 		}
 		ShootProjectile();
 	}

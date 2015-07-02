@@ -2,7 +2,7 @@
 using System.Collections;
 
 /**
- * Straight shooting enemy which will shoot straight at a constant rate.
+ * Straight shooting enemy, shoots straight at a constant rate, but only if the player is within sight.
  */
 public class TriggeredStraightShootingEnemy : ShootingEnemy {
 	// Only shoot if the player is detected.

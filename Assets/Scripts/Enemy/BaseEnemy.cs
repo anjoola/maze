@@ -13,11 +13,14 @@ public class BaseEnemy : MonoBehaviour {
 
 	// Radius of detection.
 	public int Radius;
-	bool isWithinRadius;
+	protected bool isWithinRadius;
 	public int ViewingAngle = 60;
 
 	// Player game object (for detection purposes).
 	protected GameObject player;
+
+	// Parent game object (actual game object for this enemy).
+	protected GameObject parent;
 
 	void Start() {
 		doInit();
@@ -25,8 +28,9 @@ public class BaseEnemy : MonoBehaviour {
 	protected virtual void doInit() {
 		isWithinRadius = false;
 		
-		// Get player.
+		// Get player and parent game object.
 		player = GameObject.FindGameObjectWithTag("Player");
+		parent = transform.parent.gameObject;
 		
 		// Set collider radius to be the one specified.
 		this.GetComponent<SphereCollider>().radius = Radius;

@@ -32,11 +32,11 @@ public class RotateShootingEnemy : ShootingEnemy {
 			LastRotateTime = Time.time;
 		}
 	}
+
 	/**
 	 * Rotates the enemy 90 degrees, gradually.
 	 */
 	void RotateSelf() {
-		// Need to get the parent game object.
-		transform.parent.gameObject.transform.Rotate(0, 90 * Time.deltaTime, 0, Space.World);
+		parent.transform.Rotate(0, 90 * Time.deltaTime, 0, Space.World);
 	}
 }
