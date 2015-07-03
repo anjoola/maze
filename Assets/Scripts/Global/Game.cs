@@ -4,16 +4,13 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class Game {
-	public List<Level> Levels;
-
-	// Whether or not the user started the game yet.
-	public bool HasStartedGame;
-
+	// TODO public List<Level> levels;
+	
+	// Whether or not the user played the game yet. Set to false if this it the first time the user
+	// has played the game.
+	public bool played;
+	
 	public Game() {
-		HasStartedGame = false;
-		InitializeAllLevels();
-	}
-	private void InitializeAllLevels() {
-		// TODO Levels.Add(new Level());
+		played = false;
 	}
 }

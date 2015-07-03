@@ -5,29 +5,31 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class SaveController {
-	private static string SAVEFILE = "/save.gd";
-
-	// Saves the current game.
-	public static void Save() {
+	static string SAVE_FILE = "/savefile.gd";
+	
+	/**
+	 * Saves the current game.
+	 */
+	public static void saveGame() {
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + SAVEFILE);
-		bf.Serialize(file, MainUIController.CurrentGame);
+		FileStream file = File.Create(Application.persistentDataPath + SAVE_FILE);
+		//bf.Serialize(file, GlobalStateController.currentGame);
 		file.Close(); 
 	}
-	// Loads an existing game or creates a new file if one doesn't exist.
-	public static void Load() {
-		MainUIController.CurrentGame = new Game();
+	/**
+	 * Loads an existing game or creates a new file if one doesn't exist.
+	 */
+	public static void loadGame() {
+		//GlobalStateController.currentGame = new GameModel();
 		return;
-		// TODO remove above
-
 		try {
 			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open(Application.persistentDataPath + SAVEFILE, FileMode.Open);
-			MainUIController.CurrentGame = (Game)bf.Deserialize(file);
+			FileStream file = File.Open(Application.persistentDataPath + SAVE_FILE, FileMode.Open);
+			//GlobalStateController.currentGame = (GameModel)bf.Deserialize(file);
 			file.Close();
 		} catch (System.SystemException) {
 			// Otherwise, create a new game save.
-			MainUIController.CurrentGame = new Game();
+			//GlobalStateController.currentGame = new GameModel();
 		}
 	}
 }
