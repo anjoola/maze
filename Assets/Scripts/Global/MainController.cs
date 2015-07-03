@@ -60,7 +60,7 @@ public class MainController : MonoBehaviour {
 	
 	/* ---------------------------------------------------- NOTES ----------------------------------------------------*/
 	
-	public static void ShowNote(string note, bool autoDismiss=false) {
+	public static void ShowNote(string note, bool autoDismiss=true) {
 		NoteCtrl.ShowNote(note, autoDismiss);
 	}
 	public static void HideNote() {
