@@ -8,6 +8,7 @@ using System.Collections;
  * TODO
  */
 public class MainController : MonoBehaviour {
+	public bool UION;
 	public static GameObject instance;
 
 	// Menus and UI.
@@ -15,9 +16,14 @@ public class MainController : MonoBehaviour {
 	static LevelUIController LevelUICtrl;
 	public static GameObject Notes;
 	static NoteController NoteCtrl;
+	public static GameObject PauseMenu;
+	static PauseMenuController PauseMenuCtrl;
 
 	// Current floor.
 	public static int CurrentFloor;
+
+	// Whether or not the game is paused.
+	public static bool IsPaused;
 
 	void Awake() {
 		instance = this.gameObject;
@@ -27,15 +33,21 @@ public class MainController : MonoBehaviour {
 		LevelUICtrl = LevelUI.GetComponent<LevelUIController>();
 		Notes = GameObject.Find("Note UI");
 		NoteCtrl = Notes.GetComponent<NoteController>();
+		PauseMenu = GameObject.Find("Pause Menu");
+		if (UION)
+			PauseMenuCtrl = PauseMenu.GetComponent<PauseMenuController>();
 
 		// Make sure prefabs are not destroyed.
 		DontDestroyOnLoad(gameObject);
 		DontDestroyOnLoad(transform.gameObject);
 		DontDestroyOnLoad(LevelUI);
 		DontDestroyOnLoad(Notes);
+		DontDestroyOnLoad(PauseMenu);
 
 		// Hide unneeded things.
 		HideNote();
+		PauseMenuCtrl.HidePauseMenu();
+		IsPaused = false;
 	}
 	void Start() {
 		CurrentFloor = 1;
@@ -72,5 +84,12 @@ public class MainController : MonoBehaviour {
 	}
 	public static void HideNote() {
 		NoteCtrl.HideNote();
+	}
+
+	/* ------------------------------------------------- PAUSE MENU --------------------------------------------------*/
+
+	public static void TogglePauseMenu() {
+		PauseMenuCtrl.TogglePauseMenu();
+		IsPaused = PauseMenuCtrl.IsPaused;
 	}
 }

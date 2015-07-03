@@ -72,7 +72,7 @@ public class PrefabMazeGen : MonoBehaviour {
 						break;
 				}
 
-				Debug.Log ("(" + row + "," + col + "): " + numSpaces);
+				//Debug.Log ("(" + row + "," + col + "): " + numSpaces);
 				}
 
 				if (++col > Size - 1) {

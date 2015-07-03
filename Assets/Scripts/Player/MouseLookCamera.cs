@@ -24,6 +24,9 @@ public class MouseLookCamera : MonoBehaviour {
 	}
 	
 	void LateUpdate() {
+		if (MainController.IsPaused)
+			return;
+
 		// Rotate player.
 		float horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
 		player.transform.Rotate(0, horizontal, 0);

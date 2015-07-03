@@ -25,6 +25,15 @@ public class BaseEnemy : MonoBehaviour {
 	void Start() {
 		doInit();
 	}
+	void Update() {
+		if (MainController.IsPaused)
+			return;
+	}
+	void FixedUpdate() {
+		if (MainController.IsPaused)
+			return;
+	}
+
 	protected virtual void doInit() {
 		isWithinRadius = false;
 		

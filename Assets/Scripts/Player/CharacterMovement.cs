@@ -20,7 +20,13 @@ public class CharacterMovement : MonoBehaviour {
 	
 	void Update() {
 		// TODO detect running if movespeed fast enough
-		moveSpeed = UpdateMovement();  
+		if (!MainController.IsPaused)
+			moveSpeed = UpdateMovement();
+
+		// Toggle pause menu display.
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			MainController.TogglePauseMenu();
+		}
 	}
 
 	float UpdateMovement() {

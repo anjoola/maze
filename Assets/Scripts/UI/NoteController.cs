@@ -6,19 +6,12 @@ using System.Collections;
  * Shows a note to the player.
  */
 public class NoteController : MonoBehaviour {
-	public static NoteController instance;
-
 	public Text NoteText;
 	public GameObject NotePanel;
 	public GameObject NoteObject;
 
 	// Waiting time duration per word before automatically dismissing a note.
 	float WAIT_TIME_PER_WORD = 0.45f;
-	
-	void Awake() {
-		instance = this;
-		DontDestroyOnLoad(this.gameObject);
-	}
 
 	/**
 	 * Show the note.
@@ -35,9 +28,8 @@ public class NoteController : MonoBehaviour {
 		else
 			NoteObject.SetActive(true);
 
-		if (autoDismiss) {
-			instance.StartCoroutine(Dismiss());
-		}
+		if (autoDismiss)
+			StartCoroutine(Dismiss());
 	}
 
 	/**
