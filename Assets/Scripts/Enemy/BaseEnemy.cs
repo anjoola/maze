@@ -23,18 +23,6 @@ public class BaseEnemy : MonoBehaviour {
 	protected GameObject parent;
 
 	void Start() {
-		doInit();
-	}
-	void Update() {
-		if (MainController.IsPaused)
-			return;
-	}
-	void FixedUpdate() {
-		if (MainController.IsPaused)
-			return;
-	}
-
-	protected virtual void doInit() {
 		isWithinRadius = false;
 		
 		// Get player and parent game object.
@@ -43,7 +31,13 @@ public class BaseEnemy : MonoBehaviour {
 		
 		// Set collider radius to be the one specified.
 		this.GetComponent<SphereCollider>().radius = Radius;
+
+		doStart();
 	}
+
+	// To be used by subclasses.
+	protected virtual void doStart() { }
+
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
 			isWithinRadius = true;

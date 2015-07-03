@@ -4,7 +4,7 @@ using System.Collections;
 public class ProjectileScript : MonoBehaviour {
 	GameObject player;
 
-	void Start () {
+	void Start() {
 		player = GameObject.FindGameObjectWithTag("Player");
 	}
 

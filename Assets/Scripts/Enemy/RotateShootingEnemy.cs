@@ -17,9 +17,9 @@ public class RotateShootingEnemy : ShootingEnemy {
 	bool ShouldRotate = false;
 
 	void FixedUpdate() {
-		if (ShouldRotate) {
+		if (ShouldRotate)
 			RotateSelf();
-		}
+
 		// Done rotating.
 		if (Time.time - LastRotateStartedTime >= ROTATE_DURATION) {
 			ShouldRotate = false;

@@ -23,9 +23,7 @@ public class ChasingEnemy : BaseEnemy {
 
 	CharacterController controller;
 
-	void Start() {
-		doInit();
-
+	override protected void doStart() {
 		controller = GetComponentInParent<CharacterController>();
 		ShouldChase = false;
 	}

@@ -28,10 +28,10 @@ public class PauseMenuController : MonoBehaviour {
 
 		Overlay.SetActive(true);
 		iTween.MoveBy(UpperPanel, iTween.Hash("y", -2, "easeType", "linear", "loopType", "none", "delay", 0.0,
-		                                      "time", DISPLAY_TIME, "oncomplete", "ShowPauseMenuDone",
-		                                      "oncompletetarget", gameObject));
+		                                      "time", DISPLAY_TIME, "ignoretimescale", true));
 		iTween.MoveBy(Buttons, iTween.Hash("y", 6, "easeType", "linear", "loopType", "none", "delay", 0.0,
-	                                       "time", DISPLAY_TIME));
+		                                   "time", DISPLAY_TIME, "ignoretimescale", true));
+		ShowPauseMenuDone();
 	}
 	public void ShowPauseMenuDone() {
 		OldTimeScale = Time.timeScale;

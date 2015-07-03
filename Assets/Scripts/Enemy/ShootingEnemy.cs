@@ -18,12 +18,7 @@ public class ShootingEnemy : BaseEnemy {
 	// Last time a projectile was shot.
 	float LastShootTime = 0;
 	
-	void Start() {
-		doInit();
-	}
-	
-	protected override void doInit() {
-		base.doInit();
+	override protected void doStart() {
 		LastShootTime = Time.time;
 	}
 	
