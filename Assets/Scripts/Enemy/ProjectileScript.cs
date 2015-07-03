@@ -11,8 +11,9 @@ public class ProjectileScript : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		// Projectile hit the player.
 		if (other.gameObject == player) {
+			MainController.DecreaseHP(1);
+			MainController.ShowNote("OUCH!");
 			// TODO
-			Debug.Log ("HIT!!!!");
 			Destroy(gameObject);
 		}
 		// TODO hit something else like a wall, edge of the maze, another enemy?

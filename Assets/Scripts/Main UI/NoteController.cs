@@ -20,8 +20,6 @@ public class NoteController : MonoBehaviour {
 	}
 	void Start() {
 		AutoDismiss = false;
-
-		ShowNote ("hi there");
 	}
 
 	/**

@@ -2,17 +2,38 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+/**
+ * Controls the level UI, including the number of points, the level name, and the HP of the player.
+ */
 public class LevelUIController : MonoBehaviour {
+	// Treasure.
+	public Text Treasure;
+	int TreasureAmt;
+
 	// HP bar.
 	public GameObject[] HP;
 	int HPIntervals;
 
 	void Start() {
+		// Start with 0 treasure.
+		TreasureAmt = 0;
+
 		// Start a 100% HP.
 		HPIntervals = 10;
 		for (int i = 0; i < 10; i++) {
 			HP[i].SetActive(true);
 		}
+
+		AcquireTreasure(11);
+	}
+
+	/**
+	 * Increase the amount of treasure.
+	 *
+	 * amount: Amount to increase by.
+	 */
+	public void AcquireTreasure(int amount) {
+		Treasure.text = ("" + TreasureAmt + amount).PadLeft(6, '0');
 	}
 
 	/**
