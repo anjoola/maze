@@ -16,6 +16,9 @@ public class MainController : MonoBehaviour {
 	public static GameObject Notes;
 	static NoteController NoteCtrl;
 
+	// Current floor.
+	public static int CurrentFloor;
+
 	void Awake() {
 		instance = this.gameObject;
 
@@ -35,6 +38,7 @@ public class MainController : MonoBehaviour {
 		HideNote();
 	}
 	void Start() {
+		CurrentFloor = 1;
 		// TODO
 	}
 	void OnApplicationQuit() {
@@ -56,6 +60,9 @@ public class MainController : MonoBehaviour {
 	}
 	public static void DecreaseHP(int numIntervals) {
 		LevelUICtrl.DecreaseHP(numIntervals);
+	}
+	public static void ShowNextFloor() {
+		LevelUICtrl.ShowFloor(CurrentFloor); // TODO next floor
 	}
 	
 	/* ---------------------------------------------------- NOTES ----------------------------------------------------*/

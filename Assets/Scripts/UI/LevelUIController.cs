@@ -14,6 +14,10 @@ public class LevelUIController : MonoBehaviour {
 	public GameObject[] HP;
 	int HPIntervals;
 
+	// Floor number.
+	public GameObject FloorObject;
+	public Text Floor;
+
 	void Start() {
 		// Start with 0 treasure.
 		TreasureAmt = 0;
@@ -24,7 +28,7 @@ public class LevelUIController : MonoBehaviour {
 			HP[i].SetActive(true);
 		}
 
-		AcquireTreasure(11);
+		FloorObject.SetActive(false);
 	}
 
 	/**
@@ -66,5 +70,24 @@ public class LevelUIController : MonoBehaviour {
 			HP[HPIntervals - i - 1].SetActive(false);
 		}
 		HPIntervals -= numIntervals;
+	}
+
+	/**
+	 * Briefly show the current floor number.
+	 *
+	 * floor: The floor number to show.
+	 */
+	public void ShowFloor(int floor) {
+		FloorObject.SetActive(true);
+		Floor.text = "Floor " + floor;
+		StartCoroutine(Dismiss());
+	}
+
+	/**
+	 * Dismiss the floor number after a certain period.
+	 */
+	IEnumerator Dismiss() {
+		yield return new WaitForSeconds(3f);
+		FloorObject.SetActive(false);
 	}
 }

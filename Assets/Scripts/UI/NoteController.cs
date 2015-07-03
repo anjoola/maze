@@ -10,22 +10,14 @@ public class NoteController : MonoBehaviour {
 
 	public Text NoteText;
 	public GameObject NotePanel;
-	RawImage NotePanelImage;
 	public GameObject NoteObject;
 
-	// True if the note should dismiss itself.
-	bool AutoDismiss;
-
 	// Waiting time duration per word before automatically dismissing a note.
-	float WAIT_TIME_PER_WORD = 0.4f;
+	float WAIT_TIME_PER_WORD = 0.45f;
 	
 	void Awake() {
 		instance = this;
 		DontDestroyOnLoad(this.gameObject);
-	}
-	void Start() {
-		AutoDismiss = false;
-		NotePanelImage = NotePanel.GetComponent<RawImage>();
 	}
 
 	/**
@@ -36,7 +28,6 @@ public class NoteController : MonoBehaviour {
 	 */
 	public void ShowNote(string text, bool autoDismiss=true) {
 		NoteText.text = text;
-		AutoDismiss = autoDismiss;
 
 		// If the note is already shown, do nothing.
 		if (NoteObject.activeSelf)

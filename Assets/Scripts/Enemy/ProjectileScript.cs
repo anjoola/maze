@@ -11,8 +11,9 @@ public class ProjectileScript : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		// Projectile hit the player.
 		if (other.gameObject == player) {
+			// TODO
 			MainController.DecreaseHP(1);
-			MainController.ShowNote("OUCH! Hi Mike you are a flesh-eating bacteria");
+			MainController.ShowNote("OUCH!");
 			// TODO
 			Destroy(gameObject);
 		}

@@ -8,8 +8,8 @@ public class BaseEnemy : MonoBehaviour {
 	// Name of the enemy.
 	public string Name;
 
-	// Amount of damage this enemy does onto the player.
-	public int Damage = 10;
+	// Amount of damage this enemy does onto the player, in HP intervals (up to 10).
+	public int Damage = 1;
 
 	// Radius of detection.
 	public int Radius;
