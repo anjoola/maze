@@ -18,6 +18,8 @@ public class MainController : MonoBehaviour {
 	static NoteController NoteCtrl;
 	public static GameObject PauseMenu;
 	static PauseMenuController PauseMenuCtrl;
+	public static GameObject LevelComplete;
+	static LevelCompleteController LevelCompleteCtrl;
 
 	// Current floor.
 	public static int CurrentFloor;
@@ -34,8 +36,11 @@ public class MainController : MonoBehaviour {
 		Notes = GameObject.Find("Note UI");
 		NoteCtrl = Notes.GetComponent<NoteController>();
 		PauseMenu = GameObject.Find("Pause Menu");
-		if (UION)
+		LevelComplete = GameObject.Find("Level Complete");
+		if (UION) {
 			PauseMenuCtrl = PauseMenu.GetComponent<PauseMenuController>();
+			LevelCompleteCtrl = LevelComplete.GetComponent<LevelCompleteController>();
+		}
 
 		// Make sure prefabs are not destroyed.
 		DontDestroyOnLoad(gameObject);
@@ -43,11 +48,13 @@ public class MainController : MonoBehaviour {
 		DontDestroyOnLoad(LevelUI);
 		DontDestroyOnLoad(Notes);
 		DontDestroyOnLoad(PauseMenu);
+		DontDestroyOnLoad(LevelComplete);
 
 		// Hide unneeded things.
 		HideNote();
-		PauseMenuCtrl.HidePauseMenu();
+		if (UION) PauseMenuCtrl.HidePauseMenu(true);
 		IsPaused = false;
+		if (UION) LevelCompleteCtrl.HideLevelComplete();
 	}
 	void Start() {
 		CurrentFloor = 1;
@@ -91,5 +98,14 @@ public class MainController : MonoBehaviour {
 	public static void TogglePauseMenu() {
 		PauseMenuCtrl.TogglePauseMenu();
 		IsPaused = PauseMenuCtrl.IsPaused;
+	}
+
+	/* ------------------------------------------ LEVEL COMPLETE DISPLAY ---------------------------------------------*/
+
+	public static void ShowLevelComplete(int amount) {
+		LevelCompleteCtrl.ShowLevelComplete(amount);
+	}
+	public static void HideLevelComplete() {
+		LevelCompleteCtrl.HideLevelComplete();
 	}
 }

@@ -41,14 +41,16 @@ public class PauseMenuController : MonoBehaviour {
 		if (!IsPaused) return;
 		IsPaused = false;
 
+		float time = hurry ? 0 : DISPLAY_TIME;
+
 		Overlay.SetActive(false);
 		if (OldTimeScale != -1)
 			Time.timeScale = OldTimeScale;
 
 		iTween.MoveBy(UpperPanel, iTween.Hash("y", 2, "easeType", "linear", "loopType", "none", "delay", 0.0,
-		                                      "time", DISPLAY_TIME));
+		                                      "time", time));
 		iTween.MoveBy(Buttons, iTween.Hash("y", -6, "easeType", "linear", "loopType", "none", "delay", 0.0,
-		                                   "time", DISPLAY_TIME));
+		                                   "time", time));
 	}
 
 	public void Resume() {
@@ -57,11 +59,11 @@ public class PauseMenuController : MonoBehaviour {
 
 	public void Restart() {
 		// TODO
-		HidePauseMenu();
+		HidePauseMenu(true);
 	}
 
 	public void Exit() {
 		// TODO
-		HidePauseMenu();
+		HidePauseMenu(true);
 	}
 }
