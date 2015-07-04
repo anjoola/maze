@@ -59,7 +59,7 @@ public class ChasingEnemy : BaseEnemy {
 
 	void StopChase() {
 		ShouldChase = false;
-		// TODO show confusion that player has disappeared
+		// TODO show confusion that player has disappeared and return to original position
 	}
 }
 
