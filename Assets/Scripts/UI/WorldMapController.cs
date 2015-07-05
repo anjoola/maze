@@ -12,7 +12,7 @@ public class WorldMapController : MonoBehaviour {
 
 	public GameObject player;
 	Vector3 PlayerStartPos;
-
+	
 	void Start() {
 		SelectedLevel = 1;
 		PlayerStartPos = player.transform.position;
@@ -64,8 +64,7 @@ public class WorldMapController : MonoBehaviour {
 	 * Starts the selected level.
 	 */
 	public void StartLevel() {
-		// TODO
-		Debug.Log("TODO starting level " + SelectedLevel);
-		AutoFade.LoadLevel("TestLevel", 0.2f, 0.2f, Color.black);
+		Level level = MainController.CurrentGame.Levels[SelectedLevel - 1];
+		level.Start();
 	}
 }

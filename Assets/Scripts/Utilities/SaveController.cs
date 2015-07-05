@@ -10,26 +10,34 @@ public class SaveController {
 	/**
 	 * Saves the current game.
 	 */
-	public static void saveGame() {
+	public static void SaveGame() {
+		return;
+		// TODO
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream file = File.Create(Application.persistentDataPath + SAVE_FILE);
-		//bf.Serialize(file, GlobalStateController.currentGame);
+		bf.Serialize(file, MainController.CurrentGame);
 		file.Close(); 
 	}
+
 	/**
 	 * Loads an existing game or creates a new file if one doesn't exist.
 	 */
-	public static void loadGame() {
-		//GlobalStateController.currentGame = new GameModel();
+	public static void LoadGame() {
+		// TODO remove
+		MainController.CurrentGame = new Game();
 		return;
+		//
+
+		// Try to load existing game.
 		try {
 			BinaryFormatter bf = new BinaryFormatter();
 			FileStream file = File.Open(Application.persistentDataPath + SAVE_FILE, FileMode.Open);
-			//GlobalStateController.currentGame = (GameModel)bf.Deserialize(file);
+			MainController.CurrentGame = (Game) bf.Deserialize(file);
 			file.Close();
-		} catch (System.SystemException) {
-			// Otherwise, create a new game save.
-			//GlobalStateController.currentGame = new GameModel();
+		}
+		// Otherwise, create a new game save.
+		catch (System.SystemException) {
+			MainController.CurrentGame = new Game();
 		}
 	}
 }

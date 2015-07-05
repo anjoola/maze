@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections;
 
 public class AutoFade : MonoBehaviour {
 	private static AutoFade m_Instance = null;
@@ -50,7 +50,7 @@ public class AutoFade : MonoBehaviour {
 		GL.PopMatrix();
 	}
 	
-	private IEnumerator Fade(float aFadeOutTime, float aFadeInTime, Color aColor, Action callback)
+	private IEnumerator Fade(float aFadeOutTime, float aFadeInTime, Color aColor, Action<Floor> callback, Floor floor)
 	{
 		float t = 0.0f;
 		bool faded = false;
@@ -62,7 +62,7 @@ public class AutoFade : MonoBehaviour {
 
 			// Do any loads before the scene appears here.
 			if (t >0.7f && callback != null && !faded) {
-				callback();
+				callback(floor); // TODO might want to move callback until after level is loaded
 				faded = true;
 			}
 		}
@@ -78,24 +78,24 @@ public class AutoFade : MonoBehaviour {
 		}
 		m_Fading = false;
 	}
-	private void StartFade(float aFadeOutTime, float aFadeInTime, Color aColor, Action callback)
+	private void StartFade(float aFadeOutTime, float aFadeInTime, Color aColor, Action<Floor> callback, Floor floor)
 	{
 		m_Fading = true;
-		StartCoroutine(Fade(aFadeOutTime, aFadeInTime, aColor, callback));
+		StartCoroutine(Fade(aFadeOutTime, aFadeInTime, aColor, callback, floor));
 	}
 	
 	public static void LoadLevel(string aLevelName,float aFadeOutTime, float aFadeInTime, Color aColor,
-	                             Action callback=null)
+	                             Action<Floor> callback=null, Floor floor=null)
 	{
 		if (Fading) return;
 		Instance.m_LevelName = aLevelName;
-		Instance.StartFade(aFadeOutTime, aFadeInTime, aColor, callback);
+		Instance.StartFade(aFadeOutTime, aFadeInTime, aColor, callback, floor);
 	}
 	public static void LoadLevel(int aLevelIndex,float aFadeOutTime, float aFadeInTime, Color aColor)
 	{
 		if (Fading) return;
 		Instance.m_LevelName = "";
 		Instance.m_LevelIndex = aLevelIndex;
-		Instance.StartFade(aFadeOutTime, aFadeInTime, aColor, null);
+		Instance.StartFade(aFadeOutTime, aFadeInTime, aColor, null, null);
 	}
 }

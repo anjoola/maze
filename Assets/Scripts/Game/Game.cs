@@ -1,16 +1,19 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
+/**
+ * TODO
+ */
 [System.Serializable]
 public class Game {
-	public List<Level> levels;
+	// List of all levels in the game.
+	public Level[] Levels = new Level[] {
+		new ForestLevel()
+	};
 	
-	// Whether or not the user played the game yet. Set to false if this it the first time the user
-	// has played the game.
-	public bool played;
+	// Whether or not this is a new game (player has not played yet).
+	public bool IsNewGame;
 	
 	public Game() {
-		played = false;
+		IsNewGame = true;
 	}
 }

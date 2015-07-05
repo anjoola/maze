@@ -1,19 +1,26 @@
-using UnityEngine;
-using System.Collections;
+/**
+ * TODO
+ */
+public class ForestLevel : Level {
+	public override Floor[] Floors { get {
+		return new Floor[] {
+			new Floor(
+				"TestLevel",
+				
+				// Enemies.
+				new string[] {
+					"StraightShootingEnemy",
+					"StraightShootingEnemy",
+					"StraightShootingEnemy"
+				}
+			
+				// TODO
+			)
+		};
+	}}
 
-public class ForestLevel : MonoBehaviour
-{
-
-		// Use this for initialization
-		void Start ()
-		{
-	
-		}
-	
-		// Update is called once per frame
-		void Update ()
-		{
-	
-		}
+	public ForestLevel() : base() {
+		NumFloors = Floors.Length;
+	}
 }
 

@@ -11,6 +11,11 @@ public class MainController : MonoBehaviour {
 	public bool UION;
 	public static GameObject instance;
 
+	// Current game.
+	public static Game CurrentGame;
+	public static Level CurrentLevel;
+	public static int CurrentFloor;
+
 	// Menus and UI.
 	public static GameObject LevelUI;
 	static LevelUIController LevelUICtrl;
@@ -21,14 +26,14 @@ public class MainController : MonoBehaviour {
 	public static GameObject LevelComplete;
 	static LevelCompleteController LevelCompleteCtrl;
 
-	// Current floor.
-	public static int CurrentFloor;
-
 	// Whether or not the game is paused.
 	public static bool IsPaused;
 
 	void Awake() {
 		instance = this.gameObject;
+
+		// Create new game or load game save.
+		SaveController.LoadGame();
 
 		// Get objects.
 		LevelUI = GameObject.Find("Level UI");
@@ -51,6 +56,7 @@ public class MainController : MonoBehaviour {
 		DontDestroyOnLoad(LevelComplete);
 
 		// Hide unneeded things.
+		// TODO uncomment if starting from MaineMenu HideLevelUI();
 		HideNote();
 		if (UION) PauseMenuCtrl.HidePauseMenu(true);
 		IsPaused = false;
@@ -61,7 +67,8 @@ public class MainController : MonoBehaviour {
 		// TODO
 	}
 	void OnApplicationQuit() {
-		// TODO SaveController.saveGame();
+		// Save the game before quitting.
+		SaveController.SaveGame();
 	}
 	void Update() {
 		if (Notes.activeSelf && Input.GetMouseButtonDown(0)) {
@@ -71,6 +78,12 @@ public class MainController : MonoBehaviour {
 
 	/* -------------------------------------------------- LEVEL UI ---------------------------------------------------*/
 
+	public static void HideLevelUI() {
+		LevelUI.SetActive(false);
+	}
+	public static void ShowLevelUI() {
+		LevelUI.SetActive(true);
+	}
 	public static void AcquireTreasure(int amount) {
 		LevelUICtrl.AcquireTreasure(amount);
 	}
@@ -80,8 +93,8 @@ public class MainController : MonoBehaviour {
 	public static void DecreaseHP(int numIntervals) {
 		LevelUICtrl.DecreaseHP(numIntervals);
 	}
-	public static void ShowNextFloor() {
-		LevelUICtrl.ShowFloor(CurrentFloor); // TODO next floor
+	public static void ShowFloorNumber() {
+		LevelUICtrl.ShowFloor(CurrentLevel.CurrentFloor);
 	}
 	
 	/* ---------------------------------------------------- NOTES ----------------------------------------------------*/
