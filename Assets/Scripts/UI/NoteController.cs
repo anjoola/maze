@@ -12,6 +12,7 @@ public class NoteController : MonoBehaviour {
 
 	// Waiting time duration per word before automatically dismissing a note.
 	float WAIT_TIME_PER_WORD = 0.45f;
+	float MIN_WAIT_TIME = 1.5f;
 
 	/**
 	 * Show the note.
@@ -48,7 +49,7 @@ public class NoteController : MonoBehaviour {
 	 */
 	IEnumerator Dismiss() {
 		int numWords = NoteText.text.Split(' ').Length;
-		yield return new WaitForSeconds(numWords * WAIT_TIME_PER_WORD);
+		yield return new WaitForSeconds(Mathf.Max(numWords * WAIT_TIME_PER_WORD, MIN_WAIT_TIME));
 		HideNote();
 	}
 }

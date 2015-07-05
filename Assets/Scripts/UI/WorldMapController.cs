@@ -22,7 +22,7 @@ public class WorldMapController : MonoBehaviour {
 		Vector3 playerPos = player.transform.position;
 		bool moved = true;
 
-		// TODO allow for starting at any marker
+		// TODO allow for starting at any marker based on the game save
 
 
 		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) && playerPos.y == Y_START) {
@@ -43,6 +43,8 @@ public class WorldMapController : MonoBehaviour {
 			playerPos.y -= Y_INTERVAL;
 			SelectedLevel = 3;
 		}
+		else if (Input.GetKeyDown(KeyCode.Return))
+			StartLevel();
 		else {
 			moved = false;
 		}
