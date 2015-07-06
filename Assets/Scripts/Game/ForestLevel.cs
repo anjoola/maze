@@ -1,5 +1,7 @@
 /**
- * TODO
+ * The first level.
+ * 
+ * A forest level that is small and simple with few enemies. An introduction.
  */
 public class ForestLevel : Level {
 	public override Floor[] Floors { get {
@@ -23,4 +25,3 @@ public class ForestLevel : Level {
 		NumFloors = Floors.Length;
 	}
 }
-

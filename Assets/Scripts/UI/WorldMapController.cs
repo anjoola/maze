@@ -65,6 +65,7 @@ public class WorldMapController : MonoBehaviour {
 	 */
 	public void StartLevel() {
 		Level level = MainController.CurrentGame.Levels[SelectedLevel - 1];
+		MainController.CurrentLevelNumber = SelectedLevel;
 		level.Start();
 	}
 }

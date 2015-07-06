@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 /**
  * TODO
@@ -28,11 +29,15 @@ public abstract class Level {
 	 */
 	public void Start() {
 		Floor firstFloor = this.Floors[0];
-		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, GetNextFloorCallback, firstFloor);
+		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, StartDone, firstFloor);
 
+
+		// TODO other things?
+	}
+	private void StartDone(Floor floor) {
 		MainController.CurrentLevel = this;
 		MainController.ShowLevelUI();
-		// TODO other things?
+		ApplyFloorProperties(floor);
 	}
 
 	/**
@@ -40,8 +45,7 @@ public abstract class Level {
 	 */
 	public void Finish() {
 		IsCompleted = true;
-		
-		// TODO show level complete UI
+		MainController.ShowLevelComplete(10000); // TODO fake amount
 	}
 
 	/**
@@ -55,7 +59,7 @@ public abstract class Level {
 
 		// Get the next floor and load it.
 		Floor next = Floors[CurrentFloor - 1];
-		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, GetNextFloorCallback, next);
+		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, ApplyFloorProperties, next);
 	}
 
 	/**
@@ -63,10 +67,15 @@ public abstract class Level {
 	 * 
 	 * floor: Properties for this floor.
 	 */
-	private void GetNextFloorCallback(Floor floor) {
+	private void ApplyFloorProperties(Floor floor) {
 		// Spawn enemies.
 		foreach (string enemy in floor.Enemies) {
-			// TODO need to instantiate
+
+			// TODO get a location to instantitate
+			Vector3 position = new Vector3(0, 0, 0);
+			Quaternion rotation = new Quaternion(0, 0, 0, 0);
+
+			MainController.InstantiateGameObject(enemy, position, rotation);
 		}
 
 		MainController.ShowFloorNumber();

@@ -53,23 +53,18 @@ public class AutoFade : MonoBehaviour {
 	private IEnumerator Fade(float aFadeOutTime, float aFadeInTime, Color aColor, Action<Floor> callback, Floor floor)
 	{
 		float t = 0.0f;
-		bool faded = false;
 		while (t<1.0f)
 		{
 			yield return new WaitForEndOfFrame();
 			t = Mathf.Clamp01(t + Time.deltaTime / aFadeOutTime);
 			DrawQuad(aColor,t);
-
-			// Do any loads before the scene appears here.
-			if (t >0.7f && callback != null && !faded) {
-				callback(floor); // TODO might want to move callback until after level is loaded
-				faded = true;
-			}
 		}
 		if (m_LevelName != "")
 			Application.LoadLevel(m_LevelName);
 		else
 			Application.LoadLevel(m_LevelIndex);
+
+
 		while (t>0.0f)
 		{
 			yield return new WaitForEndOfFrame();
@@ -77,6 +72,9 @@ public class AutoFade : MonoBehaviour {
 			DrawQuad(aColor,t);
 		}
 		m_Fading = false;
+
+		if (callback != null)
+			callback(floor);
 	}
 	private void StartFade(float aFadeOutTime, float aFadeInTime, Color aColor, Action<Floor> callback, Floor floor)
 	{

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 /**
- * TODO
+ * Shown when the player completes a level.
  */
 public class LevelCompleteController : MonoBehaviour {
 	float DISPLAY_TIME = 0.3f;
@@ -34,6 +34,7 @@ public class LevelCompleteController : MonoBehaviour {
 		OldTimeScale = Time.timeScale;
 		Time.timeScale = 0;
 	}
+
 	public void HideLevelComplete() {
 		if (!IsLevelCompleteShown) return;
 		IsLevelCompleteShown = false;
@@ -47,14 +48,21 @@ public class LevelCompleteController : MonoBehaviour {
 		iTween.MoveBy(Buttons, iTween.Hash("y", -6, "easeType", "linear", "loopType", "none", "delay", 0.0,
 		                                   "time", 0));
 	}
-	
+
+	/**
+	 * Restarts the current level.
+	 */
 	public void Restart() {
-		// TODO
 		HideLevelComplete();
+		Level level = MainController.CurrentGame.Levels[MainController.CurrentLevelNumber - 1];
+		level.Start();
 	}
-	
+
+	/**
+	 * Exits the current level.
+	 */
 	public void Exit() {
-		// TODO
 		HideLevelComplete();
+		AutoFade.LoadLevel("WorldMap", 0.2f, 0.2f, Color.black);
 	}
 }

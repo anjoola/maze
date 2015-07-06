@@ -14,6 +14,7 @@ public class MainController : MonoBehaviour {
 	// Current game.
 	public static Game CurrentGame;
 	public static Level CurrentLevel;
+	public static int CurrentLevelNumber;
 	public static int CurrentFloor;
 
 	// Menus and UI.
@@ -56,7 +57,8 @@ public class MainController : MonoBehaviour {
 		DontDestroyOnLoad(LevelComplete);
 
 		// Hide unneeded things.
-		// TODO uncomment if starting from MaineMenu HideLevelUI();
+		// TODO comment out if not starting from title screen
+		HideLevelUI();
 		HideNote();
 		if (UION) PauseMenuCtrl.HidePauseMenu(true);
 		IsPaused = false;
@@ -76,7 +78,7 @@ public class MainController : MonoBehaviour {
 		}
 	}
 
-	/* -------------------------------------------------- LEVEL UI ---------------------------------------------------*/
+	/* -------------------------------------------------- LEVEL UI -------------------------------------------------- */
 
 	public static void HideLevelUI() {
 		LevelUI.SetActive(false);
@@ -97,7 +99,7 @@ public class MainController : MonoBehaviour {
 		LevelUICtrl.ShowFloor(CurrentLevel.CurrentFloor);
 	}
 	
-	/* ---------------------------------------------------- NOTES ----------------------------------------------------*/
+	/* ---------------------------------------------------- NOTES --------------------------------------------------- */
 	
 	public static void ShowNote(string note, bool autoDismiss=true) {
 		NoteCtrl.ShowNote(note, autoDismiss);
@@ -106,19 +108,26 @@ public class MainController : MonoBehaviour {
 		NoteCtrl.HideNote();
 	}
 
-	/* ------------------------------------------------- PAUSE MENU --------------------------------------------------*/
+	/* ------------------------------------------------- PAUSE MENU ------------------------------------------------- */
 
 	public static void TogglePauseMenu() {
 		PauseMenuCtrl.TogglePauseMenu();
 		IsPaused = PauseMenuCtrl.IsPaused;
 	}
 
-	/* ------------------------------------------ LEVEL COMPLETE DISPLAY ---------------------------------------------*/
+	/* ------------------------------------------ LEVEL COMPLETE DISPLAY -------------------------------------------- */
 
 	public static void ShowLevelComplete(int amount) {
 		LevelCompleteCtrl.ShowLevelComplete(amount);
 	}
 	public static void HideLevelComplete() {
 		LevelCompleteCtrl.HideLevelComplete();
+	}
+
+	/* ---------------------------------------------------- OTHER --------------------------------------------------- */
+
+	// TODO
+	public static GameObject InstantiateGameObject(string prefab, Vector3 position, Quaternion rotation) {
+		return Instantiate(Resources.Load(prefab) as GameObject, position, rotation) as GameObject;
 	}
 }

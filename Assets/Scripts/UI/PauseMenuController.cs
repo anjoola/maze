@@ -37,6 +37,7 @@ public class PauseMenuController : MonoBehaviour {
 		OldTimeScale = Time.timeScale;
 		Time.timeScale = 0;
 	}
+
 	public void HidePauseMenu(bool hurry=false) {
 		if (!IsPaused) return;
 		IsPaused = false;
@@ -53,17 +54,27 @@ public class PauseMenuController : MonoBehaviour {
 		                                   "time", time));
 	}
 
+	/**
+	 * Resume the game.
+	 */
 	public void Resume() {
 		HidePauseMenu();
 	}
 
+	/**
+	 * Restarts the current level.
+	 */
 	public void Restart() {
-		// TODO
 		HidePauseMenu(true);
+		Level level = MainController.CurrentGame.Levels[MainController.CurrentLevelNumber - 1];
+		level.Start();
 	}
 
+	/**
+	 * Exit this level and return to the world map.
+	 */
 	public void Exit() {
-		// TODO
 		HidePauseMenu(true);
+		AutoFade.LoadLevel("WorldMap", 0.2f, 0.2f, Color.black);
 	}
 }
