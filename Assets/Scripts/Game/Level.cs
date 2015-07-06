@@ -75,7 +75,7 @@ public abstract class Level {
 			Vector3 position = new Vector3(0, 0, 0);
 			Quaternion rotation = new Quaternion(0, 0, 0, 0);
 
-			MainController.InstantiateGameObject(enemy, position, rotation);
+			MainController.InstantiateGameObject("Enemy/" + enemy, position, rotation);
 		}
 
 		MainController.ShowFloorNumber();
