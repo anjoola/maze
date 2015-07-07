@@ -4,8 +4,10 @@ using System.Collections;
 /**
  * Controls all of the static components of the game, including:
  * - Level UI
+ * - Level completion UI
+ * - Pause menu
  * - Notes for displaying messages to the player
- * TODO
+ * - General game status (current level, floor, etc.)
  */
 public class MainController : MonoBehaviour {
 	public bool UION;
@@ -122,12 +124,5 @@ public class MainController : MonoBehaviour {
 	}
 	public static void HideLevelComplete() {
 		LevelCompleteCtrl.HideLevelComplete();
-	}
-
-	/* ---------------------------------------------------- OTHER --------------------------------------------------- */
-
-	// TODO
-	public static GameObject InstantiateGameObject(string prefab, Vector3 position, Quaternion rotation) {
-		return Instantiate(Resources.Load(prefab) as GameObject, position, rotation) as GameObject;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 /**
@@ -15,6 +16,9 @@ public abstract class Level {
 	// Total number of floors in the maze.
 	public int NumFloors;
 
+	// The maze generator. Used to get positions for spawning objects.
+	private PrefabMazeGen MazeGen;
+
 	// The floors for each level. Contains details about its size, enemies that appear, etc.
 	public abstract Floor[] Floors { get; }
 
@@ -30,13 +34,12 @@ public abstract class Level {
 	public void Start() {
 		Floor firstFloor = this.Floors[0];
 		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, StartDone, firstFloor);
-
-
-		// TODO other things?
 	}
 	private void StartDone(Floor floor) {
 		MainController.CurrentLevel = this;
 		MainController.ShowLevelUI();
+
+		MazeGen = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PrefabMazeGen>();
 		ApplyFloorProperties(floor);
 	}
 
@@ -70,13 +73,14 @@ public abstract class Level {
 	private void ApplyFloorProperties(Floor floor) {
 		// Spawn enemies.
 		foreach (string enemy in floor.Enemies) {
-
-			// TODO get a location to instantitate
-			Vector3 position = new Vector3(0, 0, 0);
-			Quaternion rotation = new Quaternion(0, 0, 0, 0);
-
-			MainController.InstantiateGameObject("Enemy/" + enemy, position, rotation);
+			MazeGen.FitSpawnObject("Enemy/" + enemy);
 		}
+
+		// Spawn items.
+		// TODO
+
+		// Spawn treasures.
+		// TODO
 
 		MainController.ShowFloorNumber();
 	}

@@ -9,7 +9,7 @@ public class EmptyCell {
 	int MAZE_BLOCK_SIZE = 1000;
 	
 	int MazeCenter;
-	Vector3 Coordinates;
+	public Vector3 Coordinates;
 
 	// Properties of this cell. Mapping from direction -> magnitude. This represents the number of free spaces in that
 	// direction.

@@ -11,12 +11,16 @@ public class ForestLevel : Level {
 				
 				// Enemies.
 				new string[] {
+					// TODO
 					"StraightShootingEnemy",
 					"StraightShootingEnemy",
 					"StraightShootingEnemy"
 				}
 			
 				// TODO
+				// Items.
+
+				// Treasures.
 			)
 		};
 	}}

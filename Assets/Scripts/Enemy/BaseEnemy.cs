@@ -4,10 +4,7 @@ using System.Collections;
 /**
  * Base enemy class.
  */
-public class BaseEnemy : MonoBehaviour {
-	// Name of the enemy.
-	public string Name;
-
+public abstract class BaseEnemy : SpawnObject {
 	// Amount of damage this enemy does onto the player, in HP intervals (up to 10).
 	public int Damage = 1;
 
