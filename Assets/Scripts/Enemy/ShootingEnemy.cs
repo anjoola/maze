@@ -19,7 +19,8 @@ public class ShootingEnemy : BaseEnemy {
 	float LastShootTime = 0;
 	
 	override protected void doStart() {
-		LastShootTime = Time.time;
+		// Randomize shooting start time.
+		LastShootTime = Time.time + Random.Range(0, 8) / 3.0f;
 	}
 	
 	/**
