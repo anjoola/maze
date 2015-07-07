@@ -21,6 +21,7 @@ public class PrefabMazeGen : MonoBehaviour {
 	void Start() {
 		Gen = new PrefabMazeGenerator(MazeBlocks, Size);
 		Gen.GenerateMaze();
+		Gen.DoCleanup();
 	}
 
 	/**
@@ -69,6 +70,33 @@ public class PrefabMazeGen : MonoBehaviour {
 				
 				// Add it to the list of empty spaces.
 				EmptySpaces[row * Size + col] = new EmptyCell(Size, row, col);
+			}
+		}
+
+		/**
+		 * Cleanup the maze by removing empty cells where the player and the goal reside and 2 spaces away.
+		 */
+		public void DoCleanup() {
+			// Remove from the player start location.
+			EmptySpaces[1 * Size + 1] = null;
+			if (EmptySpaces[1 * Size + 2] != null) {
+				EmptySpaces[1 * Size + 2] = null;
+				EmptySpaces[1 * Size + 3] = null;
+			}
+			if (EmptySpaces[2 * Size + 1] != null) {
+				EmptySpaces[2 * Size + 1] = null;
+				EmptySpaces[3 * Size + 1] = null;
+			}
+
+			// Remove from the goal area.
+			EmptySpaces[(Size - 2) * Size + (Size - 2)] = null;
+			if (EmptySpaces[(Size - 2) * Size + (Size - 2) - 1] != null) {
+				EmptySpaces[(Size - 2) * Size + (Size - 2) - 1] = null;
+				EmptySpaces[(Size - 2) * Size + (Size - 2) - 2] = null;
+			}
+			if (EmptySpaces[(Size - 3) * Size + (Size - 2)] != null) {
+				EmptySpaces[(Size - 3) * Size + (Size - 2)] = null;
+				EmptySpaces[(Size - 4) * Size + (Size - 2)] = null;
 			}
 		}
 		
