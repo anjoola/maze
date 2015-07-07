@@ -24,7 +24,7 @@ public class MouseLookCamera : MonoBehaviour {
 	}
 	
 	void LateUpdate() {
-		if (MainController.IsPaused)
+		if (MainController.ShouldPause())
 			return;
 
 		// Rotate player.

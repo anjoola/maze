@@ -80,6 +80,12 @@ public class MainController : MonoBehaviour {
 		}
 	}
 
+	/* ---------------------------------------------------- OTHER --------------------------------------------------- */
+	
+	public static void GetNextFloor() {
+		CurrentLevel.GetNextFloor();
+	}
+
 	/* -------------------------------------------------- LEVEL UI -------------------------------------------------- */
 
 	public static void HideLevelUI() {
@@ -111,10 +117,12 @@ public class MainController : MonoBehaviour {
 	}
 
 	/* ------------------------------------------------- PAUSE MENU ------------------------------------------------- */
-
+	
+	public static bool ShouldPause() {
+		return PauseMenuCtrl.IsPaused || LevelCompleteCtrl.IsLevelCompleteShown;
+	}
 	public static void TogglePauseMenu() {
 		PauseMenuCtrl.TogglePauseMenu();
-		IsPaused = PauseMenuCtrl.IsPaused;
 	}
 
 	/* ------------------------------------------ LEVEL COMPLETE DISPLAY -------------------------------------------- */

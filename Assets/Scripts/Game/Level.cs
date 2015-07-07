@@ -25,18 +25,19 @@ public abstract class Level {
 	public Level() {
 		IsCompleted = false;
 		NumFloors = 0;
-		CurrentFloor = 1;
 	}
 
 	/**
 	 * Starts this level. Loads the first floor.
 	 */
 	public void Start() {
+		CurrentFloor = 1;
 		Floor firstFloor = this.Floors[0];
 		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, StartDone, firstFloor);
 	}
 	private void StartDone(Floor floor) {
 		MainController.CurrentLevel = this;
+		MainController.CurrentFloor = 1;
 		MainController.ShowLevelUI();
 
 		MazeGen = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PrefabMazeGen>();
@@ -57,11 +58,13 @@ public abstract class Level {
 	 */
 	public void GetNextFloor() {
 		// Already finished.
-		if (CurrentFloor++ == NumFloors)
+		if (CurrentFloor == NumFloors) {
 			Finish();
+			return;
+		}
 
 		// Get the next floor and load it.
-		Floor next = Floors[CurrentFloor - 1];
+		Floor next = Floors[++CurrentFloor - 1];
 		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, SpawnGameObjects, next);
 	}
 
