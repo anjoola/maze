@@ -9,13 +9,14 @@ public class Floor {
 	public string[] Enemies;
 
 	// List of items that appear.
-	// TODO
+	public string[] Items;
 
 	// List of treasure that appear.
-	// TODO
+	public string[] Treasures;
 
-	public Floor(string scene, string[] enemies /* TODO */) {
+	public Floor(string scene, string[] enemies, string[] treasures /* TODO */) {
 		Scene = scene;
 		Enemies = enemies;
+		Treasures = treasures;
 	}
 }

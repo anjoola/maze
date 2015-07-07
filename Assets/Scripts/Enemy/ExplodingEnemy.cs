@@ -16,16 +16,12 @@ public class ExplodingEnemy : BaseEnemy {
 	public int ProjectileSpeed = 2;
 
 	void FixedUpdate() {
-		// TODO
 		if (isWithinRadius && IsPlayerInFront()) {
 			Explode();
 		}
 	}
 	
 	void Explode() {
-		// Only explode if there isn't a wall in the way.
-
-
 		// Send radius of projectiles.
 		float degree = 360f / NUMBER_OF_SHOTS;
 		for (float i = -180f; i < 180f; i += degree) {

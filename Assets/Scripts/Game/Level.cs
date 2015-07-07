@@ -83,7 +83,9 @@ public abstract class Level {
 		// TODO
 
 		// Spawn treasures.
-		// TODO
+		foreach (string treasure in floor.Treasures) {
+			MazeGen.FitSpawnObject("Treasure/" + treasure);
+		}
 
 		MainController.ShowFloorNumber();
 	}

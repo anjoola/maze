@@ -83,7 +83,6 @@ public abstract class BaseEnemy : SpawnObject {
 			if (hit.collider.gameObject == player) {
 				return true;
 			}
-			Debug.Log (hit.collider.gameObject);
 		}
 		return false;
 	}

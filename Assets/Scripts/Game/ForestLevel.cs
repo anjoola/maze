@@ -8,35 +8,31 @@ public class ForestLevel : Level {
 		return new Floor[] {
 			new Floor(
 				"TestLevel",
-				
-				// Enemies.
 				new string[] {
 					// TODO
 					"StraightShootingEnemy",
 					"StraightShootingEnemy",
 					"StraightShootingEnemy"
-				}
-			
+				},
 				// TODO
 				// Items.
-
-				// Treasures.
+				new string[] {
+					"TestTreasure"
+				}
 			),
 
 			new Floor(
 				"TestLevel",
-				
-				// Enemies.
 				new string[] {
+					// TODO
+					"ExplodingEnemy",
+					"ExplodingEnemy"
+				},
 				// TODO
-				"ExplodingEnemy",
-				"ExplodingEnemy"
-			}
-			
-			// TODO
-			// Items.
-			
-			// Treasures.
+				// Items.
+				new string[] {
+					"TestTreasure"
+				}
 			)
 		};
 	}}
