@@ -87,7 +87,7 @@ public class LevelUIController : MonoBehaviour {
 	 * Dismiss the floor number after a certain period.
 	 */
 	IEnumerator Dismiss() {
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(2f);
 		FloorObject.SetActive(false);
 	}
 }

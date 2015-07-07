@@ -2,47 +2,125 @@ using System;
 using UnityEngine;
 
 /**
- * Represents an empty cell in the maze. Used for enemy spawning.
+ * Represents an empty cell in the maze. Used for spawning GameObjects such as enemies.
  */
 public class EmptyCell {
+	// Possible empty directions.
+	public static EmptyCellOpenDirection[] EMPTY_DIRECTIONS = {
+		EmptyCellOpenDirection.LEFT,
+		EmptyCellOpenDirection.RIGHT,
+		EmptyCellOpenDirection.ABOVE,
+		EmptyCellOpenDirection.BELOW
+	};
+
 	// Size of a maze block.
-	int MAZE_BLOCK_SIZE = 1000;
-	
-	int MazeCenter;
+	static int MAZE_BLOCK_SIZE = 500;
+
+	// Coordinates for this empty cell.
+	public int Size, Row, Col;
 	public Vector3 Coordinates;
 
-	// Properties of this cell. Mapping from direction -> magnitude. This represents the number of free spaces in that
-	// direction.
-	int[] Properties;
-	public int NumPropertiesSet;
-	
+	// Mapping from direction -> number of empty cells. This represents the number of free spaces in that direction.
+	int[] NumEmpty;
+
 	public EmptyCell(int size, int row, int col) {
-		MazeCenter = size / 2 + 1;
+		int MazeCenter = (size + 1) / 2 - 1;
+		Row = row;
+		Col = col;
+		Size = size;
 		Coordinates = new Vector3((col - MazeCenter) * MAZE_BLOCK_SIZE, 0, (row - MazeCenter) * MAZE_BLOCK_SIZE);
 
-		Properties = new int[4];
-		NumPropertiesSet = 0;
+		NumEmpty = new int[] { -1, -1, -1, -1 };
 
-		// If this is an edge cell, set properties we already know.
+		// If this is an edge cell, set values we already know.
 		if (row == 1)
-			SetProperty(EmptyCellOpenDirection.BELOW, 0);
+			SetNumEmpty(EmptyCellOpenDirection.BELOW, 0);
 		if (col == 1)
-			SetProperty(EmptyCellOpenDirection.LEFT, 0);
+			SetNumEmpty(EmptyCellOpenDirection.LEFT, 0);
 		if (row == size - 1)
-			SetProperty(EmptyCellOpenDirection.ABOVE, 0);
+			SetNumEmpty(EmptyCellOpenDirection.ABOVE, 0);
 		if (col == size - 1)
-			SetProperty(EmptyCellOpenDirection.RIGHT, 0);
+			SetNumEmpty(EmptyCellOpenDirection.RIGHT, 0);
 	}
 
 	/**
-	 * Set a property of the cell. Indicates in which directions it is empty.
+	 * Get the number of empty cells in a given direction.
+	 * 
+	 * direction: The direction to get.
+	 * returns: The number of empty cells.
+	 */
+	public int GetNumEmpty(EmptyCellOpenDirection direction) {
+		return NumEmpty[(int) direction];
+	}
+
+	/**
+	 * Set the number of empty cells in a given direction.
 	 * 
 	 * direction: Direction of emptiness.
-	 * magnitude: The number of cells it is empty for.
+	 * num: The number of cells it is empty for.
 	 */
-	public void SetProperty(EmptyCellOpenDirection direction, int magnitude) {
-		Properties[(int) direction] = magnitude;
-		NumPropertiesSet++;
+	public void SetNumEmpty(EmptyCellOpenDirection direction, int num) {
+		NumEmpty[(int) direction] = num;
+	}
+
+	/**
+	 * Get the number of empty cells in the given direction.
+	 * 
+	 * dir: The direction.
+	 * cells: Reference to all of the empty cells in the maze.
+	 */
+	public int NumEmptyInDirection(EmptyCellOpenDirection dir, EmptyCell[] cells) {
+		int num = 0;
+
+		if (dir == EmptyCellOpenDirection.LEFT) {
+			for (int c = Col - 1; c >= 0; c--) {
+				if (cells[Row * Size + c] != null)
+					num++;
+				else
+					break;
+			}
+		}
+		else if (dir == EmptyCellOpenDirection.RIGHT) {
+			for (int c = Col + 1; c < Size; c++) {
+				if (cells[Row * Size + c] != null)
+					num++;
+				else
+					break;
+			}
+		}
+		else if (dir == EmptyCellOpenDirection.ABOVE) {
+			for (int r = Row + 1; r < Size; r++) {
+				if (cells[r * Size + Col] != null)
+					num++;
+				else
+					break;
+			}
+		}
+		else if (dir == EmptyCellOpenDirection.BELOW) {
+			for (int r = Row - 1; r >= 0; r--) {
+				if (cells[r * Size + Col] != null)
+					num++;
+				else
+					break;
+			}
+		}
+
+		return num;
+	}
+
+	/**
+	 * Get the rotation corresponding to the direction.
+	 */
+	public static Vector3 GetRotationForDirection(EmptyCellOpenDirection dir) {
+		if (dir == EmptyCellOpenDirection.LEFT)
+			return new Vector3(0, -90, 0);
+		else if (dir == EmptyCellOpenDirection.RIGHT)
+			return new Vector3(0, 90, 0);
+		// All prefabs should default to facing above.
+		else if (dir == EmptyCellOpenDirection.ABOVE)
+			return new Vector3(0, 0, 0);
+		else
+			return new Vector3(0, 180, 0);
 	}
 }
 
@@ -50,5 +128,5 @@ public class EmptyCell {
  * Direction of emptiness, relative to the current maze block.
  */
 public enum EmptyCellOpenDirection : int {
-	LEFT = 0, RIGHT, ABOVE, BELOW, ANY
+	LEFT = 0, RIGHT = 1, ABOVE = 2, BELOW = 3
 };

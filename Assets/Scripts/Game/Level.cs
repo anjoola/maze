@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 /**
- * TODO
+ * Represents a single level in the game.
  */
 [System.Serializable]
 public abstract class Level {
@@ -40,7 +40,7 @@ public abstract class Level {
 		MainController.ShowLevelUI();
 
 		MazeGen = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PrefabMazeGen>();
-		ApplyFloorProperties(floor);
+		SpawnGameObjects(floor);
 	}
 
 	/**
@@ -62,15 +62,15 @@ public abstract class Level {
 
 		// Get the next floor and load it.
 		Floor next = Floors[CurrentFloor - 1];
-		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, ApplyFloorProperties, next);
+		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, SpawnGameObjects, next);
 	}
 
 	/**
-	 * Apply floor-specific modifiers.
+	 * Spawn enemies, items, and treasures accordingly.
 	 * 
-	 * floor: Properties for this floor.
+	 * floor: Floor object containing details for spawning.
 	 */
-	private void ApplyFloorProperties(Floor floor) {
+	private void SpawnGameObjects(Floor floor) {
 		// Spawn enemies.
 		foreach (string enemy in floor.Enemies) {
 			MazeGen.FitSpawnObject("Enemy/" + enemy);

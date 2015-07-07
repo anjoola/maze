@@ -12,7 +12,7 @@ public class PrefabMazeGen : MonoBehaviour {
 	PrefabMazeGenerator Gen;
 	static Vector3 DEFAULT_POSITION = new Vector3(0, 0, 0);
 	static Quaternion DEFAULT_ROTATION = new Quaternion(0, 0, 0, 0);
-	static Quaternion NULL_ROTATION = new Quaternion(-1, -1, -1, -1);
+	static Vector3 NULL_ROTATION = new Vector3(-1, -1, -1);
 
 	// Size of one side of the maze. (e.g. an 11 x 11 maze would have Size = 11).
 	public int Size;
@@ -21,7 +21,6 @@ public class PrefabMazeGen : MonoBehaviour {
 	void Start() {
 		Gen = new PrefabMazeGenerator(MazeBlocks, Size);
 		Gen.GenerateMaze();
-		Gen.ComputeEmptyCells();
 	}
 
 	/**
@@ -52,8 +51,8 @@ public class PrefabMazeGen : MonoBehaviour {
 			
 			// Initialize empty cells.
 			EmptySpaces = new EmptyCell[size * size];
-			for (int row = 1; row < size - 1; row++) {
-				for (int col = 1; col < size - 1; col++) {
+			for (int row = 1; row < size - 1; row += 2) {
+				for (int col = 1; col < size - 1; col += 2) {
 					// The first and last cells are where the player the goal are, respectively.
 					if ((row == 1 && col == 1) || (row == size - 1 && col == size - 1))
 						continue;
@@ -77,17 +76,21 @@ public class PrefabMazeGen : MonoBehaviour {
 		 * Try to fit in a SpawnObject into an empty space into the maze. Returns true if a spot is found.
 		 */
 		public bool FitSpawnObject(GameObject obj) {
-			SpawnObject spawnObj = obj.GetComponent<SpawnObject>();
+			SpawnObject spawnObj = obj.GetComponentInChildren<SpawnObject>();
 
-			// Shuffle the empty cells.
-			IEnumerable<EmptyCell> shuffled = EmptySpaces.OrderBy(item => UnityEngine.Random.value);
+			// Shuffle the empty cells. Randomly pick one to fill.
+			IEnumerable<EmptyCell> shuffled = EmptySpaces.OrderBy(item => UnityEngine.Random.value)
+														 .Where(item => item != null);
 			foreach (EmptyCell cell in shuffled) {
-				Quaternion rotation = SpaceFits(cell, spawnObj);
+				Vector3 rotation = SpaceFits(cell, spawnObj);
 
-				// Space fits. Instantiate object at this location.
+				// Space fits. Instantiate object at this location and set it to the correct position and rotation.
 				if (rotation != NULL_ROTATION) {
 					obj.transform.position = cell.Coordinates;
-					//obj.transform.rotation = TODO
+					obj.transform.Rotate(rotation);
+
+					// Remove it from the list of empty cells.
+					EmptySpaces[cell.Row * Size + cell.Col] = null;
 					return true;
 				}
 			}
@@ -103,52 +106,25 @@ public class PrefabMazeGen : MonoBehaviour {
 		 * cell: The empty cell.
 		 * obj: The SpawnObject.
 		 */
-		private Quaternion SpaceFits(EmptyCell cell, SpawnObject obj) {
-			// TODO
-			return DEFAULT_ROTATION;
-		}
+		private Vector3 SpaceFits(EmptyCell cell, SpawnObject obj) {
+			// Randomly go through each direction.
+			IEnumerable<EmptyCellOpenDirection> directions =
+				EmptyCell.EMPTY_DIRECTIONS.OrderBy(item => UnityEngine.Random.value);
 
-
-
-
-
-
-		/**
-		 * Compute properties for each empty cell in the maze (used for getting enemy spawn locations).
-		 */
-		public void ComputeEmptyCells() {
-			int row = 1;
-			int col = 1;
-			while (true) {
-				EmptyCell cell = EmptySpaces[row * Size + col];
-				if (cell != null) {
-					
-					
-					
-					
-					int nextCol = row + 1;
-					int numSpaces = 1;
-					while (nextCol < Size - 1) {
-						EmptyCell nextCell = EmptySpaces[row * Size + nextCol];
-						if (nextCell != null) {
-							numSpaces++;
-							nextCol++;
-						}
-						
-						else
-							break;
-					}
-					
-					//Debug.Log ("(" + row + "," + col + "): " + numSpaces);
+			foreach (EmptyCellOpenDirection dir in directions) {
+				// Property not set yet, figure it out and set it.
+				if (cell.GetNumEmpty(dir) == -1) {
+					int numEmpty = cell.NumEmptyInDirection(dir, EmptySpaces);
+					cell.SetNumEmpty(dir, numEmpty);
 				}
 				
-				if (++col > Size - 1) {
-					col = 1;
-					++row;
-				}
-				if (row > Size - 1)
-					break;
+				// Does this match the criteria? If so, return the correction rotation.
+				if (cell.GetNumEmpty(dir) >= obj.SpaceNeeded)
+					return EmptyCell.GetRotationForDirection(dir);
 			}
+
+			// No direction will work.
+			return NULL_ROTATION;
 		}
 	}
 }
