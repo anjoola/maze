@@ -103,6 +103,9 @@ public class MainController : MonoBehaviour {
 	public static void DecreaseHP(int numIntervals) {
 		LevelUICtrl.DecreaseHP(numIntervals);
 	}
+	public static void NewLevel() {
+		LevelUICtrl.NewLevel();
+	}
 	public static void ShowFloorNumber() {
 		LevelUICtrl.ShowFloor(CurrentLevel.CurrentFloor);
 	}

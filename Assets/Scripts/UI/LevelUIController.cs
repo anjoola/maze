@@ -9,6 +9,7 @@ public class LevelUIController : MonoBehaviour {
 	// Treasure.
 	public Text Treasure;
 	int TreasureAmt;
+	public static int TreasureAcquired;
 
 	// HP bar.
 	public GameObject[] HP;
@@ -19,16 +20,17 @@ public class LevelUIController : MonoBehaviour {
 	public Text Floor;
 
 	void Start() {
-		// Start with 0 treasure.
+		// Amount of treasure acquired overall.
 		TreasureAmt = 0;
+
+		// Amount of treasure acquired in the current level.
+		TreasureAcquired = 0;
 
 		// Start a 100% HP.
 		HPIntervals = 10;
 		for (int i = 0; i < 10; i++) {
 			HP[i].SetActive(true);
 		}
-
-		FloorObject.SetActive(false);
 	}
 
 	/**
@@ -37,7 +39,9 @@ public class LevelUIController : MonoBehaviour {
 	 * amount: Amount to increase by.
 	 */
 	public void AcquireTreasure(int amount) {
-		Treasure.text = ("" + TreasureAmt + amount).PadLeft(6, '0');
+		TreasureAmt += amount;
+		TreasureAcquired += amount;
+		Treasure.text = ("" + TreasureAmt).PadLeft(6, '0');
 	}
 
 	/**
@@ -48,10 +52,10 @@ public class LevelUIController : MonoBehaviour {
 	public void IncreaseHP(int numIntervals) {
 		for (int i = 0; i < numIntervals; i++) {
 			// Can't increase HP anymore.
-			if (i + HPIntervals - 1 > 10)
+			if (i + HPIntervals > 10)
 				break;
 
-			HP[i + HPIntervals - 1].SetActive(true);
+			HP[i + HPIntervals].SetActive(true);
 		}
 		HPIntervals += numIntervals;
 	}
@@ -70,6 +74,13 @@ public class LevelUIController : MonoBehaviour {
 			HP[HPIntervals - i - 1].SetActive(false);
 		}
 		HPIntervals -= numIntervals;
+	}
+
+	/**
+	 * A new level started. Reset the amount of treasure acquired.
+	 */
+	public void NewLevel() {
+		TreasureAcquired = 0;
 	}
 
 	/**

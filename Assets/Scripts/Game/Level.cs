@@ -34,6 +34,7 @@ public abstract class Level {
 		CurrentFloor = 1;
 		Floor firstFloor = this.Floors[0];
 		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, StartDone, firstFloor);
+		MainController.NewLevel();
 	}
 	private void StartDone(Floor floor) {
 		MainController.CurrentLevel = this;
@@ -45,11 +46,11 @@ public abstract class Level {
 	}
 
 	/**
-	 * Finish the level. Show the level complete UI and TODO
+	 * Finish the level. Show the level complete UI and the amount of treasure acquired in this level.
 	 */
 	public void Finish() {
 		IsCompleted = true;
-		MainController.ShowLevelComplete(10000); // TODO fake amount
+		MainController.ShowLevelComplete(LevelUIController.TreasureAcquired);
 	}
 
 	/**
@@ -80,7 +81,9 @@ public abstract class Level {
 		}
 
 		// Spawn items.
-		// TODO
+		foreach (string item in floor.Items) {
+			MazeGen.FitSpawnObject("Item/" + item);
+		}
 
 		// Spawn treasures.
 		foreach (string treasure in floor.Treasures) {

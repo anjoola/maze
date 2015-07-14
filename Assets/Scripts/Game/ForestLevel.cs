@@ -14,8 +14,9 @@ public class ForestLevel : Level {
 					"StraightShootingEnemy",
 					"StraightShootingEnemy"
 				},
-				// TODO
-				// Items.
+				new string[] {
+					"TestItem"
+				},
 				new string[] {
 					"TestTreasure"
 				}
@@ -28,8 +29,9 @@ public class ForestLevel : Level {
 					"ExplodingEnemy",
 					"ExplodingEnemy"
 				},
-				// TODO
-				// Items.
+				new string[] {
+					"TestItem"
+				},
 				new string[] {
 					"TestTreasure"
 				}

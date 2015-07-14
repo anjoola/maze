@@ -40,22 +40,22 @@ public class LevelCompleteController : MonoBehaviour {
 		IsLevelCompleteShown = false;
 		
 		Overlay.SetActive(false);
+		iTween.MoveBy(UpperPanel, iTween.Hash("y", 6, "easeType", "linear", "loopType", "none", "delay", 0.0,
+		                                      "time", 0, "ignoretimescale", true));
+		iTween.MoveBy(Buttons, iTween.Hash("y", -6, "easeType", "linear", "loopType", "none", "delay", 0.0,
+		                                   "time", 0, "ignoretimescale", true));
+
 		if (OldTimeScale != -1)
 			Time.timeScale = OldTimeScale;
-		
-		iTween.MoveBy(UpperPanel, iTween.Hash("y", 6, "easeType", "linear", "loopType", "none", "delay", 0.0,
-		                                      "time", 0));
-		iTween.MoveBy(Buttons, iTween.Hash("y", -6, "easeType", "linear", "loopType", "none", "delay", 0.0,
-		                                   "time", 0));
 	}
 
 	/**
 	 * Restarts the current level.
 	 */
 	public void Restart() {
-		HideLevelComplete();
 		Level level = MainController.CurrentGame.Levels[MainController.CurrentLevelNumber - 1];
 		level.Start();
+		HideLevelComplete();
 	}
 
 	/**
