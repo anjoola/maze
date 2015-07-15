@@ -22,6 +22,9 @@ public abstract class Level {
 	// The floors for each level. Contains details about its size, enemies that appear, etc.
 	public abstract Floor[] Floors { get; }
 
+	// Name of this level.
+	public abstract string LevelName { get; }
+
 	public Level() {
 		IsCompleted = false;
 		NumFloors = 0;
@@ -33,7 +36,9 @@ public abstract class Level {
 	public void Start() {
 		CurrentFloor = 1;
 		Floor firstFloor = this.Floors[0];
+		MainController.HideLevelUI();
 		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, StartDone, firstFloor);
+		MainController.ChangeLevelName(LevelName);
 		MainController.NewLevel();
 	}
 	private void StartDone(Floor floor) {

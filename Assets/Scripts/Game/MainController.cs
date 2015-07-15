@@ -120,7 +120,10 @@ public class MainController : MonoBehaviour {
 	}
 
 	/* ------------------------------------------------- PAUSE MENU ------------------------------------------------- */
-	
+
+	public static void ChangeLevelName(string name) {
+		PauseMenuCtrl.ChangeLevelName(name);
+	}
 	public static bool ShouldPause() {
 		return PauseMenuCtrl.IsPaused || LevelCompleteCtrl.IsLevelCompleteShown;
 	}
@@ -135,5 +138,14 @@ public class MainController : MonoBehaviour {
 	}
 	public static void HideLevelComplete() {
 		LevelCompleteCtrl.HideLevelComplete();
+	}
+
+	/**
+	 * Game over. Show the game over display, lose all treasure.
+	 */
+	public static void ShowGameOver() {
+		LevelUICtrl.ResetTreasure();
+		LevelCompleteCtrl.ShowLevelComplete(-1);
+		// TODO change to show a dead player
 	}
 }

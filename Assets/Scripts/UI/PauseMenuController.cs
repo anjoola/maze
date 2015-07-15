@@ -8,6 +8,7 @@ using System.Collections;
 public class PauseMenuController : MonoBehaviour {
 	float DISPLAY_TIME = 0.3f;
 	public GameObject UpperPanel, Buttons, Overlay;
+	public Text LevelName;
 
 	// Whether or not the game is currently paused.
 	public bool IsPaused = true;
@@ -52,6 +53,13 @@ public class PauseMenuController : MonoBehaviour {
 		                                      "time", time));
 		iTween.MoveBy(Buttons, iTween.Hash("y", -6, "easeType", "linear", "loopType", "none", "delay", 0.0,
 		                                   "time", time));
+	}
+
+	/**
+	 * Change the level name display text.
+	 */
+	public void ChangeLevelName(string name) {
+		LevelName.text = name;
 	}
 
 	/**

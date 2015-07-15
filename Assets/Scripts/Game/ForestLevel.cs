@@ -39,6 +39,10 @@ public class ForestLevel : Level {
 		};
 	}}
 
+	public override string LevelName { get {
+		return "Forest Canopy";
+	}}
+
 	public ForestLevel() : base() {
 		NumFloors = Floors.Length;
 	}

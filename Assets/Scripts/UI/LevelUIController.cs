@@ -26,11 +26,7 @@ public class LevelUIController : MonoBehaviour {
 		// Amount of treasure acquired in the current level.
 		TreasureAcquired = 0;
 
-		// Start a 100% HP.
-		HPIntervals = 10;
-		for (int i = 0; i < 10; i++) {
-			HP[i].SetActive(true);
-		}
+		RestoreHP();
 	}
 
 	/**
@@ -45,6 +41,25 @@ public class LevelUIController : MonoBehaviour {
 	}
 
 	/**
+	 * Reset the treasure received.
+	 */
+	public void ResetTreasure() {
+		TreasureAmt = 0;
+		TreasureAcquired = 0;
+		Treasure.text = ("0").PadLeft(6, '0');
+	}
+
+	/**
+	 * Restores all HP.
+	 */
+	public void RestoreHP() {
+		HPIntervals = 10;
+		for (int i = 0; i < 10; i++) {
+			HP[i].SetActive(true);
+		}
+	}
+
+	/**
 	 * Increase HP by the given number of intervals (HP increases in 10% intervals).
 	 * 
 	 * numIntervals: Number of intervals to increase by.
@@ -52,12 +67,12 @@ public class LevelUIController : MonoBehaviour {
 	public void IncreaseHP(int numIntervals) {
 		for (int i = 0; i < numIntervals; i++) {
 			// Can't increase HP anymore.
-			if (i + HPIntervals > 10)
-				break;
-
-			HP[i + HPIntervals].SetActive(true);
+			if (HPIntervals + 1 > 10)
+				return;
+			
+			HP[HPIntervals].SetActive(true);
+			HPIntervals++;
 		}
-		HPIntervals += numIntervals;
 	}
 
 	/**
@@ -67,19 +82,23 @@ public class LevelUIController : MonoBehaviour {
 	 */
 	public void DecreaseHP(int numIntervals) {
 		for (int i = 0; i < numIntervals; i++) {
-			// Can't decrease HP anymore.
-			if (HPIntervals - i - 1 < 0)
-				break;
-			
-			HP[HPIntervals - i - 1].SetActive(false);
+			// Can't decrease HP anymore. Player is dead!
+			if (HPIntervals - 1 <= 0) {
+				HP[0].SetActive(false);
+				MainController.ShowGameOver();
+				return;
+			}
+
+			HPIntervals--;
+			HP[HPIntervals].SetActive(false);
 		}
-		HPIntervals -= numIntervals;
 	}
 
 	/**
 	 * A new level started. Reset the amount of treasure acquired.
 	 */
 	public void NewLevel() {
+		RestoreHP();
 		TreasureAcquired = 0;
 	}
 

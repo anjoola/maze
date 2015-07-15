@@ -6,9 +6,13 @@ using System.Collections;
  * Shown when the player completes a level.
  */
 public class LevelCompleteController : MonoBehaviour {
+	public static string LEVEL_COMPLETE = "Level Complete!";
+	public static string GAME_OVER = "Game Over!";
+
 	float DISPLAY_TIME = 0.3f;
 	public GameObject UpperPanel, Buttons, Overlay;
-	public Text Treasure;
+	public GameObject TreasureObj, DeadObj;
+	public Text Status, Treasure;
 	
 	// Whether or not it is shown.
 	public bool IsLevelCompleteShown = true;
@@ -20,8 +24,19 @@ public class LevelCompleteController : MonoBehaviour {
 		if (IsLevelCompleteShown) return;
 		IsLevelCompleteShown = true;
 
-		// Set treasure amount.
-		Treasure.text = ("" + amount).PadLeft(6, '0');;
+		// Level complete! Set treasure amount.
+		if (amount >= 0) {
+			Treasure.text = ("" + amount).PadLeft(6, '0');
+			Status.text = LEVEL_COMPLETE;
+			DeadObj.SetActive(false);
+			TreasureObj.SetActive(true);
+		}
+		// Game over.
+		else {
+			Status.text = GAME_OVER;
+			DeadObj.SetActive(true);
+			TreasureObj.SetActive(false);
+		}
 
 		Overlay.SetActive(true);
 		iTween.MoveBy(UpperPanel, iTween.Hash("y", -6, "easeType", "linear", "loopType", "none", "delay", 0.0,
@@ -48,7 +63,7 @@ public class LevelCompleteController : MonoBehaviour {
 		if (OldTimeScale != -1)
 			Time.timeScale = OldTimeScale;
 	}
-
+	
 	/**
 	 * Restarts the current level.
 	 */
