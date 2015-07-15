@@ -7,11 +7,40 @@ public class ForestLevel : Level {
 	public override Floor[] Floors { get {
 		return new Floor[] {
 			new Floor(
-				"TestLevel",
+				"ForestSmall",
+				new string[] {
+					"StraightShootingEnemy",
+				},
+				new string[] {
+					"TestItem"
+				},
+				new string[] {
+					"TestTreasure"
+				}
+			),
+
+			new Floor(
+				"ForestSmall",
 				new string[] {
 					// TODO
 					"StraightShootingEnemy",
 					"StraightShootingEnemy",
+					"StraightShootingEnemy"
+				},
+				new string[] {
+					"TestItem"
+				},
+				new string[] {
+					"TestTreasure"
+				}
+			),
+
+			new Floor(
+				"ForestSmall",
+				new string[] {
+					// TODO
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
 					"StraightShootingEnemy"
 				},
 				new string[] {

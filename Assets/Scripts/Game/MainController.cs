@@ -146,6 +146,5 @@ public class MainController : MonoBehaviour {
 	public static void ShowGameOver() {
 		LevelUICtrl.ResetTreasure();
 		LevelCompleteCtrl.ShowLevelComplete(-1);
-		// TODO change to show a dead player
 	}
 }
