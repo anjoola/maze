@@ -35,47 +35,38 @@ public class WorldMapController : MonoBehaviour {
 	void Update() {
 		PlayerStartPos = player.transform.position;
 		Vector3 playerPos = PlayerStartPos;
-		bool moved = true;
 
 		// TODO allow for starting at any marker based on the game save
 
-
-		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) && playerPos.y == Y_START) {
+		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) &&
+		    playerPos.y == Y_START && playerPos.x < X_START + 4 * X_INTERVAL) {
 			playerPos.x += X_INTERVAL;
 			SelectedLevel++;
 		}
-		else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) && playerPos.y == Y_START) {
+		else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) &&
+		         playerPos.y == Y_START && playerPos.x > X_START) {
 			playerPos.x -= X_INTERVAL;
 			SelectedLevel--;
 		}
 		else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) &&
-		         playerPos.x == X_START + 2 * X_INTERVAL) {
+		         playerPos.x == X_START + 2 * X_INTERVAL && playerPos.y < Y_START + Y_INTERVAL) {
 			playerPos.y += Y_INTERVAL;
 			SelectedLevel = 6;
 		}
 		else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) &&
-		         playerPos.x == X_START + 2 * X_INTERVAL) {
+		         playerPos.x == X_START + 2 * X_INTERVAL && playerPos.y > Y_START) {
 			playerPos.y -= Y_INTERVAL;
 			SelectedLevel = 3;
 		}
 		else if (Input.GetKeyDown(KeyCode.Return)) {
 			StartLevel();
 		}
-		else {
-			moved = false;
-		}
 	
-		// Cap.
-		if (moved) {
-			playerPos.x = Mathf.Max(Mathf.Min(X_START + 4 * X_INTERVAL, playerPos.x), X_START);
-			playerPos.y = Mathf.Max(Mathf.Min(Y_START + Y_INTERVAL, playerPos.y), Y_START);
-			LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
-		}
-
+		LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
 		player.transform.position = playerPos;
+		MainController.SelectedLevel = SelectedLevel;
 		// TODO smoother movement
 		//player.transform.position = Vector3.Lerp(PlayerStartPos, playerPos, 10f * Time.deltaTime);
-		MainController.SelectedLevel = SelectedLevel;
 	}
 
 	/**

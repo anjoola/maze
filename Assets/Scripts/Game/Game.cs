@@ -9,7 +9,10 @@ public class Game {
 	public Level[] Levels = new Level[] {
 		new ForestLevel(),
 		new TowerLevel(),
-		new CaveLevel()
+		new CaveLevel(),
+		new PyramidLevel(),
+		new CityLevel(),
+		new CloudLevel()
 	};
 	
 	// Whether or not this is a new game (player has not played yet).
