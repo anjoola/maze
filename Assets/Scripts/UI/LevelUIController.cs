@@ -117,7 +117,14 @@ public class LevelUIController : MonoBehaviour {
 	 * Dismiss the floor number after a certain period.
 	 */
 	IEnumerator Dismiss() {
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(1.5f);
+		FloorObject.SetActive(false);
+	}
+
+	/**
+	 * Hide the current floor number.
+	 */
+	public void HideFloor() {
 		FloorObject.SetActive(false);
 	}
 }

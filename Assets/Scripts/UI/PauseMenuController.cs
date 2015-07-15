@@ -24,6 +24,7 @@ public class PauseMenuController : MonoBehaviour {
 	}
 
 	public void ShowPauseMenu() {
+		MainController.HideFloor();
 		if (IsPaused) return;
 		IsPaused = true;
 

@@ -18,6 +18,7 @@ public class MainController : MonoBehaviour {
 	public static Level CurrentLevel;
 	public static int CurrentLevelNumber;
 	public static int CurrentFloor;
+	public static int SelectedLevel;
 
 	// Menus and UI.
 	public static GameObject LevelUI;
@@ -65,6 +66,7 @@ public class MainController : MonoBehaviour {
 		if (UION) PauseMenuCtrl.HidePauseMenu(true);
 		IsPaused = false;
 		if (UION) LevelCompleteCtrl.HideLevelComplete();
+		SelectedLevel = 1;
 	}
 	void Start() {
 		CurrentFloor = 1;
@@ -108,6 +110,9 @@ public class MainController : MonoBehaviour {
 	}
 	public static void ShowFloorNumber() {
 		LevelUICtrl.ShowFloor(CurrentLevel.CurrentFloor);
+	}
+	public static void HideFloor() {
+		LevelUICtrl.HideFloor();
 	}
 	
 	/* ---------------------------------------------------- NOTES --------------------------------------------------- */
