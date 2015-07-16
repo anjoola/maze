@@ -117,8 +117,9 @@ public class PrefabMazeGen : MonoBehaviour {
 					obj.transform.position = cell.Coordinates;
 					obj.transform.Rotate(rotation);
 
-					// Remove it from the list of empty cells.
+					// Remove it from the list of empty cells and removing neighboring cells.
 					EmptySpaces[cell.Row * Size + cell.Col] = null;
+					RemoveNeighbors(cell.Row, cell.Col, spawnObj, rotation);
 					return true;
 				}
 			}
@@ -126,7 +127,7 @@ public class PrefabMazeGen : MonoBehaviour {
 			// Could not find a spot that fits.
 			return false;
 		}
-		
+
 		/**
 		 * Returns whether or not a given empty cell fits the SpawnObject criteria. If so, returns a rotation that
 		 * would work. Otherwise, returns null.
@@ -148,11 +149,57 @@ public class PrefabMazeGen : MonoBehaviour {
 				
 				// Does this match the criteria? If so, return the correction rotation.
 				if (cell.GetNumEmpty(dir) >= obj.SpaceNeeded)
-					return EmptyCell.GetRotationForDirection(dir);
+					return EmptyCellOpenDirectionVector.GetRotationForDirection(dir);
 			}
 
 			// No direction will work.
 			return NULL_ROTATION;
+		}
+
+		/**
+		 * Converts a relative direction to an absolute direction based on the current rotation.
+		 * 
+		 * dir: The relative direction.
+		 * rotate: The current rotation.
+		 */
+		private EmptyCellOpenDirection RelativeToAbsoluteDirection(ClearDirection dir, Vector3 rotation) {
+			int offset = (int) dir + (int) EmptyCellOpenDirectionVector.GetDirectionForRotation(rotation);
+			return EmptyCell.EMPTY_DIRECTIONS[offset % 4];
+		}
+
+		/**
+		 * Removes neighboring empty spaces according to the rules defined by the SpawnObject.
+		 * 
+		 * row: Row where the object was spawned.
+		 * col: Column where the object was spawned.
+		 * obj: The spawned object.
+		 * rotation: Resulting rotation the object spawned in.
+		 */
+		private void RemoveNeighbors(int row, int col, SpawnObject obj, Vector3 rotation) {
+			foreach (ClearRequirement req in obj.ClearRequirements) {
+				EmptyCellOpenDirection dir = RelativeToAbsoluteDirection(req.Direction, rotation);
+
+				if (dir == EmptyCellOpenDirection.ABOVE) {
+					for (int r = row + 1; r <= Math.Min(row + req.Amount, Size - 1); r++) {
+						EmptySpaces[r * Size + col] = null;
+					}
+				}
+				else if (dir == EmptyCellOpenDirection.RIGHT) {
+					for (int c = col + 1; c <= Math.Min(col + req.Amount, Size - 1); c++) {
+						EmptySpaces[row * Size + c] = null;
+					}
+				}
+				else if (dir == EmptyCellOpenDirection.BELOW) {
+					for (int r = row - 1; r >= Math.Max(row - req.Amount, 0); r--) {
+						EmptySpaces[r * Size + col] = null;
+					}
+				}
+				else {
+					for (int c = col - 1; c >= Math.Max(col - req.Amount, 0); c--) {
+						EmptySpaces[row * Size + c] = null;
+					}
+				}
+			}
 		}
 	}
 }

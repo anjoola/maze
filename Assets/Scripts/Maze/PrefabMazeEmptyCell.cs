@@ -7,10 +7,10 @@ using UnityEngine;
 public class EmptyCell {
 	// Possible empty directions.
 	public static EmptyCellOpenDirection[] EMPTY_DIRECTIONS = {
-		EmptyCellOpenDirection.LEFT,
-		EmptyCellOpenDirection.RIGHT,
 		EmptyCellOpenDirection.ABOVE,
-		EmptyCellOpenDirection.BELOW
+		EmptyCellOpenDirection.LEFT,
+		EmptyCellOpenDirection.BELOW,
+		EmptyCellOpenDirection.RIGHT
 	};
 
 	// Size of a maze block.
@@ -33,12 +33,12 @@ public class EmptyCell {
 		NumEmpty = new int[] { -1, -1, -1, -1 };
 
 		// If this is an edge cell, set values we already know.
-		if (row == 1)
-			SetNumEmpty(EmptyCellOpenDirection.BELOW, 0);
-		if (col == 1)
-			SetNumEmpty(EmptyCellOpenDirection.LEFT, 0);
 		if (row == size - 1)
 			SetNumEmpty(EmptyCellOpenDirection.ABOVE, 0);
+		if (col == 1)
+			SetNumEmpty(EmptyCellOpenDirection.LEFT, 0);
+		if (row == 1)
+			SetNumEmpty(EmptyCellOpenDirection.BELOW, 0);
 		if (col == size - 1)
 			SetNumEmpty(EmptyCellOpenDirection.RIGHT, 0);
 	}
@@ -107,20 +107,45 @@ public class EmptyCell {
 
 		return num;
 	}
+}
+
+/**
+ * The vector form of an empty direction.
+ */
+public class EmptyCellOpenDirectionVector {
+	public static Vector3 ABOVE = new Vector3(0, 0, 0);
+	public static Vector3 RIGHT = new Vector3(0, 90, 0);
+	public static Vector3 BELOW = new Vector3(0, 180, 0);
+	public static Vector3 LEFT = new Vector3(0, -90, 0);
 
 	/**
 	 * Get the rotation corresponding to the direction.
 	 */
 	public static Vector3 GetRotationForDirection(EmptyCellOpenDirection dir) {
-		if (dir == EmptyCellOpenDirection.LEFT)
-			return new Vector3(0, -90, 0);
-		else if (dir == EmptyCellOpenDirection.RIGHT)
-			return new Vector3(0, 90, 0);
 		// All prefabs should default to facing above.
-		else if (dir == EmptyCellOpenDirection.ABOVE)
-			return new Vector3(0, 0, 0);
+		if (dir == EmptyCellOpenDirection.ABOVE)
+			return ABOVE;
+		else if (dir == EmptyCellOpenDirection.RIGHT)
+			return RIGHT;
+		else if (dir == EmptyCellOpenDirection.BELOW)
+			return BELOW;
 		else
-			return new Vector3(0, 180, 0);
+			return LEFT;
+	}
+
+	/**
+	 * Get the direction corresponding to the rotation.
+	 */
+	public static EmptyCellOpenDirection GetDirectionForRotation(Vector3 rotation) {
+		if (rotation == ABOVE)
+			return EmptyCellOpenDirection.ABOVE;
+		else if (rotation == RIGHT)
+			return EmptyCellOpenDirection.RIGHT;
+		else if (rotation == BELOW)
+			return EmptyCellOpenDirection.BELOW;
+		else
+			return EmptyCellOpenDirection.LEFT;
+
 	}
 }
 
@@ -128,5 +153,5 @@ public class EmptyCell {
  * Direction of emptiness, relative to the current maze block.
  */
 public enum EmptyCellOpenDirection : int {
-	LEFT = 0, RIGHT = 1, ABOVE = 2, BELOW = 3
+	ABOVE = 0, RIGHT = 1, BELOW = 2, LEFT = 3
 };

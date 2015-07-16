@@ -11,6 +11,15 @@ public class RotateShootingEnemy : ShootingEnemy {
 	// How long a rotation takes.
 	int ROTATE_DURATION = 1;
 
+	public override ClearRequirement[] ClearRequirements { get {
+		return new ClearRequirement[]{
+			new ClearRequirement(ClearDirection.AHEAD, 2),
+			new ClearRequirement(ClearDirection.RIGHT, 2),
+			new ClearRequirement(ClearDirection.LEFT, 2),
+			new ClearRequirement(ClearDirection.BEHIND, 2)
+		};
+	} }
+
 	// Last time rotated.
 	float LastRotateTime = 0;
 	float LastRotateStartedTime = 0;

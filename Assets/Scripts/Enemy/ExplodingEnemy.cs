@@ -8,6 +8,15 @@ using System.Collections;
 public class ExplodingEnemy : BaseEnemy {
 	int NUMBER_OF_SHOTS = 20;
 	int SHOOT_FORCE_MULTIPLIER = 10000;
+
+	public override ClearRequirement[] ClearRequirements { get {
+		return new ClearRequirement[]{
+			new ClearRequirement(ClearDirection.AHEAD, 2),
+			new ClearRequirement(ClearDirection.RIGHT, 2),
+			new ClearRequirement(ClearDirection.LEFT, 2),
+			new ClearRequirement(ClearDirection.BEHIND, 2)
+		};
+	} }
 	
 	// Projectile to shoot and location to shoot from.
 	public GameObject Projectile;

@@ -5,6 +5,8 @@ using System.Collections;
  * Base enemy class.
  */
 public abstract class BaseEnemy : SpawnObject {
+	public int PLAYER_HEIGHT = 200;
+
 	// Amount of damage this enemy does onto the player, in HP intervals (up to 10).
 	public int Damage = 1;
 
@@ -18,6 +20,15 @@ public abstract class BaseEnemy : SpawnObject {
 
 	// Parent game object (actual game object for this enemy).
 	protected GameObject parent;
+
+	public override ClearRequirement[] ClearRequirements { get {
+		return new ClearRequirement[]{
+			new ClearRequirement(ClearDirection.AHEAD, 1),
+			new ClearRequirement(ClearDirection.RIGHT, 1),
+			new ClearRequirement(ClearDirection.LEFT, 1),
+			new ClearRequirement(ClearDirection.BEHIND, 1)
+		};
+	} }
 
 	void Start() {
 		isWithinRadius = false;
@@ -76,7 +87,7 @@ public abstract class BaseEnemy : SpawnObject {
 	 */
 	protected bool IsPlayerInFront() {
 		Vector3 direction = player.transform.position - transform.position;
-		direction.y = 200; // TODO hack... should be player's height?
+		direction.y = PLAYER_HEIGHT;
 
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, direction, out hit)) {

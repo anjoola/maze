@@ -10,5 +10,28 @@ public abstract class SpawnObject : MonoBehaviour {
 	/**
 	 * Called to clear space around where the object is spawned in order to space objects better.
 	 */
-	protected void ClearSpaceAround() { }
+	public virtual ClearRequirement[] ClearRequirements { get { return new ClearRequirement[]{ }; } }
 }
+
+/**
+ * Represents the number of cells to clear after an object is spawned.
+ */
+public class ClearRequirement {
+	// Direction to clear.
+	public ClearDirection Direction;
+
+	// Amount to clear.
+	public int Amount;
+
+	public ClearRequirement(ClearDirection direction, int amount) {
+		Direction = direction;
+		Amount = amount;
+	}	
+}
+
+/**
+ * Direction of clearing, relative to the current rotation of the spawn object.
+ */
+public enum ClearDirection : int {
+	AHEAD = 0, RIGHT = 1, BEHIND = 2, LEFT = 3
+};
