@@ -34,7 +34,9 @@ public class MainController : MonoBehaviour {
 	public static bool IsPaused;
 
 	// Player's past few positions.
-	public static Vector3 PlayerPositions;
+	private static int NUM_PLAYER_LOCS = 60;
+	private static int PlayerLocIdx = 0;
+	public static CloneLocation[] PlayerLocations;
 
 	void Awake() {
 		instance = this.gameObject;
@@ -88,7 +90,19 @@ public class MainController : MonoBehaviour {
 	/* ---------------------------------------------------- OTHER --------------------------------------------------- */
 	
 	public static void GetNextFloor() {
+		PlayerLocations = new CloneLocation[NUM_PLAYER_LOCS + 5]; // TODO multiply by the number of clones in this floor
 		CurrentLevel.GetNextFloor();
+	}
+	public static void AddPlayerLocation(CloneLocation loc) {
+		PlayerLocations[PlayerLocIdx] = loc;
+		PlayerLocIdx = (PlayerLocIdx + 1) % PlayerLocations.Length;
+
+		// Spawn another clone if desired.
+		if (PlayerLocIdx % NUM_PLAYER_LOCS == 0 && CurrentLevel.ShouldSpawnClone())
+			CurrentLevel.SpawnClone();
+	}
+	public static CloneLocation GetPlayerLocation(int idx) {
+		return PlayerLocations[idx];
 	}
 
 	/* -------------------------------------------------- LEVEL UI -------------------------------------------------- */
@@ -109,6 +123,7 @@ public class MainController : MonoBehaviour {
 		LevelUICtrl.DecreaseHP(numIntervals);
 	}
 	public static void NewLevel() {
+		PlayerLocations = new CloneLocation[NUM_PLAYER_LOCS + 5]; // TODO multiply by the number of clones in this floor
 		LevelUICtrl.NewLevel();
 	}
 	public static void ShowFloorNumber() {

@@ -24,7 +24,8 @@ public class ForestLevel : Level {
 					"LargeJewel",
 					"BigJewel",
 					"HugeJewel"
-				}
+				},
+				1
 			),
 
 			new Floor(
@@ -39,7 +40,7 @@ public class ForestLevel : Level {
 					"TestItem"
 				},
 				new string[] {
-					"TestTreasure"
+					"HugeJewel"
 				}
 			),
 
@@ -55,7 +56,7 @@ public class ForestLevel : Level {
 					"TestItem"
 				},
 				new string[] {
-					"TestTreasure"
+					"HugeJewel"
 				}
 			),
 
@@ -70,7 +71,7 @@ public class ForestLevel : Level {
 					"TestItem"
 				},
 				new string[] {
-					"TestTreasure"
+					"HugeJewel"
 				}
 			)
 		};

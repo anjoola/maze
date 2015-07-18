@@ -25,6 +25,15 @@ public class PrefabMazeGen : MonoBehaviour {
 	}
 
 	/**
+	 * Fit a clone into the maze.
+	 */
+	public void FitClone(String clone) {
+		EmptyCell spawnCell = new EmptyCell(Size, 1, 1);
+		Vector3 position = spawnCell.Coordinates;
+		Instantiate(Resources.Load(clone) as GameObject, position, DEFAULT_ROTATION);
+	}
+
+	/**
 	 * Try to fit the spawn object with the given prefab name. If it can not be spawned, destroy it.
 	 */
 	public void FitSpawnObject(String prefab) {

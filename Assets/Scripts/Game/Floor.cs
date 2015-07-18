@@ -14,10 +14,14 @@ public class Floor {
 	// List of treasure that appear.
 	public string[] Treasures;
 
-	public Floor(string scene, string[] enemies, string[] items, string[] treasures) {
+	// Number of clones that appear.
+	public int NumClones;
+
+	public Floor(string scene, string[] enemies, string[] items, string[] treasures, int clones=0) {
 		Scene = scene;
 		Enemies = enemies;
 		Items = items;
 		Treasures = treasures;
+		NumClones = clones;
 	}
 }

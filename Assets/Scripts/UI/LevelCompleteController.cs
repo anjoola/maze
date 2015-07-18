@@ -21,7 +21,7 @@ public class LevelCompleteController : MonoBehaviour {
 	float OldTimeScale = -1;
 	
 	public void ShowLevelComplete(int amount) {
-		MainController.HideNote();
+		MainController.HideNote(); // TODO wont' hide the note?
 		if (IsLevelCompleteShown) return;
 		IsLevelCompleteShown = true;
 

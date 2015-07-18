@@ -13,9 +13,14 @@ public class CharacterMovement : MonoBehaviour {
 
 	float moveSpeed;
 	CharacterController controller;
+
+	// Last time the player's position was recorded.
+	float UPDATE_INTERVAL = 0.1f;
+	float LastUpdateTime = 0;
 	
 	void Start() {
 		controller = gameObject.GetComponent<CharacterController>();
+		LastUpdateTime = Time.time;
 	}
 	
 	void Update() {
@@ -26,6 +31,16 @@ public class CharacterMovement : MonoBehaviour {
 		// Toggle pause menu display.
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			MainController.TogglePauseMenu();
+		}
+	}
+
+	void FixedUpdate() {
+		// Update the player's position.
+		if (Time.time - LastUpdateTime >= UPDATE_INTERVAL) {
+			LastUpdateTime = Time.time;
+
+			CloneLocation loc = new CloneLocation(gameObject.transform);
+			MainController.AddPlayerLocation(loc);
 		}
 	}
 

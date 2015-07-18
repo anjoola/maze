@@ -16,6 +16,9 @@ public abstract class Level {
 	// Total number of floors in the maze.
 	public int NumFloors;
 
+	// Number of clones spawned.
+	public int NumClones;
+
 	// The maze generator. Used to get positions for spawning objects.
 	private PrefabMazeGen MazeGen;
 
@@ -34,7 +37,9 @@ public abstract class Level {
 	 * Starts this level. Loads the first floor.
 	 */
 	public void Start() {
+		NumClones = 0;
 		CurrentFloor = 1;
+
 		Floor firstFloor = this.Floors[0];
 		MainController.HideLevelUI();
 		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, StartDone, firstFloor);
@@ -70,6 +75,7 @@ public abstract class Level {
 		}
 
 		// Get the next floor and load it.
+		NumClones = 0;
 		Floor next = Floors[++CurrentFloor - 1];
 		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, SpawnGameObjects, next);
 	}
@@ -96,5 +102,20 @@ public abstract class Level {
 		}
 
 		MainController.ShowFloorNumber();
+	}
+
+	/**
+	 * Whether or not a new clone should be spanwed. Depends on the current number of clones already spawned.
+	 */
+	public bool ShouldSpawnClone() {
+		return NumClones < Floors[CurrentFloor - 1].NumClones;
+	}
+
+	/**
+	 * Spawn a clone.
+	 */
+	public void SpawnClone() {
+		NumClones++;
+		MazeGen.FitClone("Main/Clone");
 	}
 }
