@@ -21,6 +21,7 @@ public class LevelCompleteController : MonoBehaviour {
 	float OldTimeScale = -1;
 	
 	public void ShowLevelComplete(int amount) {
+		MainController.HideNote();
 		if (IsLevelCompleteShown) return;
 		IsLevelCompleteShown = true;
 

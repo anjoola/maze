@@ -9,6 +9,7 @@ public class ForestLevel : Level {
 			new Floor(
 				"ForestSmall",
 				new string[] {
+					"ExplodingEnemy",
 					"StraightShootingEnemy",
 				},
 				new string[] {
