@@ -34,7 +34,7 @@ public class MainController : MonoBehaviour {
 	public static bool IsPaused;
 
 	// Player's past few positions.
-	private static int NUM_PLAYER_LOCS = 60;
+	private static int NUM_PLAYER_LOCS = 30;
 	private static int PlayerLocIdx = 0;
 	public static CloneLocation[] PlayerLocations;
 
