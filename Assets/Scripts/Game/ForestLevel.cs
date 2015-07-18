@@ -19,7 +19,11 @@ public class ForestLevel : Level {
 					"TestItem"
 				},
 				new string[] {
-					"TestTreasure"
+					"HugeJewel",
+					"JewelPile",
+					"LargeJewel",
+					"BigJewel",
+					"HugeJewel"
 				}
 			),
 

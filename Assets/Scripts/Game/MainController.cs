@@ -33,6 +33,9 @@ public class MainController : MonoBehaviour {
 	// Whether or not the game is paused.
 	public static bool IsPaused;
 
+	// Player's past few positions.
+	public static Vector3 PlayerPositions;
+
 	void Awake() {
 		instance = this.gameObject;
 

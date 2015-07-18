@@ -18,7 +18,7 @@ public class ProjectileScript : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		// TODO hit something else like a wall, edge of the maze, another enemy?
-		if (other.gameObject.tag == "Maze" || other.gameObject.tag == "Enemy") {
+		if (other.gameObject.tag == "Maze") {
 			Destroy(gameObject);
 		}
 	}
