@@ -65,13 +65,15 @@ public abstract class BaseEnemy : SpawnObject {
 		if (!isWithinRadius) return false;
 		
 		Vector3 direction = player.transform.position - transform.position;
+		Vector3 position = transform.position;
+		position.y = PLAYER_HEIGHT;
 		float angle = Vector3.Angle(direction, transform.forward);
-		
+
 		// Angle between forward and where player is is less than half of viewing angle, and player is within line
 		// of sight (nothing blocking in between).
 		if (angle < ViewingAngle * 0.5f) {
 			RaycastHit hit;
-			if (Physics.Raycast(transform.position, direction, out hit)) {
+			if (Physics.Raycast(position, direction, out hit)) {
 				if (hit.collider.gameObject == player) {
 					return true;
 				}

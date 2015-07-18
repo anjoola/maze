@@ -11,6 +11,7 @@ public class ForestLevel : Level {
 				new string[] {
 					"ExplodingEnemy",
 					"StraightShootingEnemy",
+					"TriggeredStraightShootingEnemy",
 				},
 				new string[] {
 					"TestItem"
