@@ -25,54 +25,7 @@ public class ForestLevel : Level {
 					"BigJewel",
 					"HugeJewel"
 				},
-				3
-			),
-
-			new Floor(
-				"ForestSmall",
-				new string[] {
-					// TODO
-					"StraightShootingEnemy",
-					"StraightShootingEnemy",
-					"StraightShootingEnemy"
-				},
-				new string[] {
-					"TestItem"
-				},
-				new string[] {
-					"HugeJewel"
-				}
-			),
-
-			new Floor(
-				"ForestSmall",
-				new string[] {
-					// TODO
-					"RotateShootingEnemy",
-					"RotateShootingEnemy",
-					"StraightShootingEnemy"
-				},
-				new string[] {
-					"TestItem"
-				},
-				new string[] {
-					"HugeJewel"
-				}
-			),
-
-			new Floor(
-				"TestLevel",
-				new string[] {
-					// TODO
-					"ExplodingEnemy",
-					"ExplodingEnemy"
-				},
-				new string[] {
-					"TestItem"
-				},
-				new string[] {
-					"HugeJewel"
-				}
+				1
 			)
 		};
 	}}

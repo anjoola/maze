@@ -13,7 +13,10 @@ public class WorldMapController : MonoBehaviour {
 
 	public GameObject player;
 	public Text LevelName;
-	Vector3 PlayerStartPos;
+	Vector3 PlayerStartPos, GoalPos;
+
+	public GameObject[] LevelMarkers;
+	public GameObject[] LevelLines;
 	
 	void Start() {
 		// Selected level.
@@ -21,7 +24,7 @@ public class WorldMapController : MonoBehaviour {
 		LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
 
 		// Start at the last location.
-		PlayerStartPos = player.transform.position; // TODO
+		PlayerStartPos = player.transform.position;
 		Vector3 tempPos = player.transform.position;
 		if (SelectedLevel == 6) {
 			tempPos.y += Y_INTERVAL;
@@ -31,15 +34,36 @@ public class WorldMapController : MonoBehaviour {
 			tempPos.x += (SelectedLevel - 1) * X_INTERVAL;
 		}
 		player.transform.position = tempPos;
+		GoalPos = tempPos;
+
+		// Show level markers of available levels.
+		for (int level = 0; level <= MainController.PrevHighestAvailableLevel; level++) {
+			LevelMarkers[level].SetActive(true);
+			if (level > 0) {
+				LevelLines[level].SetActive(true);
+				iTween.ScaleBy(LevelLines[level], iTween.Hash("x", 40.0f, "time", 0));
+			}
+		}
+		// Animate the appearance of a new level.
+		if (MainController.PrevHighestAvailableLevel != MainController.HighestAvailableLevel) {
+			GameObject marker = LevelMarkers[MainController.HighestAvailableLevel];
+			marker.SetActive(true);
+			iTween.ScaleBy(marker, iTween.Hash("x", 1.2f, "y", 1.2f, "time", 0.8f));
+			iTween.ScaleBy(marker, iTween.Hash("x", 1/1.2f, "y", 1/1.2f, "time", 1, "delay", 0.7f));
+			GameObject line = LevelLines[MainController.HighestAvailableLevel];
+			line.SetActive(true);
+			iTween.ScaleBy(line, iTween.Hash("x", 40.0f, "time", 2));
+
+			MainController.PrevHighestAvailableLevel = MainController.HighestAvailableLevel;
+		}
 	}
 	void Update() {
 		PlayerStartPos = player.transform.position;
-		Vector3 playerPos = PlayerStartPos;
-
-		// TODO allow for starting at any marker based on the game save
+		Vector3 playerPos = GoalPos;
 
 		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) &&
-		    playerPos.y == Y_START && playerPos.x < X_START + 4 * X_INTERVAL) {
+		    playerPos.y == Y_START && playerPos.x < X_START + 4 * X_INTERVAL &&
+		    SelectedLevel <= MainController.HighestAvailableLevel) {
 			playerPos.x += X_INTERVAL;
 			SelectedLevel++;
 		}
@@ -49,7 +73,8 @@ public class WorldMapController : MonoBehaviour {
 			SelectedLevel--;
 		}
 		else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) &&
-		         playerPos.x == X_START + 2 * X_INTERVAL && playerPos.y < Y_START + Y_INTERVAL) {
+		         playerPos.x == X_START + 2 * X_INTERVAL && playerPos.y < Y_START + Y_INTERVAL &&
+		         MainController.HighestAvailableLevel == 5) {
 			playerPos.y += Y_INTERVAL;
 			SelectedLevel = 6;
 		}
@@ -62,11 +87,17 @@ public class WorldMapController : MonoBehaviour {
 			StartLevel();
 		}
 	
-		LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
-		player.transform.position = playerPos;
+		GoalPos = playerPos;
 		MainController.SelectedLevel = SelectedLevel;
-		// TODO smoother movement
-		//player.transform.position = Vector3.Lerp(PlayerStartPos, playerPos, 10f * Time.deltaTime);
+	}
+
+	void FixedUpdate() {
+		// Smoother movement of the character.
+		player.transform.position = Vector3.Lerp(player.transform.position, GoalPos, Time.fixedDeltaTime * 10.0f);
+		if (Mathf.Abs(GoalPos.x - player.transform.position.x) <= 15 &&
+		    Mathf.Abs(GoalPos.y - player.transform.position.y) <= 15) {
+			LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
+		}
 	}
 
 	/**

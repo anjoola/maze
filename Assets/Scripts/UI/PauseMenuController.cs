@@ -25,7 +25,7 @@ public class PauseMenuController : MonoBehaviour {
 
 	public void ShowPauseMenu() {
 		MainController.HideFloor();
-		if (IsPaused) return;
+		if (MainController.ShouldPause() || IsPaused) return;
 		IsPaused = true;
 
 		Overlay.SetActive(true);

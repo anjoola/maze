@@ -8,6 +8,8 @@ public class CloneController : MonoBehaviour {
 	// Current goal location.
 	CloneLocation GoalLoc;
 
+	GameObject player;
+
 	// Current index into the array.
 	int Idx;
 
@@ -15,6 +17,7 @@ public class CloneController : MonoBehaviour {
 		LastUpdateTime = Time.time;
 		Idx = 0;
 		GoalLoc = null;
+		player = GameObject.FindGameObjectWithTag("Player");
 	}
 	
 	void FixedUpdate() {
@@ -31,11 +34,20 @@ public class CloneController : MonoBehaviour {
 		if (GoalLoc == null)
 			return;
 
-		// Update positoin and rotation.
+		// Update position and rotation.
 		gameObject.transform.position =
 			Vector3.Lerp(gameObject.transform.position, GoalLoc.position, Time.fixedDeltaTime);
 		gameObject.transform.rotation =
-			Quaternion.Lerp (gameObject.transform.rotation, GoalLoc.rotation, Time.fixedDeltaTime);
+			Quaternion.Lerp(gameObject.transform.rotation, GoalLoc.rotation, Time.fixedDeltaTime);
+	}
+
+	void OnTriggerEnter(Collider other) {
+		if (other.gameObject == player) {
+			MainController.ShowNote("OUCH!");
+			MainController.DecreaseHP(5);
+			// TODO enemy should disappear or something
+			Destroy(gameObject);
+		}
 	}
 }
 

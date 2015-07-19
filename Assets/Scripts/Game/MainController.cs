@@ -10,7 +10,6 @@ using System.Collections;
  * - General game status (current level, floor, etc.)
  */
 public class MainController : MonoBehaviour {
-	public bool UION;
 	public static GameObject instance;
 
 	// Current game.
@@ -18,7 +17,6 @@ public class MainController : MonoBehaviour {
 	public static Level CurrentLevel;
 	public static int CurrentLevelNumber;
 	public static int CurrentFloor;
-	public static int SelectedLevel;
 
 	// Menus and UI.
 	public static GameObject LevelUI;
@@ -38,6 +36,11 @@ public class MainController : MonoBehaviour {
 	private static int PlayerLocIdx = 0;
 	public static CloneLocation[] PlayerLocations;
 
+	// Level selections.
+	public static int SelectedLevel;
+	public static int HighestAvailableLevel;
+	public static int PrevHighestAvailableLevel = 1; // TODO to save?
+
 	void Awake() {
 		instance = this.gameObject;
 
@@ -51,10 +54,8 @@ public class MainController : MonoBehaviour {
 		NoteCtrl = Notes.GetComponent<NoteController>();
 		PauseMenu = GameObject.Find("Pause Menu");
 		LevelComplete = GameObject.Find("Level Complete");
-		if (UION) {
-			PauseMenuCtrl = PauseMenu.GetComponent<PauseMenuController>();
-			LevelCompleteCtrl = LevelComplete.GetComponent<LevelCompleteController>();
-		}
+		PauseMenuCtrl = PauseMenu.GetComponent<PauseMenuController>();
+		LevelCompleteCtrl = LevelComplete.GetComponent<LevelCompleteController>();
 
 		// Make sure prefabs are not destroyed.
 		DontDestroyOnLoad(gameObject);
@@ -65,13 +66,21 @@ public class MainController : MonoBehaviour {
 		DontDestroyOnLoad(LevelComplete);
 
 		// Hide unneeded things.
-		// TODO comment out if not starting from title screen
 		HideLevelUI();
 		HideNote();
-		if (UION) PauseMenuCtrl.HidePauseMenu(true);
+		PauseMenuCtrl.HidePauseMenu(true);
 		IsPaused = false;
-		if (UION) LevelCompleteCtrl.HideLevelComplete();
+		LevelCompleteCtrl.HideLevelComplete();
 		SelectedLevel = 1;
+
+		// Get available levels.
+		for (int level = 1; level <= 6; level++) {
+			if (MainController.CurrentGame.Levels[level - 1].IsCompleted)
+				HighestAvailableLevel++;
+			else
+				break;
+		}
+		PrevHighestAvailableLevel = HighestAvailableLevel;
 	}
 	void Start() {
 		CurrentFloor = 1;
@@ -127,6 +136,7 @@ public class MainController : MonoBehaviour {
 		LevelUICtrl.DecreaseHP(numIntervals);
 	}
 	public static void NewLevel() {
+		HideNote();
 		LevelUICtrl.NewLevel();
 	}
 	public static void ShowFloorNumber() {
@@ -160,6 +170,9 @@ public class MainController : MonoBehaviour {
 	/* ------------------------------------------ LEVEL COMPLETE DISPLAY -------------------------------------------- */
 
 	public static void ShowLevelComplete(int amount) {
+		PrevHighestAvailableLevel = HighestAvailableLevel;
+		if (CurrentLevelNumber == HighestAvailableLevel + 1)
+			HighestAvailableLevel++;
 		LevelCompleteCtrl.ShowLevelComplete(amount);
 	}
 	public static void HideLevelComplete() {

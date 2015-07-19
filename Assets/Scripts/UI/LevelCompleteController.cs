@@ -21,7 +21,8 @@ public class LevelCompleteController : MonoBehaviour {
 	float OldTimeScale = -1;
 	
 	public void ShowLevelComplete(int amount) {
-		MainController.HideNote(); // TODO wont' hide the note?
+		MainController.HideNote();
+
 		if (IsLevelCompleteShown) return;
 		IsLevelCompleteShown = true;
 
@@ -31,6 +32,8 @@ public class LevelCompleteController : MonoBehaviour {
 			Status.text = LEVEL_COMPLETE;
 			DeadObj.SetActive(false);
 			TreasureObj.SetActive(true);
+
+			MainController.CurrentLevel.IsCompleted = true;
 		}
 		// Game over.
 		else {

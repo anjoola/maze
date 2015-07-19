@@ -12,8 +12,8 @@ public class ProjectileScript : MonoBehaviour {
 		// Projectile hit the player.
 		if (other.gameObject == player) {
 			// TODO
-			MainController.DecreaseHP(1);
 			MainController.ShowNote("OUCH!");
+			MainController.DecreaseHP(1);
 			// TODO
 			Destroy(gameObject);
 		}
