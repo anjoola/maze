@@ -42,12 +42,13 @@ public abstract class Level {
 
 		Floor firstFloor = this.Floors[0];
 		MainController.HideLevelUI();
+		MainController.CurrentLevel = this;
+		MainController.ResetLocations();
 		AutoFade.LoadLevel(firstFloor.Scene, 0.2f, 0.2f, Color.black, StartDone, firstFloor);
 		MainController.ChangeLevelName(LevelName);
 		MainController.NewLevel();
 	}
 	private void StartDone(Floor floor) {
-		MainController.CurrentLevel = this;
 		MainController.CurrentFloor = 1;
 		MainController.ShowLevelUI();
 

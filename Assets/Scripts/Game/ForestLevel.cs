@@ -25,7 +25,7 @@ public class ForestLevel : Level {
 					"BigJewel",
 					"HugeJewel"
 				},
-				1
+				3
 			),
 
 			new Floor(

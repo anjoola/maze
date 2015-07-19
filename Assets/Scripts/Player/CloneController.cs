@@ -11,18 +11,20 @@ public class CloneController : MonoBehaviour {
 	// Current index into the array.
 	int Idx;
 
-	void Start () {
+	void Start() {
 		LastUpdateTime = Time.time;
 		Idx = 0;
 		GoalLoc = null;
 	}
 	
-	void FixedUpdate () {
+	void FixedUpdate() {
 		if (Time.time - LastUpdateTime >= UPDATE_INTERVAL) {
 			LastUpdateTime = Time.time;
 			GoalLoc = MainController.GetPlayerLocation(Idx);
-			GoalLoc.position.y = gameObject.transform.position.y;
+			if (GoalLoc == null)
+				return;
 
+			GoalLoc.position.y = gameObject.transform.position.y;
 			Idx = (Idx + 1) % MainController.PlayerLocations.Length;
 		}
 

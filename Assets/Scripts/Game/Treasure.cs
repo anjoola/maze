@@ -15,7 +15,7 @@ public class Treasure : SpawnObject {
 		player = GameObject.FindGameObjectWithTag("Player");
 
 		if (rotate)
-			iTween.RotateAdd(gameObject, iTween.Hash("y", 359, "time", 8, "easetype", "linear", "looptype", "loop"));
+			iTween.RotateAdd(gameObject, iTween.Hash("y", 359, "time", 9, "easetype", "linear", "looptype", "loop"));
 		if (hover)
 			iTween.MoveBy(gameObject, iTween.Hash("y", 20, "time", 1, "easetype", "linear", "looptype", "pingPong"));
 	}
