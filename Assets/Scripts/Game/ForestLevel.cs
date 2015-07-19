@@ -7,7 +7,7 @@ public class ForestLevel : Level {
 	public override Floor[] Floors { get {
 		return new Floor[] {
 			new Floor(
-				"ForestMedium",
+				"ForestSmall",
 				new string[] {
 					"ExplodingEnemy",
 					"StraightShootingEnemy",
