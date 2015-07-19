@@ -80,6 +80,8 @@ public class MainController : MonoBehaviour {
 			else
 				break;
 		}
+		// TODO remove in real game
+		HighestAvailableLevel = 5;
 		PrevHighestAvailableLevel = HighestAvailableLevel;
 	}
 	void Start() {
@@ -171,7 +173,7 @@ public class MainController : MonoBehaviour {
 
 	public static void ShowLevelComplete(int amount) {
 		PrevHighestAvailableLevel = HighestAvailableLevel;
-		if (CurrentLevelNumber == HighestAvailableLevel + 1)
+		if (CurrentLevelNumber == HighestAvailableLevel + 1 && CurrentLevelNumber != 6)
 			HighestAvailableLevel++;
 		LevelCompleteCtrl.ShowLevelComplete(amount);
 	}

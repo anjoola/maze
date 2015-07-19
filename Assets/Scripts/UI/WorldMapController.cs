@@ -52,7 +52,7 @@ public class WorldMapController : MonoBehaviour {
 			iTween.ScaleBy(marker, iTween.Hash("x", 1/1.2f, "y", 1/1.2f, "time", 1, "delay", 0.7f));
 			GameObject line = LevelLines[MainController.HighestAvailableLevel];
 			line.SetActive(true);
-			iTween.ScaleBy(line, iTween.Hash("x", 40.0f, "time", 2));
+			iTween.ScaleBy(line, iTween.Hash("x", 40.0f, "time", 1.5f));
 
 			MainController.PrevHighestAvailableLevel = MainController.HighestAvailableLevel;
 		}
