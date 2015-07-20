@@ -20,7 +20,7 @@ public class MainController : MonoBehaviour {
 
 	// Menus and UI.
 	public static GameObject LevelUI;
-	static LevelUIController LevelUICtrl;
+	public static LevelUIController LevelUICtrl;
 	public static GameObject Notes;
 	static NoteController NoteCtrl;
 	public static GameObject PauseMenu;
@@ -152,6 +152,9 @@ public class MainController : MonoBehaviour {
 	
 	public static void ShowNote(string note, bool autoDismiss=true) {
 		NoteCtrl.ShowNote(note, autoDismiss);
+	}
+	public static void ShowItemNote(string item, bool autoDismiss=true) {
+		NoteCtrl.ShowItemNote(item, autoDismiss);
 	}
 	public static void HideNote() {
 		NoteCtrl.HideNote();

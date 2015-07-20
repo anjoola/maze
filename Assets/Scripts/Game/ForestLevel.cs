@@ -17,7 +17,11 @@ public class ForestLevel : Level {
 				},
 				new string[] {
 					"SmallPotion",
-					"SmallPotion"
+					"InvinciblePotion",
+					"PoisonPotion",
+					"FullPotion",
+					"TNTItem",
+					"BombItem"
 				},
 				new string[] {
 					"HugeJewel",

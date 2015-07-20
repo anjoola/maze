@@ -8,7 +8,7 @@ using System.Collections;
 public class LevelUIController : MonoBehaviour {
 	// Treasure.
 	public Text Treasure;
-	int TreasureAmt;
+	public int TreasureAmt;
 	public static int TreasureAcquired;
 
 	// HP bar.

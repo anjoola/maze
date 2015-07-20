@@ -1,3 +1,0 @@
-CloudsToy ChangeLog - Unity 5.
-
-v1.0 - Initial release.

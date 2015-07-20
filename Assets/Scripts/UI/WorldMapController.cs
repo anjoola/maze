@@ -13,6 +13,7 @@ public class WorldMapController : MonoBehaviour {
 
 	public GameObject player;
 	public Text LevelName;
+	public Text TreasureCount;
 	Vector3 GoalPos;
 
 	public GameObject[] LevelMarkers;
@@ -55,6 +56,8 @@ public class WorldMapController : MonoBehaviour {
 
 			MainController.PrevHighestAvailableLevel = MainController.HighestAvailableLevel;
 		}
+
+		TreasureCount.text = ("" + MainController.LevelUICtrl.TreasureAmt).PadLeft(7, '0');;
 	}
 	void Update() {
 		Vector3 playerPos = GoalPos;
