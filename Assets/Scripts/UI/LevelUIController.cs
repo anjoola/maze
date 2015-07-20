@@ -15,6 +15,9 @@ public class LevelUIController : MonoBehaviour {
 	public GameObject[] HP;
 	int HPIntervals;
 
+	// HP image.
+	public GameObject HPFull, HPMissing, HPLow;
+
 	// Floor number.
 	public GameObject FloorObject;
 	public Text Floor;
@@ -35,9 +38,9 @@ public class LevelUIController : MonoBehaviour {
 	 * amount: Amount to increase by.
 	 */
 	public void AcquireTreasure(int amount) {
-		TreasureAmt += amount;
+		TreasureAmt = Mathf.Min(TreasureAmt + amount, 9999999);
 		TreasureAcquired += amount;
-		Treasure.text = ("" + TreasureAmt).PadLeft(6, '0');
+		Treasure.text = ("" + TreasureAmt).PadLeft(7, '0');
 	}
 
 	/**
@@ -46,7 +49,7 @@ public class LevelUIController : MonoBehaviour {
 	public void ResetTreasure() {
 		TreasureAmt = 0;
 		TreasureAcquired = 0;
-		Treasure.text = ("0").PadLeft(6, '0');
+		Treasure.text = ("0").PadLeft(7, '0');
 	}
 
 	/**
@@ -57,6 +60,8 @@ public class LevelUIController : MonoBehaviour {
 		for (int i = 0; i < 10; i++) {
 			HP[i].SetActive(true);
 		}
+		HPLow.SetActive(false);
+		HPMissing.SetActive(false);
 	}
 
 	/**
@@ -68,11 +73,16 @@ public class LevelUIController : MonoBehaviour {
 		for (int i = 0; i < numIntervals; i++) {
 			// Can't increase HP anymore.
 			if (HPIntervals + 1 > 10)
-				return;
+				break;
 			
 			HP[HPIntervals].SetActive(true);
 			HPIntervals++;
 		}
+
+		if (HPIntervals == 10)
+			HPMissing.SetActive(false);
+		if (HPIntervals > 3)
+			HPLow.SetActive(false);
 	}
 
 	/**
@@ -86,12 +96,17 @@ public class LevelUIController : MonoBehaviour {
 			if (HPIntervals - 1 <= 0) {
 				HP[0].SetActive(false);
 				MainController.ShowGameOver();
-				return;
+				break;
 			}
 
 			HPIntervals--;
 			HP[HPIntervals].SetActive(false);
 		}
+
+		if (HPIntervals < 10)
+			HPMissing.SetActive(true);
+		if (HPIntervals < 3)
+			HPLow.SetActive(true);
 	}
 
 	/**
