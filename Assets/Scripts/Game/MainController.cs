@@ -28,18 +28,19 @@ public class MainController : MonoBehaviour {
 	public static GameObject LevelComplete;
 	static LevelCompleteController LevelCompleteCtrl;
 
-	// Whether or not the game is paused.
-	public static bool IsPaused;
-
 	// Player's past few positions.
 	private static int NUM_PLAYER_LOCS = 40;
 	private static int PlayerLocIdx = 0;
 	public static CloneLocation[] PlayerLocations;
 
 	// Level selections.
-	public static int SelectedLevel;
+	public static int SelectedLevel = 1;
 	public static int HighestAvailableLevel;
 	public static int PrevHighestAvailableLevel = 1; // TODO to save?
+
+	// Player status.
+	public static bool IsInvincible = false;
+	public static PrefabMazeGen MazeGen = null;
 
 	void Awake() {
 		instance = this.gameObject;
@@ -69,9 +70,7 @@ public class MainController : MonoBehaviour {
 		HideLevelUI();
 		HideNote();
 		PauseMenuCtrl.HidePauseMenu(true);
-		IsPaused = false;
 		LevelCompleteCtrl.HideLevelComplete();
-		SelectedLevel = 1;
 
 		// Get available levels.
 		for (int level = 1; level <= 6; level++) {
@@ -101,8 +100,19 @@ public class MainController : MonoBehaviour {
 	/* ---------------------------------------------------- OTHER --------------------------------------------------- */
 	
 	public static void GetNextFloor() {
+		StopInvincible();
+		HideNote();
 		ResetLocations();
 		CurrentLevel.GetNextFloor();
+	}
+	public static void BecomeInvincible() {
+		IsInvincible = true;
+		LevelUICtrl.ShowInvincible();
+	}
+	public static void StopInvincible() {
+		IsInvincible = false;
+		LevelUICtrl.HideInvincible();
+
 	}
 	public static void AddPlayerLocation(CloneLocation loc) {
 		PlayerLocations[PlayerLocIdx] = loc;
@@ -138,6 +148,7 @@ public class MainController : MonoBehaviour {
 		LevelUICtrl.DecreaseHP(numIntervals);
 	}
 	public static void NewLevel() {
+		StopInvincible();
 		HideNote();
 		LevelUICtrl.NewLevel();
 	}

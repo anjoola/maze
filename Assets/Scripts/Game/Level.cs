@@ -39,6 +39,7 @@ public abstract class Level {
 	public void Start() {
 		NumClones = 0;
 		CurrentFloor = 1;
+		MainController.MazeGen = MazeGen;
 
 		Floor firstFloor = this.Floors[0];
 		MainController.HideLevelUI();

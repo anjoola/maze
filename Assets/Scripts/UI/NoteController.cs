@@ -58,7 +58,7 @@ public class NoteController : MonoBehaviour {
 			case "InvinciblePotion":
 				ActiveImage = InvinciblePotion;
 				text = "Picked up an Invincible Potion!\nYou are now invincible for the entire floor. " +
-					"No enemies can hurt you!";
+					"Nothing can hurt you!";
 				break;
 			case "LargePotion":
 				ActiveImage = LargePotion;

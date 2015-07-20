@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/**
+ * Restores health to the player.
+ */
 public class HealthPotion : Item {
 	public int HPIncreaseAmount = 1;
 

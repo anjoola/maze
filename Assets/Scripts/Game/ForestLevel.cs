@@ -37,7 +37,39 @@ public class ForestLevel : Level {
 					"LargeCoinPile"
 				},
 				1
-			)
+			),
+			new Floor(
+				"ForestSmall",
+				new string[] {
+					"ExplodingEnemy",
+					"StraightShootingEnemy",
+					"TriggeredStraightShootingEnemy",
+					"LockOnShootingEnemy",
+					"RotateShootingEnemy",
+				},
+				new string[] {
+					"SmallPotion",
+					"InvinciblePotion",
+					"PoisonPotion",
+					"FullPotion",
+					"TNTItem",
+					"BombItem",
+					"SeeAllGoggles"
+				},
+				new string[] {
+					"HugeJewel",
+					"JewelPile",
+					"LargeJewel",
+					"BigJewel",
+					"HugeJewel",
+					"SmallCoin",
+					"MediumCoin",
+					"BigCoin",
+					"CoinPile",
+					"LargeCoinPile"
+				},
+				0
+			),
 		};
 	}}
 

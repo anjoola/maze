@@ -22,6 +22,10 @@ public class LevelUIController : MonoBehaviour {
 	public GameObject FloorObject;
 	public Text Floor;
 
+	// Invincibility indicators.
+	public GameObject InvinciblePotion;
+	public GameObject InvinciblePanel;
+
 	void Start() {
 		// Amount of treasure acquired overall.
 		TreasureAmt = 0;
@@ -29,7 +33,10 @@ public class LevelUIController : MonoBehaviour {
 		// Amount of treasure acquired in the current level.
 		TreasureAcquired = 0;
 
+		iTween.ScaleBy(InvinciblePotion, iTween.Hash("x", 1.2, "y", 1.2, "z", 1.2, "looptype", "pingPong", "time", 0.7f));
+
 		RestoreHP();
+		HideInvincible();
 	}
 
 	/**
@@ -91,6 +98,10 @@ public class LevelUIController : MonoBehaviour {
 	 * numIntervals: Number of intervals to decrease by.
 	 */
 	public void DecreaseHP(int numIntervals) {
+		// No damage if invincible.
+		if (MainController.IsInvincible)
+			return;
+
 		for (int i = 0; i < numIntervals; i++) {
 			// Can't decrease HP anymore. Player is dead!
 			if (HPIntervals - 1 <= 0) {
@@ -141,5 +152,15 @@ public class LevelUIController : MonoBehaviour {
 	 */
 	public void HideFloor() {
 		FloorObject.SetActive(false);
+	}
+
+	/**
+	 * Show and hide invincibility indicators.
+	 */
+	public void ShowInvincible() {
+		InvinciblePanel.SetActive(true);
+	}
+	public void HideInvincible() {
+		InvinciblePanel.SetActive(false);
 	}
 }
