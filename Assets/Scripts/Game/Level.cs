@@ -87,21 +87,15 @@ public abstract class Level {
 	 * floor: Floor object containing details for spawning.
 	 */
 	private void SpawnGameObjects(Floor floor) {
-		// Spawn enemies.
-		foreach (string enemy in floor.Enemies) {
-			MazeGen.FitSpawnObject("Enemy/" + enemy);
+		// Go through each array in round-robin so it's more fair.
+		for (int i = 0; i < Mathf.Max(floor.Enemies.Length, floor.Items.Length, floor.Treasures.Length); i++) {
+			if (i < floor.Enemies.Length)		
+				MazeGen.FitSpawnObject("Enemy/" + floor.Enemies[i]);
+			if (i < floor.Items.Length)		
+				MazeGen.FitSpawnObject("Item/" + floor.Items[i]);
+			if (i < floor.Treasures.Length)		
+				MazeGen.FitSpawnObject("Treasure/" + floor.Treasures[i]);
 		}
-
-		// Spawn items.
-		foreach (string item in floor.Items) {
-			MazeGen.FitSpawnObject("Item/" + item);
-		}
-
-		// Spawn treasures.
-		foreach (string treasure in floor.Treasures) {
-			MazeGen.FitSpawnObject("Treasure/" + treasure);
-		}
-
 		MainController.ShowFloorNumber();
 	}
 

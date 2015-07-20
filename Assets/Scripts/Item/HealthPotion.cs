@@ -5,6 +5,9 @@ public class HealthPotion : Item {
 	public int HPIncreaseAmount = 1;
 
 	override protected void ItemEffect() {
-		MainController.IncreaseHP(HPIncreaseAmount);
+		if (HPIncreaseAmount < 0)
+			MainController.DecreaseHP(-HPIncreaseAmount);
+		else
+			MainController.IncreaseHP(HPIncreaseAmount);
 	}
 }

@@ -27,6 +27,7 @@ public class NoteController : MonoBehaviour {
 	 * autoDimiss: Whether or not this note will dismiss itself.
 	 */
 	public void ShowNote(string text, bool autoDismiss=true) {
+		ActiveImage.SetActive(false);
 		NumShowing++;
 		NoteText.text = text;
 		if (ItemNotePanel.activeSelf)
@@ -43,6 +44,7 @@ public class NoteController : MonoBehaviour {
 	}
 
 	public void ShowItemNote(string item, bool autoDismiss=true) {
+		ActiveImage.SetActive(false);
 		string text = "";
 		switch (item) {
 			case "Bomb":
@@ -68,7 +70,7 @@ public class NoteController : MonoBehaviour {
 				break;
 			case "SeeAllGoggles":
 				ActiveImage = SeeAllGoggles;
-				text = "Picked up a See-All Goggles!\nAll maze walls are invinsible for this floor!";
+				text = "Picked up a See-All Goggles!\nAll maze walls are invisible for this floor!";
 				break;
 			case "SmallPotion":
 				ActiveImage = SmallPotion;
