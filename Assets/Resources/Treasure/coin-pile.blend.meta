@@ -29,6 +29,11 @@ ModelImporter:
     100042: Cylinder_020
     100044: Cylinder_021
     100046: Cylinder_022
+    100048: Cylinder_000
+    100050: Torus
+    100052: Torus_001
+    100054: Torus_002
+    100056: Torus_003
     400000: //RootNode
     400002: Cylinder
     400004: Cylinder_001
@@ -53,6 +58,11 @@ ModelImporter:
     400042: Cylinder_020
     400044: Cylinder_021
     400046: Cylinder_022
+    400048: Cylinder_000
+    400050: Torus
+    400052: Torus_001
+    400054: Torus_002
+    400056: Torus_003
     2300000: Cylinder
     2300002: Cylinder_001
     2300004: Cylinder_002
@@ -76,6 +86,12 @@ ModelImporter:
     2300040: Cylinder_020
     2300042: Cylinder_021
     2300044: Cylinder_022
+    2300046: //RootNode
+    2300048: Cylinder_000
+    2300050: Torus
+    2300052: Torus_001
+    2300054: Torus_002
+    2300056: Torus_003
     3300000: Cylinder
     3300002: Cylinder_001
     3300004: Cylinder_002
@@ -99,6 +115,12 @@ ModelImporter:
     3300040: Cylinder_020
     3300042: Cylinder_021
     3300044: Cylinder_022
+    3300046: //RootNode
+    3300048: Cylinder_000
+    3300050: Torus
+    3300052: Torus_001
+    3300054: Torus_002
+    3300056: Torus_003
     4300000: Cylinder
     4300002: Cylinder_001
     4300004: Cylinder_002
@@ -122,6 +144,11 @@ ModelImporter:
     4300040: Cylinder_020
     4300042: Cylinder_021
     4300044: Cylinder_022
+    4300046: Cylinder_000
+    4300048: Torus
+    4300050: Torus_001
+    4300052: Torus_002
+    4300054: Torus_003
     7400000: Default Take
     9500000: //RootNode
   materials:
