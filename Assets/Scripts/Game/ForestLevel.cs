@@ -16,7 +16,8 @@ public class ForestLevel : Level {
 					"RotateShootingEnemy",
 				},
 				new string[] {
-					"TestItem"
+					"SmallPotion",
+					"SmallPotion"
 				},
 				new string[] {
 					"HugeJewel",
