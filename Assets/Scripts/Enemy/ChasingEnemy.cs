@@ -62,4 +62,3 @@ public class ChasingEnemy : BaseEnemy {
 		// TODO show confusion that player has disappeared and return to original position
 	}
 }
-

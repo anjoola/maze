@@ -13,7 +13,7 @@ public class WorldMapController : MonoBehaviour {
 
 	public GameObject player;
 	public Text LevelName;
-	Vector3 PlayerStartPos, GoalPos;
+	Vector3 GoalPos;
 
 	public GameObject[] LevelMarkers;
 	public GameObject[] LevelLines;
@@ -24,7 +24,6 @@ public class WorldMapController : MonoBehaviour {
 		LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
 
 		// Start at the last location.
-		PlayerStartPos = player.transform.position;
 		Vector3 tempPos = player.transform.position;
 		if (SelectedLevel == 6) {
 			tempPos.y += Y_INTERVAL;
@@ -58,7 +57,6 @@ public class WorldMapController : MonoBehaviour {
 		}
 	}
 	void Update() {
-		PlayerStartPos = player.transform.position;
 		Vector3 playerPos = GoalPos;
 
 		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) &&
