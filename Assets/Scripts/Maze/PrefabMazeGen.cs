@@ -28,6 +28,9 @@ public class PrefabMazeGen : MonoBehaviour {
 
 	/**
 	 * Destroys all enemies within "blocks" away from a position.
+	 * 
+	 * position: Central position from which to destroy.
+	 * blocks: Number of blocks in each direction to destroy.
 	 */
 	public void DestroyEnemiesWithin(Vector3 position, int blocks) {
 		EmptyCell cell = Vector3ToCell(position);
@@ -77,6 +80,23 @@ public class PrefabMazeGen : MonoBehaviour {
 	}
 
 	/**
+	 * Destroys all maze blocks (except the boundary).
+	 */
+	public void MakeMazeInvisible() {
+		for (int r = 1; r < Size - 1; r++) {
+			for (int c = 1; c < Size - 1; c++) {
+				GameObject obj = MazeBlocks[r * Size + c];
+				
+				// Destroy if this is a maze block.
+				if (obj != null && obj.GetComponentInChildren<SpawnObject>() == null) {
+					MazeBlocks[r * Size + c] = null;
+					Destroy(obj);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Instantiates a GameObject at the default position and rotation.
 	 */
 	private GameObject InstantiateGameObject(string prefab) {
@@ -109,8 +129,8 @@ public class PrefabMazeGen : MonoBehaviour {
 		override public void CellTypeChangedCallback(int row, int col, bool toWall) {
 			// Changed from a wall to an empty space.
 			if (!toWall && this.MazeBlocks[row * this.Size + col] != null) {
-				//this.MazeBlocks[row * Size + col].SetActive(false);
-				Destroy(this.MazeBlocks[row * Size + col]); // TODO
+				Destroy(this.MazeBlocks[row * Size + col]);
+				this.MazeBlocks[row * Size + col] = null;
 				
 				// Add it to the list of empty spaces.
 				EmptySpaces[row * Size + col] = new EmptyCell(Size, row, col);
