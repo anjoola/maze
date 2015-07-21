@@ -15,13 +15,42 @@ public class PrefabMazeGen : MonoBehaviour {
 	static Vector3 NULL_ROTATION = new Vector3(-1, -1, -1);
 
 	// Size of one side of the maze. (e.g. an 11 x 11 maze would have Size = 11).
-	public int Size;
+	public int Size, MazeCenter;
 	public GameObject[] MazeBlocks;
 
 	void Start() {
+		MazeCenter = (Size + 1) / 2 - 1;
+
 		Gen = new PrefabMazeGenerator(MazeBlocks, Size);
 		Gen.GenerateMaze();
 		Gen.DoCleanup();
+	}
+
+	/**
+	 * Destroys all enemies within "blocks" away from a position.
+	 */
+	public void DestroyEnemiesWithin(Vector3 position, int blocks) {
+		EmptyCell cell = Vector3ToCell(position);
+		for (int r = Mathf.Max(0, cell.Row - blocks); r < Mathf.Min(Size, cell.Row + blocks); r++) {
+			for (int c = Mathf.Max(0, cell.Col - blocks); c < Mathf.Min(Size, cell.Col + blocks); c++) {
+				GameObject obj = MazeBlocks[r * Size + c];
+
+				// Destroy if this is an enemy.
+				if (obj != null && obj.GetComponentInChildren<SpawnObject>() is BaseEnemy) {
+					MazeBlocks[r * Size + c] = null;
+					Destroy(obj);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Converts a world-space position to a coordinate in the maze.
+	 */
+	private EmptyCell Vector3ToCell(Vector3 position) {
+		int row = (int) Mathf.Floor(position.y / EmptyCell.MAZE_BLOCK_SIZE + MazeCenter);
+		int col = (int) Mathf.Floor(position.x / EmptyCell.MAZE_BLOCK_SIZE + MazeCenter);
+		return new EmptyCell(row, col);
 	}
 
 	/**
@@ -38,8 +67,13 @@ public class PrefabMazeGen : MonoBehaviour {
 	 */
 	public void FitSpawnObject(String prefab) {
 		GameObject obj = InstantiateGameObject(prefab);
-		if (!Gen.FitSpawnObject(obj))
+		EmptyCell cell = Gen.FitSpawnObject(obj);
+		if (cell == null)
 			Destroy(obj);
+
+		// Otherwise, store a reference to the object instantiated here.
+		else
+			MazeBlocks[cell.Row * Size + cell.Col] = obj;
 	}
 
 	/**
@@ -75,7 +109,8 @@ public class PrefabMazeGen : MonoBehaviour {
 		override public void CellTypeChangedCallback(int row, int col, bool toWall) {
 			// Changed from a wall to an empty space.
 			if (!toWall && this.MazeBlocks[row * this.Size + col] != null) {
-				this.MazeBlocks[row * Size + col].SetActive(false);
+				//this.MazeBlocks[row * Size + col].SetActive(false);
+				Destroy(this.MazeBlocks[row * Size + col]); // TODO
 				
 				// Add it to the list of empty spaces.
 				EmptySpaces[row * Size + col] = new EmptyCell(Size, row, col);
@@ -110,9 +145,9 @@ public class PrefabMazeGen : MonoBehaviour {
 		}
 		
 		/**
-		 * Try to fit in a SpawnObject into an empty space into the maze. Returns true if a spot is found.
+		 * Try to fit in a SpawnObject into an empty space into the maze. Returns the spot if a spot is found.
 		 */
-		public bool FitSpawnObject(GameObject obj) {
+		public EmptyCell FitSpawnObject(GameObject obj) {
 			SpawnObject spawnObj = obj.GetComponentInChildren<SpawnObject>();
 
 			// Shuffle the empty cells. Randomly pick one to fill.
@@ -127,14 +162,15 @@ public class PrefabMazeGen : MonoBehaviour {
 					obj.transform.Rotate(rotation);
 
 					// Remove it from the list of empty cells and removing neighboring cells.
+					EmptyCell spot = EmptySpaces[cell.Row * Size + cell.Col];
 					EmptySpaces[cell.Row * Size + cell.Col] = null;
 					RemoveNeighbors(cell.Row, cell.Col, spawnObj, rotation);
-					return true;
+					return spot;
 				}
 			}
 
 			// Could not find a spot that fits.
-			return false;
+			return null;
 		}
 
 		/**

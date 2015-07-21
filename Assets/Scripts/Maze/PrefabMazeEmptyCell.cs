@@ -14,7 +14,7 @@ public class EmptyCell {
 	};
 
 	// Size of a maze block.
-	static int MAZE_BLOCK_SIZE = 500;
+	public static int MAZE_BLOCK_SIZE = 500;
 
 	// Coordinates for this empty cell.
 	public int Size, Row, Col;
@@ -22,6 +22,11 @@ public class EmptyCell {
 
 	// Mapping from direction -> number of empty cells. This represents the number of free spaces in that direction.
 	int[] NumEmpty;
+
+	public EmptyCell(int row, int col) {
+		Row = row;
+		Col = col;
+	}
 
 	public EmptyCell(int size, int row, int col) {
 		int MazeCenter = (size + 1) / 2 - 1;

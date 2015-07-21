@@ -39,7 +39,6 @@ public abstract class Level {
 	public void Start() {
 		NumClones = 0;
 		CurrentFloor = 1;
-		MainController.MazeGen = MazeGen;
 
 		Floor firstFloor = this.Floors[0];
 		MainController.HideLevelUI();
@@ -53,7 +52,6 @@ public abstract class Level {
 		MainController.CurrentFloor = 1;
 		MainController.ShowLevelUI();
 
-		MazeGen = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PrefabMazeGen>();
 		SpawnGameObjects(floor);
 	}
 
@@ -88,6 +86,9 @@ public abstract class Level {
 	 * floor: Floor object containing details for spawning.
 	 */
 	private void SpawnGameObjects(Floor floor) {
+		MazeGen = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PrefabMazeGen>();
+		MainController.MazeGen = MazeGen;
+
 		// Go through each array in round-robin so it's more fair.
 		for (int i = 0; i < Mathf.Max(floor.Enemies.Length, floor.Items.Length, floor.Treasures.Length); i++) {
 			if (i < floor.Enemies.Length)		
