@@ -35,40 +35,110 @@ public class ForestLevel : Level {
 					"BigCoin",
 					"CoinPile",
 					"LargeCoinPile"
-				},
-				1
+				}
 			),
 			new Floor(
 				"ForestSmall",
 				new string[] {
-					"ExplodingEnemy",
 					"StraightShootingEnemy",
-					"TriggeredStraightShootingEnemy",
-					"LockOnShootingEnemy",
+					"StraightShootingEnemy",
+					"StraightShootingEnemy"
+				},
+				new string[] {
+					"SmallPotion"
+				},
+				new string[] {
+					"SmallCoin",
+					"SmallCoin",
+					"SmallCoin",
+					"MediumCoin"
+				}
+			),
+			new Floor(
+				"ForestSmall",
+				new string[] {
+					"StraightShootingEnemy",
+					"StraightShootingEnemy",
+					"StraightShootingEnemy",
+					"RotateShootingEnemy"
+				},
+				new string[] { },
+				new string[] {
+					"SmallCoin",
+					"SmallCoin",
+					"MediumCoin",
+					"MediumCoin",
+					"SmallJewel"
+				}
+			),
+			new Floor(
+				"ForestSmall",
+				new string[] {
+					"StraightShootingEnemy",
 					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"ExplodingEnemy"
+				},
+				new string[] {
+					"SmallPotion"
+				},
+				new string[] {
+					"SmallCoin",
+					"SmallCoin",
+					"MediumCoin",
+					"MediumCoin",
+					"LargeCoinPile"
+				}
+			),
+			new Floor(
+				"ForestSmall",
+				new string[] {
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy"
 				},
 				new string[] {
 					"SmallPotion",
-					"InvinciblePotion",
-					"PoisonPotion",
-					"FullPotion",
-					"TNTItem",
-					"BombItem",
-					"SeeAllGoggles"
+					"LargePotion"
 				},
 				new string[] {
-					"HugeJewel",
-					"JewelPile",
-					"LargeJewel",
-					"BigJewel",
-					"HugeJewel",
+					"SmallCoin",
+					"SmallCoin",
 					"SmallCoin",
 					"MediumCoin",
-					"BigCoin",
-					"CoinPile",
-					"LargeCoinPile"
+					"MediumCoin",
+					"SmallJewel"
+				}
+			),
+			new Floor(
+				"ForestMedium",
+				new string[] {
+					"StraightShootingEnemy",
+					"StraightShootingEnemy",
+					"StraightShootingEnemy",
+					"StraightShootingEnemy",
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy"
 				},
-				0
+				new string[] {
+					"LargePotion"
+				},
+				new string[] {
+					"SmallCoin",
+					"SmallCoin",
+					"MediumCoin",
+					"MediumCoin",
+					"SmallJewel",
+					"CoinPile"
+				}
 			),
 		};
 	}}
