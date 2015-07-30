@@ -33,6 +33,50 @@ public class TowerLevel : Level {
 				new string[] {
 					"MovingEnemy",
 					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"RotateShootingEnemy"
+				},
+				new string[] {
+					"SmallPotion",
+					"BombItem"
+				},
+				new string[] {
+					"SmallCoin",
+					"SmallCoin",
+					"SmallCoin",
+					"MediumCoin",
+					"BigCoin",
+					"SmallJewel"
+				}
+			),
+			new Floor(
+				"TowerSmall",
+				new string[] {
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"RotateShootingEnemy"
+				},
+				new string[] {
+					"SmallPotion",
+					"BombItem"
+				},
+				new string[] {
+					"SmallCoin",
+					"SmallCoin",
+					"SmallCoin",
+					"MediumCoin",
+					"BigCoin",
+					"SmallJewel"
+				}
+			),
+			new Floor(
+				"TowerSmall",
+				new string[] {
+					"MovingEnemy",
+					"MovingEnemy",
 					"StraightShootingEnemy",
 					"StraightShootingEnemy",
 					"RotateShootingEnemy",
@@ -65,7 +109,7 @@ public class TowerLevel : Level {
 					"TriggeredStraightShootingEnemy"
 				},
 				new string[] {
-					"BombItem"
+					"BombItem",
 					"LargePotion"
 				},
 				new string[] {
@@ -134,6 +178,41 @@ public class TowerLevel : Level {
 					"SmallCoin",
 					"MediumCoin",
 					"MediumCoin",
+					"HugeJewel",
+				}
+			),
+			new Floor(
+				"TowerMedium",
+				new string[] {
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"RotateShootingEnemy",
+					"RotateShootingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"TriggeredStraightShootingEnemy",
+					"TriggeredStraightShootingEnemy",
+					"SpikeBallEnemy",
+					"SpikeBallEnemy",
+					"SpikeBallEnemy"
+				},
+				new string[] {
+					"PoisonPotion",
+					"PoisonPotion",
+					"PoisonPotion",
+					"BombItem"
+				},
+				new string[] {
+					"MediumCoin",
+					"MediumCoin",
+					"MediumCoin",
+					"MediumCoin",
+					"BigCoin",
+					"CoinPile",
+					"LargeJewel",
+					"HugeJewel",
 					"HugeJewel",
 				}
 			),

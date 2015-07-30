@@ -41,9 +41,11 @@ public class MouseLookCamera : MonoBehaviour {
 
 		// Un-transparent-ize previously-made transparent objects.
 		foreach (GameObject obj in TransparentBlocks) {
-			Color color = obj.GetComponent<Renderer>().material.color;
-			color.a = 1.0f;
-			obj.GetComponent<Renderer>().material.color = color;
+			try {
+				Color color = obj.GetComponent<Renderer>().material.color;
+				color.a = 1.0f;
+				obj.GetComponent<Renderer>().material.color = color;
+			} catch (UnityException e) { }
 		}
 		TransparentBlocks.Clear();
 

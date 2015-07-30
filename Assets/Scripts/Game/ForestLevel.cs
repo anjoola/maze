@@ -9,11 +9,16 @@ public class ForestLevel : Level {
 			new Floor(
 				"ForestMedium",
 				new string[] {
-					"ExplodingEnemy",
-					"StraightShootingEnemy",
-					"TriggeredStraightShootingEnemy",
-					"LockOnShootingEnemy",
-					"RotateShootingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy",
+					"MovingEnemy"
 				},
 				new string[] {
 					"SmallPotion",
