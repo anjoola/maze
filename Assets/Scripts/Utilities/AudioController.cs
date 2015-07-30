@@ -17,7 +17,7 @@ public class AudioController : MonoBehaviour {
 	}
 	
 	public static AudioSource getSource(string audioName) {
-		GameObject obj = Instantiate(Resources.Load(audioName)) as GameObject;
+		GameObject obj = Instantiate(Resources.Load("Sounds/" + audioName)) as GameObject;
 		//obj.transform.position = GlobalStateController.instance.transform.position;
 		return obj.GetComponent<AudioSource>();
 	}

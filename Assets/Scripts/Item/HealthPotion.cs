@@ -5,6 +5,8 @@ using System.Collections;
  * Restores health to the player.
  */
 public class HealthPotion : Item {
+	public override string ItemName { get { return "Gulp"; } }
+	
 	public int HPIncreaseAmount = 1;
 
 	override protected void ItemEffect() {

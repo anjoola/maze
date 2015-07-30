@@ -8,6 +8,8 @@ public class Treasure : SpawnObject {
 	public bool rotate = false;
 	public bool hover = false;
 
+	public string AudioFile = null;
+
 	// Value of this treasure.
 	public int TreasureValue = 0;
 
@@ -26,6 +28,8 @@ public class Treasure : SpawnObject {
 	}
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
+			if (AudioFile != null)
+				AudioController.playSFX(AudioFile);
 			MainController.AcquireTreasure(TreasureValue);
 			Destroy(gameObject);
 		}
