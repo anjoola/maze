@@ -24,6 +24,12 @@ public class CharacterMovement : MonoBehaviour {
 	}
 	
 	void Update() {
+		// TODO remove for testing purpoises
+		if (MainController.instance == null) {
+			UpdateMovement();
+			return;
+		}
+
 		// TODO detect running if movespeed fast enough
 		if (!MainController.ShouldPause())
 			moveSpeed = UpdateMovement();
@@ -40,6 +46,9 @@ public class CharacterMovement : MonoBehaviour {
 			LastUpdateTime = Time.time;
 
 			CloneLocation loc = new CloneLocation(gameObject.transform);
+
+			// TODO
+			if (MainController.instance != null)
 			MainController.AddPlayerLocation(loc);
 		}
 	}
@@ -52,7 +61,7 @@ public class CharacterMovement : MonoBehaviour {
 		// Adjust character's position based on input and where the camera is facing.
 		Vector3 inputVec = new Vector3(x, 0, z);
 		inputVec *= WalkSpeed;
-		inputVec = camera.transform.TransformDirection(inputVec);
+		// TODO add back inputVec = camera.transform.TransformDirection(inputVec);
 		inputVec.y = 0;
 
 		controller.Move(inputVec * Time.deltaTime);

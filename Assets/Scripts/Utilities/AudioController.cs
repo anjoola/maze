@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * Controls audio and sound effects for the game.
+ */
 public class AudioController : MonoBehaviour {
 	public static AudioController instance;
 
@@ -10,10 +13,6 @@ public class AudioController : MonoBehaviour {
 	void Awake() {
 		DontDestroyOnLoad(this.gameObject);
 		instance = this;
-	}
-	void Start() {
-		// Play main menu music. TODO
-		//playAudio("MainMenuMusic");
 	}
 	
 	public static AudioSource getSource(string audioName) {

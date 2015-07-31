@@ -5,13 +5,13 @@ using System.Collections;
  * Base enemy class.
  */
 public abstract class BaseEnemy : SpawnObject {
-	public int PLAYER_HEIGHT = 200;
+	private int PLAYER_HEIGHT = 70;
 
 	// Amount of damage this enemy does onto the player, in HP intervals (up to 10).
 	public int Damage = 1;
 
 	// Radius of detection.
-	public int Radius;
+	public float Radius;
 	protected bool isWithinRadius;
 	public int ViewingAngle = 60;
 
@@ -90,15 +90,30 @@ public abstract class BaseEnemy : SpawnObject {
 	 * is not blocked by a wall.
 	 */
 	protected bool IsPlayerInFront() {
-		Vector3 direction = player.transform.position - transform.position;
-		direction.y = PLAYER_HEIGHT;
+		Vector3 playerPos = player.transform.position;
+		playerPos.y = PLAYER_HEIGHT;
+		Vector3 position = transform.position;
+		position.y = PLAYER_HEIGHT;
+		Vector3 direction = playerPos - position;
 
 		RaycastHit hit;
-		if (Physics.Raycast(transform.position, direction, out hit)) {
+		if (Physics.Raycast(position, direction, out hit)) {
 			if (hit.collider.gameObject == player) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Shows appropriate animations.
+	 */
+	protected void ExplodeAnimation() {
+		// TODO make dead sound
+		// TODO explode animation
+	}
+	protected void PoofAnimation() {
+		// TODO make poof sound
+		// TODO animation
 	}
 }

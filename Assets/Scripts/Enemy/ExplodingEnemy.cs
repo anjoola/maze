@@ -11,10 +11,10 @@ public class ExplodingEnemy : BaseEnemy {
 
 	public override ClearRequirement[] ClearRequirements { get {
 		return new ClearRequirement[]{
-			new ClearRequirement(ClearDirection.AHEAD, 2),
-			new ClearRequirement(ClearDirection.RIGHT, 2),
-			new ClearRequirement(ClearDirection.LEFT, 2),
-			new ClearRequirement(ClearDirection.BEHIND, 2)
+			new ClearRequirement(ClearDirection.AHEAD, 3),
+			new ClearRequirement(ClearDirection.RIGHT, 3),
+			new ClearRequirement(ClearDirection.LEFT, 3),
+			new ClearRequirement(ClearDirection.BEHIND, 3)
 		};
 	} }
 	
@@ -23,6 +23,11 @@ public class ExplodingEnemy : BaseEnemy {
 	
 	// Force to shoot the projectile.
 	public int ProjectileSpeed = 2;
+
+	protected override void doStart() {
+		iTween.RotateAdd(parent.gameObject, iTween.Hash("y", 359, "time", 8.0f, "easetype", "linear",
+		                 "looptype", "loop"));
+	}
 
 	void FixedUpdate() {
 		if (isWithinRadius && IsPlayerInFront()) {
@@ -36,10 +41,12 @@ public class ExplodingEnemy : BaseEnemy {
 		for (float i = -180f; i < 180f; i += degree) {
 			Quaternion rotation = Quaternion.AngleAxis(i, transform.up);
 			GameObject shot = Instantiate(Projectile, transform.position, rotation * transform.rotation) as GameObject;
-			shot.GetComponent<Rigidbody>().AddForce(rotation * transform.forward * ProjectileSpeed * SHOOT_FORCE_MULTIPLIER);
+			shot.GetComponent<Rigidbody>().AddForce(rotation * transform.forward * ProjectileSpeed *
+			                                        SHOOT_FORCE_MULTIPLIER);
 		}
 
 		// Kills itself.
+		ExplodeAnimation();
 		Destroy(parent);
 	}
 }

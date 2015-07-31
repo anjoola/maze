@@ -11,15 +11,13 @@ public class ProjectileScript : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		// Projectile hit the player.
 		if (other.gameObject == player) {
-			// TODO
-			MainController.ShowNote("OUCH!");
+			// TODO play a sound
 			MainController.DecreaseHP(1);
-			// TODO
 			Destroy(gameObject);
 		}
-		// TODO hit something else like a wall, edge of the maze, another enemy?
-		if (other.gameObject.tag == "Maze") {
+
+		// Hit a wall. Projectile is destroyed.
+		else if (other.gameObject.tag == "Maze")
 			Destroy(gameObject);
-		}
 	}
 }
