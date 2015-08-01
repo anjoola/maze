@@ -12,10 +12,8 @@ public class CloudLevel : Level {
 					"StraightShootingEnemy",
 				},
 				new string[] {
-					"TestItem"
 				},
 				new string[] {
-					"TestTreasure"
 				}
 			)
 		};

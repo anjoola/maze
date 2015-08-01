@@ -53,6 +53,7 @@ public abstract class Level {
 		MainController.ShowLevelUI();
 
 		SpawnGameObjects(floor);
+		AudioController.playContinuousAudio(MainController.CurrentLevelNumber);
 	}
 
 	/**

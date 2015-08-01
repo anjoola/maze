@@ -6,6 +6,10 @@ using System.Collections;
  */
 public class AudioController : MonoBehaviour {
 	public static AudioController instance;
+	public AudioSource[] AudioSources;
+	public static AudioSource[] AudioSourcesStatic;
+
+	private static int currentIdx = 0;
 
 	private static AudioSource currAudio;
 	private static float FADE_DURATION = 1.0f;
@@ -13,6 +17,7 @@ public class AudioController : MonoBehaviour {
 	void Awake() {
 		DontDestroyOnLoad(this.gameObject);
 		instance = this;
+		AudioSourcesStatic = AudioSources;
 	}
 	
 	public static AudioSource getSource(string audioName) {
@@ -39,6 +44,19 @@ public class AudioController : MonoBehaviour {
 		// Fade out old audio and fade in new one.
 		Crossfade(currAudio, newAudio, fadeIn);
 		currAudio = newAudio;
+	}
+	/**
+	 * Plays audio across different scenes.
+	 */
+	public static void playContinuousAudio(int idx) {
+		AudioSource newAudio = AudioSourcesStatic[idx];
+		newAudio.volume = 0;
+		newAudio.Play();
+
+		// Fade out old audio and fade in new one.
+		Crossfade(currAudio, newAudio, true);
+		currAudio = newAudio;
+		currentIdx = idx;
 	}
 
 	public static void halfVolume() {

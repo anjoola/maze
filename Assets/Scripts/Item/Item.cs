@@ -3,7 +3,8 @@ using System.Collections;
 
 public abstract class Item : SpawnObject {
 	public override int SpaceNeeded { get { return 0; } }
-	public abstract string ItemName { get; }
+	public string ItemName;
+	public string ItemSound;
 
 	public GameObject player;
 	public bool rotate = false;
@@ -25,7 +26,7 @@ public abstract class Item : SpawnObject {
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
 			MainController.ShowItemNote(ItemName);
-			AudioController.playSFX(ItemName);
+			AudioController.playSFX(ItemSound);
 			ItemEffect();
 			Destroy(gameObject);
 		}

@@ -12,10 +12,8 @@ public class CityLevel : Level {
 					"StraightShootingEnemy",
 				},
 				new string[] {
-					"TestItem"
 				},
 				new string[] {
-					"TestTreasure"
 				}
 			)
 		};

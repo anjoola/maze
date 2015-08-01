@@ -61,6 +61,7 @@ public class WorldMapController : MonoBehaviour {
 
 		// No longer a new game.
 		MainController.CurrentGame.IsNewGame = false;
+		AudioController.playAudio("WorldMap");
 	}
 	void Update() {
 		Vector3 playerPos = GoalPos;

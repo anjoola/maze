@@ -9,37 +9,23 @@ public class ForestLevel : Level {
 			new Floor(
 				"ForestMedium",
 				new string[] {
+					"ExplodingEnemy",
+					"FasterLaserEnemy",
+					"FasterMovingEnemy",
+					"FasterSpikeBallEnemy",
+					"GhostEnemy",
+					"LaserEnemy",
+					"LockOnShootingEnemy",
 					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy",
-					"MovingEnemy"
+					"RotateShootingEnemy",
+					"SpikeBallEnemy",
+					"StraightShootingEnemy",
+					"TriggeredStraightShootingEnemy"
 				},
 				new string[] {
-					"SmallPotion",
-					"InvinciblePotion",
-					"PoisonPotion",
-					"FullPotion",
-					"TNTItem",
-					"BombItem",
-					"SeeAllGoggles"
 				},
 				new string[] {
-					"HugeJewel",
-					"JewelPile",
-					"LargeJewel",
-					"BigJewel",
-					"HugeJewel",
-					"SmallCoin",
-					"MediumCoin",
-					"BigCoin",
-					"CoinPile",
-					"LargeCoinPile"
+
 				}
 			),
 			new Floor(
