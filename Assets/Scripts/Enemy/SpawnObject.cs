@@ -11,6 +11,9 @@ public abstract class SpawnObject : MonoBehaviour {
 	 * Called to clear space around where the object is spawned in order to space objects better.
 	 */
 	public virtual ClearRequirement[] ClearRequirements { get { return new ClearRequirement[]{ }; } }
+
+	// Rotation.
+	public Vector3 Rotation;
 }
 
 /**

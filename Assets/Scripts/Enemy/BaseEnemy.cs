@@ -35,7 +35,8 @@ public abstract class BaseEnemy : SpawnObject {
 		
 		// Get player and parent game object.
 		player = GameObject.FindGameObjectWithTag("Player");
-		parent = transform.parent.gameObject;
+		if (transform.parent)
+			parent = transform.parent.gameObject;
 		
 		// Set collider radius to be the one specified.
 		try {

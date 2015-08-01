@@ -180,6 +180,7 @@ public class PrefabMazeGen : MonoBehaviour {
 				if (rotation != NULL_ROTATION) {
 					obj.transform.position = cell.Coordinates;
 					obj.transform.Rotate(rotation);
+					spawnObj.Rotation = rotation;
 
 					// Remove it from the list of empty cells and removing neighboring cells.
 					EmptyCell spot = EmptySpaces[cell.Row * Size + cell.Col];

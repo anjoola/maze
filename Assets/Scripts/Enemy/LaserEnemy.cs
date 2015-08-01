@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class LaserEnemy : BaseEnemy {
+	// Amount of empty cells needed in the maze to place this object, not including the cell the object will appear in.
+	public virtual int SpaceNeeded { get { return 3; } }
+
 	public int SHOOT_INTERVAL = 8;
 	public GameObject Laser;
 	

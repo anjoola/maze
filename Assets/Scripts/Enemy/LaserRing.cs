@@ -29,7 +29,6 @@ public class LaserRing : MonoBehaviour {
 	}
 
 	private void DoDamage() {
-		// TODO play a sound
 		MainController.DecreaseHP(1);
 		Destroy(gameObject);
 	}
