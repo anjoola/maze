@@ -3,11 +3,14 @@ using System.Collections;
 
 public class StoryController : MonoBehaviour {
 	public string NextScene;
+	public string SceneName;
 
 	public GameObject Image, Text;
 	public float Delay = 4;
 
 	void Start() {
+		AudioController.playAudio(SceneName);
+
 		iTween.MoveFrom(Text, iTween.Hash("y", -58, "easetype", "linear", "time", 0.4f, "delay", 0.1f));
 		iTween.MoveFrom(Image, iTween.Hash("y", 1, "easetype", "linear", "time", 0.7f, "delay", 0.1f));
 		

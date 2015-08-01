@@ -9,6 +9,24 @@ public class LevelCompleteController : MonoBehaviour {
 	public static string LEVEL_COMPLETE = "Level Complete!";
 	public static string GAME_OVER = "Game Over!";
 
+	// Game over sounds.
+	public string[] GameOverSounds = {
+		"GameOver",
+		"GameOver1",
+		"GameOver2",
+		"GameOver3",
+		"GameOver4",
+		"GameOver5",
+		"GameOver6"
+	};
+	// Level complete sounds.
+	public string[] LevelCompleteSounds = {
+		"YouDidIt",
+		"YouDidIt2",
+		"YouDidIt3",
+		"YouDidIt4"
+	};
+
 	float DISPLAY_TIME = 0.3f;
 	public GameObject UpperPanel, Buttons, Overlay;
 	public GameObject TreasureObj, DeadObj;
@@ -34,12 +52,14 @@ public class LevelCompleteController : MonoBehaviour {
 			TreasureObj.SetActive(true);
 
 			MainController.CurrentLevel.IsCompleted = true;
+			AudioController.playRandomSFX(LevelCompleteSounds);
 		}
 		// Game over.
 		else {
 			Status.text = GAME_OVER;
 			DeadObj.SetActive(true);
 			TreasureObj.SetActive(false);
+			AudioController.playRandomSFX(GameOverSounds);
 		}
 
 		Overlay.SetActive(true);

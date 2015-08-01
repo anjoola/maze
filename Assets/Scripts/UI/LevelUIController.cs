@@ -26,6 +26,19 @@ public class LevelUIController : MonoBehaviour {
 	public GameObject InvinciblePotion;
 	public GameObject InvinciblePanel;
 
+	// Damage sounds.
+	public string[] DamageSounds = {
+		"Damage",
+		"Damage2",
+		"Damage3",
+		"Damage4",
+		"Damage5",
+		"Damage6",
+		"Damage7",
+		"Damage8",
+
+	};
+
 	void Start() {
 		// Amount of treasure acquired overall.
 		TreasureAmt = 0;
@@ -101,6 +114,10 @@ public class LevelUIController : MonoBehaviour {
 		// No damage if invincible.
 		if (MainController.IsInvincible)
 			return;
+
+		AudioController.playRandomSFX(DamageSounds);
+		// TODO start grace period where can't be damaged for a bit
+		// Blinking animation to show grace period
 
 		for (int i = 0; i < numIntervals; i++) {
 			// Can't decrease HP anymore. Player is dead!

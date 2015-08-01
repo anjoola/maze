@@ -57,7 +57,10 @@ public class WorldMapController : MonoBehaviour {
 			MainController.PrevHighestAvailableLevel = MainController.HighestAvailableLevel;
 		}
 
-		TreasureCount.text = ("" + MainController.LevelUICtrl.TreasureAmt).PadLeft(7, '0');;
+		TreasureCount.text = ("" + MainController.LevelUICtrl.TreasureAmt).PadLeft(7, '0');
+
+		// No longer a new game.
+		MainController.CurrentGame.IsNewGame = false;
 	}
 	void Update() {
 		Vector3 playerPos = GoalPos;

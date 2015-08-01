@@ -26,6 +26,9 @@ public class AudioController : MonoBehaviour {
 		sfx.volume = volume;
 		sfx.Play();
 	}
+	public static void playRandomSFX(string[] choices) {
+		playSFX(choices[(int) (UnityEngine.Random.value * choices.Length)]);
+	}
 	public static void playAudio(string audioName, bool fadeIn=true) {
 		AudioSource newAudio = getSource(audioName);
 		
