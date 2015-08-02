@@ -29,37 +29,43 @@ public class AudioController : MonoBehaviour {
 		sfx.volume = volume;
 		sfx.Play();
 	}
-	public static AudioSource LowHealth() {
-		return AudioSourcesStatic[8];
-	}
 	public static void playRandomSFX(string[] choices) {
-		playSFX(choices[(int) (UnityEngine.Random.value * choices.Length)]);
+		playSFX(choices[(int) (UnityEngine.Random.value * (choices.Length - 1))]);
+	}
+	public static void playAudio(AudioSource src) {
+		src.Play();
+		if (currAudio != null)
+			currAudio.Stop();
+		currAudio = src;
 	}
 	public static void playAudio(string audioName, bool fadeIn=true) {
 		AudioSource newAudio = getSource(audioName);
 		
-		// Play the audio.
-		if (currAudio != null && currAudio.isPlaying)
-			newAudio.volume = 0;
+		// Play the audio and stop the previous one.
 		newAudio.Play();
-		
-		// Fade out old audio and fade in new one.
-		Crossfade(currAudio, newAudio, fadeIn);
+		if (currAudio != null)
+			currAudio.Stop();
 		currAudio = newAudio;
 	}
 	/**
 	 * Plays audio across different scenes.
 	 */
-	public static void playContinuousAudio(int idx) {
+	public static void playContinuousAudio(int idx, bool cancelCurrent=true) {
 		AudioSource newAudio = AudioSourcesStatic[idx];
 		if (!newAudio.isPlaying || idx == 7) {
 			if (idx == 7)
 				newAudio.Stop();
+			if (cancelCurrent)
+				currAudio.Stop();
 			newAudio.Play();
 		}
 
 		if (idx != 7)
 			currAudio = newAudio;
+	}
+
+	public static AudioSource LowHealth() {
+		return AudioSourcesStatic[8];
 	}
 
 	public static void halfVolume() {

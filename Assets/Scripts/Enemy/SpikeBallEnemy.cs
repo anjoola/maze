@@ -11,7 +11,7 @@ public class SpikeBallEnemy : BaseEnemy {
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
 			iTween.Pause(parent.gameObject);
-			MainController.DecreaseHP(3);
+			MainController.DecreaseHP(Damage);
 		}
 	}
 

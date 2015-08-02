@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CloneController : MonoBehaviour {
 	float LastUpdateTime = 0;
-	float UPDATE_INTERVAL = 0.1f;
+	float UPDATE_INTERVAL = 0.05f;
 
 	// Current goal location.
 	CloneLocation GoalLoc;
@@ -43,9 +43,8 @@ public class CloneController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
-			MainController.ShowNote("OUCH!");
-			MainController.DecreaseHP(5);
-			// TODO enemy should disappear or something
+			MainController.DecreaseHP(3);
+			// TODO animation
 			Destroy(gameObject);
 		}
 	}

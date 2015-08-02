@@ -61,6 +61,7 @@ public abstract class Level {
 	 */
 	public void Finish() {
 		IsCompleted = true;
+		MainController.StopLowHealth();
 		MainController.ShowLevelComplete(LevelUIController.TreasureAcquired);
 	}
 
@@ -75,8 +76,8 @@ public abstract class Level {
 			return;
 		}
 
-		// Get the next floor and load it.
-		AudioController.playContinuousAudio(7);
+		// Get the next floor and load it. Play walking sound.
+		AudioController.playContinuousAudio(7, false);
 		NumClones = 0;
 		Floor next = Floors[++CurrentFloor - 1];
 		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, SpawnGameObjects, next);

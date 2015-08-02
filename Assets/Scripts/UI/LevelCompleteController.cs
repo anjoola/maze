@@ -53,7 +53,7 @@ public class LevelCompleteController : MonoBehaviour {
 
 			MainController.CurrentLevel.IsCompleted = true;
 			AudioController.playRandomSFX(LevelCompleteSounds);
-			AudioController.playAudio("LevelComplete", false);
+			AudioController.playAudio(AudioController.AudioSourcesStatic[9]);
 		}
 		// Game over.
 		else {
@@ -96,6 +96,7 @@ public class LevelCompleteController : MonoBehaviour {
 	 * Restarts the current level.
 	 */
 	public void Restart() {
+		AudioController.playSFX("ButtonSelect");
 		Level level = MainController.CurrentGame.Levels[MainController.CurrentLevelNumber - 1];
 		level.Start();
 		HideLevelComplete();
@@ -105,6 +106,7 @@ public class LevelCompleteController : MonoBehaviour {
 	 * Exits the current level.
 	 */
 	public void Exit() {
+		AudioController.playSFX("ButtonSelect");
 		HideLevelComplete();
 		AutoFade.LoadLevel("WorldMap", 0.2f, 0.2f, Color.black);
 	}

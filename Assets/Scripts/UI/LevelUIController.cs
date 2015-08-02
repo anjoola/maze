@@ -131,10 +131,11 @@ public class LevelUIController : MonoBehaviour {
 			HP[HPIntervals].SetActive(false);
 		}
 
-		AudioController.playRandomSFX(DamageSounds);
+		if (HPIntervals > 0)
+			AudioController.playRandomSFX(DamageSounds);
 		if (HPIntervals < 10)
 			HPMissing.SetActive(true);
-		if (HPIntervals < 3) {
+		if (HPIntervals < 3 && HPIntervals > 0) {
 			if (!HPLow.activeSelf) {
 				HPLow.SetActive(true);
 				StartLowHealth();
@@ -183,9 +184,12 @@ public class LevelUIController : MonoBehaviour {
 	 */
 	public void ShowInvincible() {
 		InvinciblePanel.SetActive(true);
+		StopLowHealth();
 	}
 	public void HideInvincible() {
 		InvinciblePanel.SetActive(false);
+		if (HPIntervals < 3) 
+			StartLowHealth();
 	}
 
 	/**
@@ -193,10 +197,12 @@ public class LevelUIController : MonoBehaviour {
 	 */
 	public void StartLowHealth() {
 		AudioSource sfx = AudioController.LowHealth();
+		sfx.volume = 1;
 		sfx.Play();
 	}
 	public void StopLowHealth() {
 		AudioSource sfx = AudioController.LowHealth();
+		sfx.volume = 0;
 		sfx.Stop();
 	}
 }

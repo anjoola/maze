@@ -20,8 +20,9 @@ public class WorldMapController : MonoBehaviour {
 	public GameObject[] LevelLines;
 	
 	void Start() {
+		MainController.StopLowHealth();
 		AudioController.resumeVolume();
-		AudioController.playAudio("WorldMap");
+		AudioController.playContinuousAudio(10);
 
 		// Selected level.
 		SelectedLevel = MainController.SelectedLevel;

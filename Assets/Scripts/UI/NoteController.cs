@@ -68,7 +68,10 @@ public class NoteController : MonoBehaviour {
 				break;
 			case "PoisonPotion":
 				ActiveImage = PoisionPotion;
-				text = "Picked up a Poisonous Elixir!\nOops... health has been reduced by 2 HP.";
+				if (MainController.IsInvincible)
+					text = "Picked up a Poisonous Elixir...\nExcept you're invincinble so you aren't harmed!";
+				else
+					text = "Picked up a Poisonous Elixir!\nOops... health has been reduced by 2 HP.";
 				break;
 			case "SeeAllGoggles":
 				ActiveImage = SeeAllGoggles;

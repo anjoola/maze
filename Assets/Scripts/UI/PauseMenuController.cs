@@ -80,6 +80,7 @@ public class PauseMenuController : MonoBehaviour {
 	 * Restarts the current level.
 	 */
 	public void Restart() {
+		AudioController.playSFX("ButtonSelect");
 		HidePauseMenu(true);
 		Level level = MainController.CurrentGame.Levels[MainController.CurrentLevelNumber - 1];
 		level.Start();
@@ -89,6 +90,7 @@ public class PauseMenuController : MonoBehaviour {
 	 * Exit this level and return to the world map.
 	 */
 	public void Exit() {
+		AudioController.playSFX("ButtonSelect");
 		HidePauseMenu(true);
 		AutoFade.LoadLevel("WorldMap", 0.2f, 0.2f, Color.black);
 	}

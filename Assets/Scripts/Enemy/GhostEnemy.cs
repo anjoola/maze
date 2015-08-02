@@ -43,7 +43,7 @@ public class GhostEnemy : BaseEnemy {
 		// Player hit the ghost! Lose HP and ghost disappears.
 		if (Mathf.Abs(player.transform.position.x - parent.gameObject.transform.position.x) <= 115 &&
 		    Mathf.Abs(player.transform.position.z - parent.gameObject.transform.position.z) <= 115) {
-			MainController.DecreaseHP(2);
+			MainController.DecreaseHP(Damage);
 			PoofAnimation();
 			Destroy(parent);
 		}

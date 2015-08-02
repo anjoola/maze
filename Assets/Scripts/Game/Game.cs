@@ -19,6 +19,7 @@ public class Game {
 	public bool IsNewGame;
 	
 	public Game() {
-		IsNewGame = true;
+		// TODO
+		IsNewGame = false;//true;
 	}
 }
