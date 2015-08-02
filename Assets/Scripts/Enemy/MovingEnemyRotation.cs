@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/**
+ * Rotates a cylinder of a MovingEnemy.
+ */
 public class MovingEnemyRotation : MonoBehaviour {
 	public float Delay = 0.4f;
 	void Start() {

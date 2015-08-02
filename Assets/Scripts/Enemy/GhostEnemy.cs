@@ -15,7 +15,7 @@ public class GhostEnemy : BaseEnemy {
 	public int LookDamping = 4;
 	
 	// How quickly to chase after player.
-	public int ChaseSpeed = 400;
+	public int ChaseSpeed = 300;
 	
 	// Maximum distance at which it will chase the player. Any further and it will stop chasing.
 	public float MaxChasingDistance = 2000;
@@ -48,12 +48,11 @@ public class GhostEnemy : BaseEnemy {
 			Destroy(parent);
 		}
 
-		else if (ShouldChase) {
+		// Chase the player, or return its original position.
+		else if (ShouldChase)
 			Chase();
-		}
-		else {
+		else
 			Return();
-		}
 	}
 	
 	void Chase() {

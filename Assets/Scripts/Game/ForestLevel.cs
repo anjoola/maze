@@ -6,7 +6,7 @@
 public class ForestLevel : Level {
 	public override Floor[] Floors { get {
 		return new Floor[] {
-			/*new Floor(
+			new Floor(
 				"ForestMedium",
 				new string[] {
 					"ExplodingEnemy",
@@ -23,13 +23,26 @@ public class ForestLevel : Level {
 					"TriggeredStraightShootingEnemy"
 				},
 				new string[] {
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
 				},
 				new string[] {
 
 				}
 			)
 			};
-		}}*/
+		}}/*
 			new Floor(
 				"ForestSmall",
 				new string[] {
@@ -134,7 +147,7 @@ public class ForestLevel : Level {
 				}
 			),
 		};
-	}}
+	}}*/
 
 	public override string LevelName { get {
 		return "Forest Canopy";

@@ -117,4 +117,17 @@ public abstract class BaseEnemy : SpawnObject {
 		// TODO make poof sound
 		// TODO animation
 	}
+
+	/**
+	 * Destroy self. Show destroying animation.
+	 */
+	public void DestroySelf() {
+		// TODO destroying animation.
+
+
+		if (parent != null && parent.gameObject != null)
+			Destroy(parent.gameObject);
+		else
+			Destroy(gameObject);
+	}
 }

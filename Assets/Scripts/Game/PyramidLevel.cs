@@ -472,7 +472,7 @@ public class PyramidLevel : Level {
 					"MediumJewel",
 					"MediumJewel",
 				},
-			3
+				3
 			),
 			new Floor(
 				"PyramidLarge",
@@ -556,7 +556,7 @@ public class PyramidLevel : Level {
 					"MediumJewel",
 					"MediumJewel"
 				},
-			3
+				3
 			),
 			new Floor(
 				"PyramidLarge",

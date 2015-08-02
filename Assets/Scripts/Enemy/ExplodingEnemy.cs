@@ -7,7 +7,7 @@ using System.Collections;
  */
 public class ExplodingEnemy : BaseEnemy {
 	int NUMBER_OF_SHOTS = 20;
-	int SHOOT_FORCE_MULTIPLIER = 10000;
+	int SHOOT_FORCE_MULTIPLIER = 9000;
 
 	public override ClearRequirement[] ClearRequirements { get {
 		return new ClearRequirement[]{

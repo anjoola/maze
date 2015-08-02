@@ -41,7 +41,7 @@ public class PrefabMazeGen : MonoBehaviour {
 				// Destroy if this is an enemy.
 				if (obj != null && obj.GetComponentInChildren<SpawnObject>() is BaseEnemy) {
 					MazeBlocks[r * Size + c] = null;
-					Destroy(obj);
+					obj.GetComponentInChildren<BaseEnemy>().DestroySelf();
 				}
 			}
 		}

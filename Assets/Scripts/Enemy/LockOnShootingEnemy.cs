@@ -45,7 +45,6 @@ public class LockOnShootingEnemy : ShootingEnemy {
 			parent.transform.rotation = Quaternion.Slerp(parent.transform.rotation, DestRot,
 			                                             Time.deltaTime * LookDamping);
 		}
-
 		ShootProjectile();
 	}
 }

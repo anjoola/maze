@@ -12,10 +12,20 @@ using System.Collections;
 public class MainController : MonoBehaviour {
 	public static GameObject instance;
 
+	// All the levels in the game.
+	public static Level[] LEVELS = new Level[] {
+		new ForestLevel(),
+		new TowerLevel(),
+		new CaveLevel(),
+		new PyramidLevel(),
+		new CityLevel(),
+		new CloudLevel()
+	};
+
 	// Current game.
 	public static Game CurrentGame;
 	public static Level CurrentLevel;
-	public static int CurrentLevelNumber;
+	public static int CurrentLevelNumber = 1;
 	public static int CurrentFloor;
 
 	// Menus and UI.
@@ -35,8 +45,7 @@ public class MainController : MonoBehaviour {
 
 	// Level selections.
 	public static int SelectedLevel = 1;
-	public static int HighestAvailableLevel;
-	public static int PrevHighestAvailableLevel = 1; // TODO to save?
+	public static int PrevHighestAvailableLevel = 1;
 
 	// Player status.
 	public static bool IsInvincible = false;
@@ -72,16 +81,10 @@ public class MainController : MonoBehaviour {
 		PauseMenuCtrl.HidePauseMenu(true);
 		LevelCompleteCtrl.HideLevelComplete();
 
-		// Get available levels.
-		for (int level = 1; level <= 6; level++) {
-			if (MainController.CurrentGame.Levels[level - 1].IsCompleted)
-				HighestAvailableLevel++;
-			else
-				break;
-		}
-		// TODO remove in real game
-		HighestAvailableLevel = 5;
-		PrevHighestAvailableLevel = HighestAvailableLevel;
+		// Restore last played session and unlocked levels.
+		PrevHighestAvailableLevel = CurrentGame.HighestLevelUnlocked;
+		SelectedLevel = CurrentGame.LastLevelPlayed;
+		LevelUICtrl.TreasureAmt = CurrentGame.TotalTreasure;
 	}
 	void Start() {
 		CurrentFloor = 1;
@@ -90,6 +93,8 @@ public class MainController : MonoBehaviour {
 	}
 	void OnApplicationQuit() {
 		// Save the game before quitting.
+		CurrentGame.LastLevelPlayed = CurrentLevelNumber;
+		CurrentGame.TotalTreasure = LevelUICtrl.TreasureAmt;
 		SaveController.SaveGame();
 	}
 	void Update() {
@@ -159,6 +164,9 @@ public class MainController : MonoBehaviour {
 	public static void HideFloor() {
 		LevelUICtrl.HideFloor();
 	}
+	public static void StartLowHealth() {
+		LevelUICtrl.StartLowHealth();
+	}
 	public static void StopLowHealth() {
 		LevelUICtrl.StopLowHealth();
 	}
@@ -190,9 +198,9 @@ public class MainController : MonoBehaviour {
 	/* ------------------------------------------ LEVEL COMPLETE DISPLAY -------------------------------------------- */
 
 	public static void ShowLevelComplete(int amount) {
-		PrevHighestAvailableLevel = HighestAvailableLevel;
-		if (CurrentLevelNumber == HighestAvailableLevel + 1 && CurrentLevelNumber != 6)
-			HighestAvailableLevel++;
+		PrevHighestAvailableLevel = CurrentGame.HighestLevelUnlocked;
+		if (CurrentLevelNumber == CurrentGame.HighestLevelUnlocked && CurrentLevelNumber != 6)
+			CurrentGame.HighestLevelUnlocked++;
 		LevelCompleteCtrl.ShowLevelComplete(amount);
 	}
 	public static void HideLevelComplete() {

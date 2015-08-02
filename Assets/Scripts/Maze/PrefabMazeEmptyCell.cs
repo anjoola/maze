@@ -150,7 +150,6 @@ public class EmptyCellOpenDirectionVector {
 			return EmptyCellOpenDirection.BELOW;
 		else
 			return EmptyCellOpenDirection.LEFT;
-
 	}
 }
 

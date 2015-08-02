@@ -26,7 +26,7 @@ public class WorldMapController : MonoBehaviour {
 
 		// Selected level.
 		SelectedLevel = MainController.SelectedLevel;
-		LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
+		LevelName.text = MainController.LEVELS[SelectedLevel - 1].LevelName;
 
 		// Start at the last location.
 		Vector3 tempPos = player.transform.position;
@@ -41,24 +41,25 @@ public class WorldMapController : MonoBehaviour {
 		GoalPos = tempPos;
 
 		// Show level markers of available levels.
-		for (int level = 0; level <= MainController.PrevHighestAvailableLevel; level++) {
-			LevelMarkers[level].SetActive(true);
-			if (level > 0) {
-				LevelLines[level].SetActive(true);
-				iTween.ScaleBy(LevelLines[level], iTween.Hash("x", 40.0f, "time", 0));
+		for (int level = 1; level <= MainController.PrevHighestAvailableLevel; level++) {
+			LevelMarkers[level - 1].SetActive(true);
+			if (level > 1) {
+				LevelLines[level - 1].SetActive(true);
+				iTween.ScaleBy(LevelLines[level - 1], iTween.Hash("x", 40.0f, "time", 0));
 			}
 		}
 		// Animate the appearance of a new level.
-		if (MainController.PrevHighestAvailableLevel != MainController.HighestAvailableLevel) {
-			GameObject marker = LevelMarkers[MainController.HighestAvailableLevel];
+		if (MainController.PrevHighestAvailableLevel != MainController.CurrentGame.HighestLevelUnlocked) {
+			GameObject marker = LevelMarkers[MainController.CurrentGame.HighestLevelUnlocked - 1];
 			marker.SetActive(true);
 			iTween.ScaleBy(marker, iTween.Hash("x", 1.2f, "y", 1.2f, "time", 0.8f));
 			iTween.ScaleBy(marker, iTween.Hash("x", 1/1.2f, "y", 1/1.2f, "time", 1, "delay", 0.7f));
-			GameObject line = LevelLines[MainController.HighestAvailableLevel];
+			GameObject line = LevelLines[MainController.CurrentGame.HighestLevelUnlocked - 1];
 			line.SetActive(true);
 			iTween.ScaleBy(line, iTween.Hash("x", 40.0f, "time", 1.5f));
 
-			MainController.PrevHighestAvailableLevel = MainController.HighestAvailableLevel;
+			MainController.PrevHighestAvailableLevel = MainController.CurrentGame.HighestLevelUnlocked;
+			AudioController.playSFX("NewLevel");
 		}
 
 		TreasureCount.text = ("" + MainController.LevelUICtrl.TreasureAmt).PadLeft(7, '0');
@@ -66,12 +67,13 @@ public class WorldMapController : MonoBehaviour {
 		// No longer a new game.
 		MainController.CurrentGame.IsNewGame = false;
 	}
+
 	void Update() {
 		Vector3 playerPos = GoalPos;
 
 		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) &&
 		    playerPos.y == Y_START && playerPos.x < X_START + 4 * X_INTERVAL &&
-		    SelectedLevel <= MainController.HighestAvailableLevel) {
+		    SelectedLevel < MainController.CurrentGame.HighestLevelUnlocked) {
 			playerPos.x += X_INTERVAL;
 			SelectedLevel++;
 			AudioController.playSFX("Walking");
@@ -84,7 +86,7 @@ public class WorldMapController : MonoBehaviour {
 		}
 		else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) &&
 		         playerPos.x == X_START + 2 * X_INTERVAL && playerPos.y < Y_START + Y_INTERVAL &&
-		         MainController.HighestAvailableLevel == 5) {
+		         MainController.CurrentGame.HighestLevelUnlocked == 6) {
 			playerPos.y += Y_INTERVAL;
 			SelectedLevel = 6;
 			AudioController.playSFX("Walking");
@@ -108,7 +110,7 @@ public class WorldMapController : MonoBehaviour {
 		player.transform.position = Vector3.Lerp(player.transform.position, GoalPos, Time.fixedDeltaTime * 5.0f);
 		if (Mathf.Abs(GoalPos.x - player.transform.position.x) <= 15 &&
 		    Mathf.Abs(GoalPos.y - player.transform.position.y) <= 15) {
-			LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
+			LevelName.text = MainController.LEVELS[SelectedLevel - 1].LevelName;
 		}
 	}
 
@@ -117,7 +119,7 @@ public class WorldMapController : MonoBehaviour {
 	 */
 	public void StartLevel() {
 		AudioController.playSFX("ButtonSelect");
-		Level level = MainController.CurrentGame.Levels[SelectedLevel - 1];
+		Level level = MainController.LEVELS[SelectedLevel - 1];
 		MainController.CurrentLevelNumber = SelectedLevel;
 		level.Start();
 	}

@@ -25,7 +25,10 @@ public class PauseMenuController : MonoBehaviour {
 
 	public void ShowPauseMenu() {
 		MainController.HideFloor();
-		if (MainController.ShouldPause() || IsPaused) return;
+		MainController.StopLowHealth();
+		if (MainController.ShouldPause() || IsPaused)
+			return;
+
 		IsPaused = true;
 
 		Overlay.SetActive(true);
@@ -43,6 +46,7 @@ public class PauseMenuController : MonoBehaviour {
 	}
 
 	public void HidePauseMenu(bool hurry=false) {
+		MainController.StartLowHealth();
 		if (!hurry)
 			AudioController.playSFX("PauseOff");
 
@@ -82,7 +86,7 @@ public class PauseMenuController : MonoBehaviour {
 	public void Restart() {
 		AudioController.playSFX("ButtonSelect");
 		HidePauseMenu(true);
-		Level level = MainController.CurrentGame.Levels[MainController.CurrentLevelNumber - 1];
+		Level level = MainController.CurrentLevel;
 		level.Start();
 	}
 

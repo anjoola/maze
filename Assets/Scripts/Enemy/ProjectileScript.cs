@@ -11,7 +11,6 @@ public class ProjectileScript : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		// Projectile hit the player.
 		if (other.gameObject == player) {
-			// TODO play a sound
 			MainController.DecreaseHP(1);
 			Destroy(gameObject);
 		}

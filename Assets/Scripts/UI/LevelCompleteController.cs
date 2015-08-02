@@ -97,7 +97,7 @@ public class LevelCompleteController : MonoBehaviour {
 	 */
 	public void Restart() {
 		AudioController.playSFX("ButtonSelect");
-		Level level = MainController.CurrentGame.Levels[MainController.CurrentLevelNumber - 1];
+		Level level = MainController.CurrentLevel;
 		level.Start();
 		HideLevelComplete();
 	}

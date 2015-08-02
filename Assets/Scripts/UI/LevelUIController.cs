@@ -13,7 +13,7 @@ public class LevelUIController : MonoBehaviour {
 
 	// HP bar.
 	public GameObject[] HP;
-	int HPIntervals;
+	int HPIntervals = 10;
 
 	// HP image.
 	public GameObject HPFull, HPMissing, HPLow;
@@ -35,16 +35,13 @@ public class LevelUIController : MonoBehaviour {
 		"Damage5",
 		"Damage6",
 		"Damage7",
-		"Damage8",
-
+		"Damage8"
 	};
 
 	void Start() {
-		// Amount of treasure acquired overall.
-		TreasureAmt = 0;
-
 		// Amount of treasure acquired in the current level.
 		TreasureAcquired = 0;
+		Treasure.text = ("" + TreasureAmt).PadLeft(7, '0');
 
 		iTween.ScaleBy(InvinciblePotion, iTween.Hash("x", 1.2, "y", 1.2, "z", 1.2,
 		                                             "looptype", "pingPong", "time", 0.7f));
@@ -67,9 +64,9 @@ public class LevelUIController : MonoBehaviour {
 	 * Reset the treasure received.
 	 */
 	public void ResetTreasure() {
-		TreasureAmt = 0;
+		TreasureAmt = MainController.CurrentGame.TotalTreasure;
 		TreasureAcquired = 0;
-		Treasure.text = ("0").PadLeft(7, '0');
+		Treasure.text = ("" + TreasureAmt).PadLeft(7, '0');
 	}
 
 	/**
@@ -124,7 +121,7 @@ public class LevelUIController : MonoBehaviour {
 			if (HPIntervals - 1 <= 0) {
 				HP[0].SetActive(false);
 				MainController.ShowGameOver();
-				break;
+				return;
 			}
 
 			HPIntervals--;
@@ -196,6 +193,9 @@ public class LevelUIController : MonoBehaviour {
 	 * Make low health sounds.
 	 */
 	public void StartLowHealth() {
+		if (HPIntervals >= 3)
+			return;
+
 		AudioSource sfx = AudioController.LowHealth();
 		sfx.volume = 1;
 		sfx.Play();
