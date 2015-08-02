@@ -11,8 +11,12 @@ public class CharacterMovement : MonoBehaviour {
 
 	public new Transform camera;
 
-	float moveSpeed;
 	CharacterController controller;
+	public GameObject LeftLeg;
+	public GameObject RightLeg;
+	public GameObject Body;
+
+	bool IsWalking = true;
 
 	// Last time the player's position was recorded.
 	float UPDATE_INTERVAL = 0.1f;
@@ -21,14 +25,15 @@ public class CharacterMovement : MonoBehaviour {
 	void Start() {
 		controller = gameObject.GetComponent<CharacterController>();
 		LastUpdateTime = Time.time;
+
+		iTween.MoveBy(Body, iTween.Hash("y", 10, "looptype", "pingPong", "easetype", "linear", "time", 0.25f));
 	}
 	
 	void Update() {
 		UpdateMovement();
 
-		// TODO detect running if movespeed fast enough
 		if (!MainController.ShouldPause())
-			moveSpeed = UpdateMovement();
+			UpdateMovement();
 
 		// Toggle pause menu display.
 		if (Input.GetKeyDown(KeyCode.Escape)) {
@@ -50,6 +55,10 @@ public class CharacterMovement : MonoBehaviour {
 		// Movement amount.
 		float x = Input.GetAxis("Horizontal");
 		float z = Input.GetAxis("Vertical");
+		if (x == 0 && z == 0)
+			Stop();
+		else
+			Walk();
 		
 		// Adjust character's position based on input and where the camera is facing.
 		Vector3 inputVec = new Vector3(x, 0, z);
@@ -59,5 +68,43 @@ public class CharacterMovement : MonoBehaviour {
 
 		controller.Move(inputVec * Time.deltaTime);
 		return inputVec.magnitude;
+	}
+
+	void Stop() {
+		if (!IsWalking)
+			return;
+		IsWalking = false;
+
+		// Pause iTweens.
+		iTween.Pause(Body);
+		iTween.Stop(LeftLeg);
+		iTween.Stop(RightLeg);
+
+		// Move feet back to original position.
+		Vector3 leftPos = LeftLeg.transform.localPosition;
+		leftPos.z = 0;
+		LeftLeg.transform.localPosition = leftPos;
+		Vector3 rightPos = RightLeg.transform.localPosition;
+		rightPos.z = 0;
+		RightLeg.transform.localPosition = rightPos;
+	}
+
+	void Walk() {
+		if (IsWalking)
+			return;
+		IsWalking = true;
+
+		// Move feet to correct positions.
+		Vector3 leftPos = LeftLeg.transform.localPosition;
+		leftPos.z = -5;
+		LeftLeg.transform.localPosition = leftPos;
+		Vector3 rightPos = RightLeg.transform.localPosition;
+		rightPos.z = 5;
+		RightLeg.transform.localPosition = rightPos;
+
+		// Start iTweens.
+		iTween.Resume(Body);
+		iTween.MoveBy(LeftLeg, iTween.Hash("y", 75, "looptype", "pingPong", "easetype", "linear", "time", 0.5f));
+		iTween.MoveBy(RightLeg, iTween.Hash("y", -75, "looptype", "pingPong", "easetype", "linear", "time", 0.5f));
 	}
 }

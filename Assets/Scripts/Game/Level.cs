@@ -5,11 +5,7 @@ using System.Collections;
 /**
  * Represents a single level in the game.
  */
-[System.Serializable]
 public abstract class Level {
-	// Whether or not the level has been completed.
-	public bool IsCompleted;
-
 	// The current floor in the maze.
 	public int CurrentFloor;
 
@@ -29,7 +25,6 @@ public abstract class Level {
 	public abstract string LevelName { get; }
 
 	public Level() {
-		IsCompleted = false;
 		NumFloors = 0;
 	}
 
@@ -60,7 +55,6 @@ public abstract class Level {
 	 * Finish the level. Show the level complete UI and the amount of treasure acquired in this level.
 	 */
 	public void Finish() {
-		IsCompleted = true;
 		MainController.StopLowHealth();
 		MainController.ShowLevelComplete(LevelUIController.TreasureAcquired);
 	}

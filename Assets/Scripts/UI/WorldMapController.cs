@@ -71,15 +71,15 @@ public class WorldMapController : MonoBehaviour {
 	void Update() {
 		Vector3 playerPos = GoalPos;
 
-		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) &&
+		if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) &&
 		    playerPos.y == Y_START && playerPos.x < X_START + 4 * X_INTERVAL &&
 		    SelectedLevel < MainController.CurrentGame.HighestLevelUnlocked) {
 			playerPos.x += X_INTERVAL;
 			SelectedLevel++;
 			AudioController.playSFX("Walking");
 		}
-		else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) &&
-		         playerPos.y == Y_START && playerPos.x > X_START) {
+		else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) &&
+		         playerPos.y == Y_START && playerPos.x > X_START && SelectedLevel > 0) {
 			playerPos.x -= X_INTERVAL;
 			SelectedLevel--;
 			AudioController.playSFX("Walking");

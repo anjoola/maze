@@ -51,7 +51,6 @@ public class LevelCompleteController : MonoBehaviour {
 			DeadObj.SetActive(false);
 			TreasureObj.SetActive(true);
 
-			MainController.CurrentLevel.IsCompleted = true;
 			AudioController.playRandomSFX(LevelCompleteSounds);
 			AudioController.playAudio(AudioController.AudioSourcesStatic[9]);
 		}
