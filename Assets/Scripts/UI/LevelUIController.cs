@@ -46,8 +46,8 @@ public class LevelUIController : MonoBehaviour {
 		// Amount of treasure acquired in the current level.
 		TreasureAcquired = 0;
 
-		iTween.ScaleBy(InvinciblePotion, iTween.Hash("x", 1.2, "y", 1.2, "z", 1.2, "looptype", "pingPong", "time", 0.7f));
-
+		iTween.ScaleBy(InvinciblePotion, iTween.Hash("x", 1.2, "y", 1.2, "z", 1.2,
+		                                             "looptype", "pingPong", "time", 0.7f));
 		RestoreHP();
 		HideInvincible();
 	}
@@ -76,6 +76,8 @@ public class LevelUIController : MonoBehaviour {
 	 * Restores all HP.
 	 */
 	public void RestoreHP() {
+		StopLowHealth();
+
 		HPIntervals = 10;
 		for (int i = 0; i < 10; i++) {
 			HP[i].SetActive(true);
@@ -101,8 +103,10 @@ public class LevelUIController : MonoBehaviour {
 
 		if (HPIntervals == 10)
 			HPMissing.SetActive(false);
-		if (HPIntervals > 3)
+		if (HPIntervals > 3) {
+			StopLowHealth();
 			HPLow.SetActive(false);
+		}
 	}
 
 	/**
@@ -114,10 +118,6 @@ public class LevelUIController : MonoBehaviour {
 		// No damage if invincible.
 		if (MainController.IsInvincible)
 			return;
-
-		AudioController.playRandomSFX(DamageSounds);
-		// TODO start grace period where can't be damaged for a bit
-		// Blinking animation to show grace period
 
 		for (int i = 0; i < numIntervals; i++) {
 			// Can't decrease HP anymore. Player is dead!
@@ -131,10 +131,17 @@ public class LevelUIController : MonoBehaviour {
 			HP[HPIntervals].SetActive(false);
 		}
 
+		AudioController.playRandomSFX(DamageSounds);
 		if (HPIntervals < 10)
 			HPMissing.SetActive(true);
-		if (HPIntervals < 3)
-			HPLow.SetActive(true);
+		if (HPIntervals < 3) {
+			if (!HPLow.activeSelf) {
+				HPLow.SetActive(true);
+				StartLowHealth();
+			}
+		}
+		else
+			StopLowHealth();
 	}
 
 	/**
@@ -179,5 +186,17 @@ public class LevelUIController : MonoBehaviour {
 	}
 	public void HideInvincible() {
 		InvinciblePanel.SetActive(false);
+	}
+
+	/**
+	 * Make low health sounds.
+	 */
+	public void StartLowHealth() {
+		AudioSource sfx = AudioController.LowHealth();
+		sfx.Play();
+	}
+	public void StopLowHealth() {
+		AudioSource sfx = AudioController.LowHealth();
+		sfx.Stop();
 	}
 }

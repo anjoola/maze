@@ -27,7 +27,10 @@ public class ForestLevel : Level {
 				new string[] {
 
 				}
-			),
+			)
+			};
+		}}
+	/*
 			new Floor(
 				"ForestSmall",
 				new string[] {
@@ -132,7 +135,7 @@ public class ForestLevel : Level {
 				}
 			),
 		};
-	}}
+	}}*/
 
 	public override string LevelName { get {
 		return "Forest Canopy";

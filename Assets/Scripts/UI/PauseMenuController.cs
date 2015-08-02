@@ -43,6 +43,9 @@ public class PauseMenuController : MonoBehaviour {
 	}
 
 	public void HidePauseMenu(bool hurry=false) {
+		if (!hurry)
+			AudioController.playSFX("PauseOff");
+
 		AudioController.resumeVolume();
 		if (!IsPaused) return;
 		IsPaused = false;
@@ -57,9 +60,6 @@ public class PauseMenuController : MonoBehaviour {
 		                                      "time", time));
 		iTween.MoveBy(Buttons, iTween.Hash("y", -6, "easeType", "linear", "loopType", "none", "delay", 0.0,
 		                                   "time", time));
-
-		if (!hurry)
-			AudioController.playSFX("PauseOff");
 	}
 
 	/**

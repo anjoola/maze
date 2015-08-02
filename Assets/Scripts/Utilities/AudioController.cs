@@ -9,8 +9,6 @@ public class AudioController : MonoBehaviour {
 	public AudioSource[] AudioSources;
 	public static AudioSource[] AudioSourcesStatic;
 
-	private static int currentIdx = 0;
-
 	private static AudioSource currAudio;
 	private static float FADE_DURATION = 1.0f;
 	
@@ -25,10 +23,14 @@ public class AudioController : MonoBehaviour {
 		return obj.GetComponent<AudioSource>();
 	}
 	public static void playSFX(string audioName, float volume=1.0f) {
+		Debug.Log (audioName);
 		AudioSource sfx = getSource(audioName);
 		
 		sfx.volume = volume;
 		sfx.Play();
+	}
+	public static AudioSource LowHealth() {
+		return AudioSourcesStatic[8];
 	}
 	public static void playRandomSFX(string[] choices) {
 		playSFX(choices[(int) (UnityEngine.Random.value * choices.Length)]);
@@ -37,7 +39,8 @@ public class AudioController : MonoBehaviour {
 		AudioSource newAudio = getSource(audioName);
 		
 		// Play the audio.
-		newAudio.volume = 0;
+		if (currAudio != null && currAudio.isPlaying)
+			newAudio.volume = 0;
 		newAudio.Play();
 		
 		// Fade out old audio and fade in new one.
@@ -49,13 +52,14 @@ public class AudioController : MonoBehaviour {
 	 */
 	public static void playContinuousAudio(int idx) {
 		AudioSource newAudio = AudioSourcesStatic[idx];
-		newAudio.volume = 0;
-		newAudio.Play();
+		if (!newAudio.isPlaying || idx == 7) {
+			if (idx == 7)
+				newAudio.Stop();
+			newAudio.Play();
+		}
 
-		// Fade out old audio and fade in new one.
-		Crossfade(currAudio, newAudio, true);
-		currAudio = newAudio;
-		currentIdx = idx;
+		if (idx != 7)
+			currAudio = newAudio;
 	}
 
 	public static void halfVolume() {
@@ -76,13 +80,22 @@ public class AudioController : MonoBehaviour {
 	IEnumerator CrossfadeEnum(AudioSource a1, AudioSource a2, bool fadeIn) {
 		float startTime = Time.time;
 		float endTime = startTime + FADE_DURATION;
-		if (!fadeIn && a2 != null) a2.volume = 1.0f;
-		while (Time.time < endTime) {
+		if (!fadeIn && a2 != null || (currAudio != null && !currAudio.isPlaying)) {
+			if (a1 != null) {
+				a1.Stop();
+				a1.volume = 1;
+			}
+			a2.volume = 1.0f;
+		}
+		while (Time.time < endTime && currAudio != null && currAudio.isPlaying) {
 			float i = (Time.time - startTime) / FADE_DURATION;
 			if (a1 != null) a1.volume = (1 - i);
 			if (fadeIn && a2 != null) a2.volume = i;
 			yield return new WaitForSeconds(0.1f);
 		}
-		if (a1 != null) a1.Stop();
+		if (a1 != null) {
+			a1.Stop();
+			a1.volume = 1;
+		}
 	}
 }

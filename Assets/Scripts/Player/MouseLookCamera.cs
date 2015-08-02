@@ -45,7 +45,7 @@ public class MouseLookCamera : MonoBehaviour {
 				Color color = obj.GetComponent<Renderer>().material.color;
 				color.a = 1.0f;
 				obj.GetComponent<Renderer>().material.color = color;
-			} catch (UnityException e) { }
+			} catch (UnityException) { }
 		}
 		TransparentBlocks.Clear();
 

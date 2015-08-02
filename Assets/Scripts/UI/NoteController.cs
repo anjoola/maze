@@ -39,8 +39,10 @@ public class NoteController : MonoBehaviour {
 		else
 			NotePanel.SetActive(true);
 
-		if (autoDismiss)
-			StartCoroutine(Dismiss(false));
+		if (autoDismiss) {
+			StopCoroutine("Dismiss");
+			StartCoroutine("Dismiss", false);
+		}
 	}
 
 	public void ShowItemNote(string item, bool autoDismiss=true) {
@@ -94,8 +96,10 @@ public class NoteController : MonoBehaviour {
 		else
 			ItemNotePanel.SetActive(true);
 
-		if (autoDismiss)
-			StartCoroutine(Dismiss(true));
+		if (autoDismiss) {
+			StopCoroutine("Dismiss");
+			StartCoroutine("Dismiss", true);
+		}
 	}
 
 	/**

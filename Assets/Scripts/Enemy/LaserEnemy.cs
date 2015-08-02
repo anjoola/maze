@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LaserEnemy : BaseEnemy {
 	// Amount of empty cells needed in the maze to place this object, not including the cell the object will appear in.
-	public virtual int SpaceNeeded { get { return 3; } }
+	override public int SpaceNeeded { get { return 3; } }
 
 	public int SHOOT_INTERVAL = 8;
 	public GameObject Laser;
@@ -28,7 +28,7 @@ public class LaserEnemy : BaseEnemy {
 		if (Time.time - LastShootTime >= SHOOT_INTERVAL) {
 			iTween.MoveBy(parent.gameObject, iTween.Hash("y", 7, "time", 0.5f, "easetype", "linear"));
 
-			GameObject shot = Instantiate(Laser, transform.position, transform.rotation) as GameObject;
+			Instantiate(Laser, transform.position, transform.rotation);
 			LastShootTime = Time.time;
 			
 			iTween.MoveBy(parent.gameObject, iTween.Hash("y", -7, "time", 0.5f, "easetype", "linear", "delay", 0.5f));

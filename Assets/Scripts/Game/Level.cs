@@ -76,6 +76,7 @@ public abstract class Level {
 		}
 
 		// Get the next floor and load it.
+		AudioController.playContinuousAudio(7);
 		NumClones = 0;
 		Floor next = Floors[++CurrentFloor - 1];
 		AutoFade.LoadLevel(next.Scene, 0.2f, 0.2f, Color.black, SpawnGameObjects, next);

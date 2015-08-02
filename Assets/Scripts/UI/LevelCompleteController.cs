@@ -12,7 +12,6 @@ public class LevelCompleteController : MonoBehaviour {
 	// Game over sounds.
 	public string[] GameOverSounds = {
 		"GameOver",
-		"GameOver1",
 		"GameOver2",
 		"GameOver3",
 		"GameOver4",
@@ -37,8 +36,9 @@ public class LevelCompleteController : MonoBehaviour {
 	
 	// Original time scale.
 	float OldTimeScale = -1;
-	
+
 	public void ShowLevelComplete(int amount) {
+		MainController.StopLowHealth();
 		MainController.HideNote();
 
 		if (IsLevelCompleteShown) return;
@@ -53,6 +53,7 @@ public class LevelCompleteController : MonoBehaviour {
 
 			MainController.CurrentLevel.IsCompleted = true;
 			AudioController.playRandomSFX(LevelCompleteSounds);
+			AudioController.playAudio("LevelComplete", false);
 		}
 		// Game over.
 		else {
@@ -60,6 +61,7 @@ public class LevelCompleteController : MonoBehaviour {
 			DeadObj.SetActive(true);
 			TreasureObj.SetActive(false);
 			AudioController.playRandomSFX(GameOverSounds);
+			AudioController.halfVolume();
 		}
 
 		Overlay.SetActive(true);
@@ -75,6 +77,8 @@ public class LevelCompleteController : MonoBehaviour {
 	}
 
 	public void HideLevelComplete() {
+		AudioController.resumeVolume();
+
 		if (!IsLevelCompleteShown) return;
 		IsLevelCompleteShown = false;
 		

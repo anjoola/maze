@@ -85,7 +85,8 @@ public class MainController : MonoBehaviour {
 	}
 	void Start() {
 		CurrentFloor = 1;
-		// TODO
+
+		AudioController.playContinuousAudio(0);
 	}
 	void OnApplicationQuit() {
 		// Save the game before quitting.
@@ -157,6 +158,9 @@ public class MainController : MonoBehaviour {
 	}
 	public static void HideFloor() {
 		LevelUICtrl.HideFloor();
+	}
+	public static void StopLowHealth() {
+		LevelUICtrl.StopLowHealth();
 	}
 	
 	/* ---------------------------------------------------- NOTES --------------------------------------------------- */

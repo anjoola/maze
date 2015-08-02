@@ -41,7 +41,7 @@ public abstract class BaseEnemy : SpawnObject {
 		// Set collider radius to be the one specified.
 		try {
 			this.GetComponent<SphereCollider>().radius = Radius;
-		} catch (MissingComponentException e) { }
+		} catch (MissingComponentException) { }
 
 		doStart();
 	}

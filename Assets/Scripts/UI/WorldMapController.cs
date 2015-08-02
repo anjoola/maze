@@ -20,6 +20,9 @@ public class WorldMapController : MonoBehaviour {
 	public GameObject[] LevelLines;
 	
 	void Start() {
+		AudioController.resumeVolume();
+		AudioController.playAudio("WorldMap");
+
 		// Selected level.
 		SelectedLevel = MainController.SelectedLevel;
 		LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
@@ -61,7 +64,6 @@ public class WorldMapController : MonoBehaviour {
 
 		// No longer a new game.
 		MainController.CurrentGame.IsNewGame = false;
-		AudioController.playAudio("WorldMap");
 	}
 	void Update() {
 		Vector3 playerPos = GoalPos;
