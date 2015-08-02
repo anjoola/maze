@@ -22,7 +22,6 @@ public class AudioController : MonoBehaviour {
 	
 	public static AudioSource getSource(string audioName) {
 		GameObject obj = Instantiate(Resources.Load("Sounds/" + audioName)) as GameObject;
-		//obj.transform.position = GlobalStateController.instance.transform.position;
 		return obj.GetComponent<AudioSource>();
 	}
 	public static void playSFX(string audioName, float volume=1.0f) {
@@ -60,10 +59,12 @@ public class AudioController : MonoBehaviour {
 	}
 
 	public static void halfVolume() {
-		AudioListener.volume = 0.3f;
+		if (currAudio != null)
+			currAudio.volume = 0.2f;
 	}
 	public static void resumeVolume() {
-		AudioListener.volume = 1.0f;
+		if (currAudio != null)
+			currAudio.volume = 1.0f;
 	}
 
 	/**

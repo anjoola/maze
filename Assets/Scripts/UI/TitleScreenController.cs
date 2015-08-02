@@ -7,6 +7,7 @@ public class TitleScreenController : MonoBehaviour {
 	void Start() {
 		iTween.ScaleBy(Treasures, iTween.Hash("x", 1.1f, "y", 1.1f, "z", 1.1f, "easetype", "linear",
 		                                      "looptype", "pingPong", "time", 1.0f));
+		AudioController.playAudio("TitleScreen");
 	}
 
 	void Update() {

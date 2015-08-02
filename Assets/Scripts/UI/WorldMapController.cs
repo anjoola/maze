@@ -71,22 +71,26 @@ public class WorldMapController : MonoBehaviour {
 		    SelectedLevel <= MainController.HighestAvailableLevel) {
 			playerPos.x += X_INTERVAL;
 			SelectedLevel++;
+			AudioController.playSFX("Walking");
 		}
 		else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) &&
 		         playerPos.y == Y_START && playerPos.x > X_START) {
 			playerPos.x -= X_INTERVAL;
 			SelectedLevel--;
+			AudioController.playSFX("Walking");
 		}
 		else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) &&
 		         playerPos.x == X_START + 2 * X_INTERVAL && playerPos.y < Y_START + Y_INTERVAL &&
 		         MainController.HighestAvailableLevel == 5) {
 			playerPos.y += Y_INTERVAL;
 			SelectedLevel = 6;
+			AudioController.playSFX("Walking");
 		}
 		else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) &&
 		         playerPos.x == X_START + 2 * X_INTERVAL && playerPos.y > Y_START) {
 			playerPos.y -= Y_INTERVAL;
 			SelectedLevel = 3;
+			AudioController.playSFX("Walking");
 		}
 		else if (Input.GetKeyDown(KeyCode.Return)) {
 			StartLevel();
@@ -98,7 +102,7 @@ public class WorldMapController : MonoBehaviour {
 
 	void FixedUpdate() {
 		// Smoother movement of the character.
-		player.transform.position = Vector3.Lerp(player.transform.position, GoalPos, Time.fixedDeltaTime * 10.0f);
+		player.transform.position = Vector3.Lerp(player.transform.position, GoalPos, Time.fixedDeltaTime * 5.0f);
 		if (Mathf.Abs(GoalPos.x - player.transform.position.x) <= 15 &&
 		    Mathf.Abs(GoalPos.y - player.transform.position.y) <= 15) {
 			LevelName.text = MainController.CurrentGame.Levels[SelectedLevel - 1].LevelName;
@@ -109,6 +113,7 @@ public class WorldMapController : MonoBehaviour {
 	 * Starts the selected level.
 	 */
 	public void StartLevel() {
+		AudioController.playSFX("ButtonSelect");
 		Level level = MainController.CurrentGame.Levels[SelectedLevel - 1];
 		MainController.CurrentLevelNumber = SelectedLevel;
 		level.Start();
