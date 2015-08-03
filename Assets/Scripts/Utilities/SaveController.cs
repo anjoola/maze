@@ -11,7 +11,7 @@ public class SaveController {
 	 * Saves the current game.
 	 */
 	public static void SaveGame() {
-		return;
+		//return;
 		// TODO
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream file = File.Create(Application.persistentDataPath + SAVE_FILE);
@@ -24,8 +24,8 @@ public class SaveController {
 	 */
 	public static void LoadGame() {
 		// TODO remove
-		MainController.CurrentGame = new Game();
-		return;
+		//MainController.CurrentGame = new Game();
+		//return;
 		//
 
 		// Try to load existing game.

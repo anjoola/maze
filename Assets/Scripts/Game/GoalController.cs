@@ -11,6 +11,7 @@ public class GoalController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
+			MainController.IsInvincible = true;
 			MainController.GetNextFloor();
 		}
 	}

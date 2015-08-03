@@ -39,7 +39,7 @@ public class MainController : MonoBehaviour {
 	static LevelCompleteController LevelCompleteCtrl;
 
 	// Player's past few positions.
-	private static int NUM_PLAYER_LOCS = 80;
+	private static int NUM_PLAYER_LOCS = 100;
 	private static int PlayerLocIdx = 0;
 	public static CloneLocation[] PlayerLocations;
 
@@ -155,6 +155,7 @@ public class MainController : MonoBehaviour {
 	}
 	public static void NewLevel() {
 		StopInvincible();
+		ResetLocations();
 		HideNote();
 		LevelUICtrl.NewLevel();
 	}

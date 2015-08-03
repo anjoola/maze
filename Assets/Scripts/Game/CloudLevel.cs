@@ -341,10 +341,10 @@ public class CloudLevel : Level {
 					"RotateShootingEnemy",
 					"RotateShootingEnemy",
 					"RotateShootingEnemy",
-					"TriggeredShootingEnemy",
-					"TriggeredShootingEnemy",
-					"TriggeredShootingEnemy",
-					"TriggeredShootingEnemy"
+					"TriggeredStraightShootingEnemy",
+					"TriggeredStraightShootingEnemy",
+					"TriggeredStraightShootingEnemy",
+					"TriggeredStraightShootingEnemy"
 				},
 				new string[] {
 					"FullPotion"
@@ -377,10 +377,10 @@ public class CloudLevel : Level {
 					"RotateShootingEnemy",
 					"RotateShootingEnemy",
 					"RotateShootingEnemy",
-					"TriggeredShootingEnemy",
-					"TriggeredShootingEnemy",
-					"TriggeredShootingEnemy",
-					"TriggeredShootingEnemy"
+					"TriggeredStraightShootingEnemy",
+					"TriggeredStraightShootingEnemy",
+					"TriggeredStraightShootingEnemy",
+					"TriggeredStraightShootingEnemy"
 				},
 				new string[] {
 					"BombItem"

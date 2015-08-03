@@ -17,9 +17,10 @@ public class CharacterMovement : MonoBehaviour {
 	public GameObject Body;
 
 	bool IsWalking = true;
+	bool StartedWalking = false;
 
 	// Last time the player's position was recorded.
-	float UPDATE_INTERVAL = 0.1f;
+	public static float UPDATE_INTERVAL = 0.02f;
 	float LastUpdateTime = 0;
 	
 	void Start() {
@@ -27,6 +28,7 @@ public class CharacterMovement : MonoBehaviour {
 		LastUpdateTime = Time.time;
 
 		iTween.MoveBy(Body, iTween.Hash("y", 10, "looptype", "pingPong", "easetype", "linear", "time", 0.25f));
+		MainController.ResetLocations();
 	}
 	
 	void Update() {
@@ -46,8 +48,10 @@ public class CharacterMovement : MonoBehaviour {
 		if (Time.time - LastUpdateTime >= UPDATE_INTERVAL) {
 			LastUpdateTime = Time.time;
 
-			CloneLocation loc = new CloneLocation(gameObject.transform);
-			MainController.AddPlayerLocation(loc);
+			if (StartedWalking) {
+				CloneLocation loc = new CloneLocation(gameObject.transform);
+				MainController.AddPlayerLocation(loc);
+			}
 		}
 	}
 
@@ -90,6 +94,7 @@ public class CharacterMovement : MonoBehaviour {
 	}
 
 	void Walk() {
+		StartedWalking = true;
 		if (IsWalking)
 			return;
 		IsWalking = true;

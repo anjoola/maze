@@ -3,11 +3,9 @@ using System.Collections;
 
 public class CloneController : MonoBehaviour {
 	float LastUpdateTime = 0;
-	float UPDATE_INTERVAL = 0.05f;
 
 	// Current goal location.
 	CloneLocation GoalLoc;
-
 	GameObject player;
 
 	// Current index into the array.
@@ -20,10 +18,16 @@ public class CloneController : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 
 		iTween.MoveBy(gameObject, iTween.Hash("y", 10, "looptype", "pingPong", "easetype", "linear", "time", 0.7f));
+		PlayAnimation();
+
+		if (!MainController.CurrentGame.CloneIntroduced) {
+			MainController.CurrentGame.CloneIntroduced = true;
+			MainController.ShowNote("Something is following you...");
+		}
 	}
 	
 	void FixedUpdate() {
-		if (Time.time - LastUpdateTime >= UPDATE_INTERVAL) {
+		if (Time.time - LastUpdateTime >= CharacterMovement.UPDATE_INTERVAL) {
 			LastUpdateTime = Time.time;
 			GoalLoc = MainController.GetPlayerLocation(Idx);
 			if (GoalLoc == null)
@@ -45,10 +49,18 @@ public class CloneController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject == player) {
-			MainController.DecreaseHP(3);
-			// TODO animation
+			PlayAnimation();
+			MainController.DecreaseHP(2);
 			Destroy(gameObject);
 		}
+	}
+
+	void PlayAnimation() {
+		GameObject obj = Instantiate(Resources.Load("Enemy/Spawning") as GameObject,
+		                             transform.position, transform.rotation) as GameObject;
+		ParticleSystem sys = obj.GetComponentInChildren<ParticleSystem>();
+		sys.Play();
+		Destroy(obj, sys.duration);
 	}
 }
 

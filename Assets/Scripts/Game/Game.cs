@@ -13,12 +13,15 @@ public class Game {
 	public int LastLevelPlayed;
 	// Highest level unlocked.
 	public int HighestLevelUnlocked;
+	// Whether or not a clone has been introduced.
+	public bool CloneIntroduced;
 	
 	public Game() {
 		// TODO
-		IsNewGame = false;//true;
+		IsNewGame = true;
 		TotalTreasure = 0;
 		LastLevelPlayed = 1;
-		HighestLevelUnlocked = 6;//1;
+		HighestLevelUnlocked = 1;
+		CloneIntroduced = false;
 	}
 }

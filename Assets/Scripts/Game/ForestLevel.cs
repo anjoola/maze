@@ -7,66 +7,6 @@ public class ForestLevel : Level {
 	public override Floor[] Floors { get {
 		return new Floor[] {
 			new Floor(
-				"ForestMedium",
-				new string[] {
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					"ExplodingEnemy",
-					/*
-					"ExplodingEnemy",
-					"FasterLaserEnemy",
-					"FasterMovingEnemy",
-					"FasterSpikeBallEnemy",
-					"GhostEnemy",
-					"LaserEnemy",
-					"LockOnShootingEnemy",
-					"MovingEnemy",
-					"RotateShootingEnemy",
-					"SpikeBallEnemy",
-					"StraightShootingEnemy",
-					"TriggeredStraightShootingEnemy"
-					*/
-				},
-				new string[] {
-					"BombItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-					"TNTItem",
-				},
-				new string[] {
-
-				}
-			)
-			};
-		}}/*
-			new Floor(
 				"ForestSmall",
 				new string[] {
 					"StraightShootingEnemy",
@@ -170,7 +110,7 @@ public class ForestLevel : Level {
 				}
 			),
 		};
-	}}*/
+	}}
 
 	public override string LevelName { get {
 		return "Forest Canopy";
