@@ -81,7 +81,7 @@ public class NoteController : MonoBehaviour {
 				ActiveImage = SmallPotion;
 				text = "Picked up a Small Potion!\nHealth has been restored by 1 HP.";
 				break;
-			case "TNT":
+			case "TNTItem":
 				ActiveImage = TNT;
 				text = "Picked up a TNT!\nAll enemies on this floor have been destroyed!";
 				break;

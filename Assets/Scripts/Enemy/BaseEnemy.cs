@@ -110,20 +110,30 @@ public abstract class BaseEnemy : SpawnObject {
 	 * Shows appropriate animations.
 	 */
 	protected void ExplodeAnimation() {
-		// TODO make dead sound
-		// TODO explode animation
+		AudioController.playSFX("Bomb");
+		GameObject explosion = Instantiate(Resources.Load("Enemy/Explosion") as GameObject,
+		                              	   transform.position, transform.rotation) as GameObject;
+		ParticleSystem sys = explosion.GetComponentInChildren<ParticleSystem>();
+		sys.Play();
+		Destroy(explosion, sys.duration);
 	}
 	protected void PoofAnimation() {
-		// TODO make poof sound
-		// TODO animation
+		GameObject poof = Instantiate(Resources.Load("Enemy/Poof") as GameObject,
+		                              transform.position, transform.rotation) as GameObject;
+		ParticleSystem sys = poof.GetComponentInChildren<ParticleSystem>();
+		sys.Play();
+		Destroy(poof, sys.duration);
 	}
 
 	/**
 	 * Destroy self. Show destroying animation.
 	 */
 	public void DestroySelf() {
-		// TODO destroying animation.
-
+		GameObject explosion = Instantiate(Resources.Load("Enemy/BigExplosion") as GameObject,
+		                                   transform.position, transform.rotation) as GameObject;
+		ParticleSystem sys = explosion.GetComponentInChildren<ParticleSystem>();
+		sys.Play();
+		Destroy(explosion, sys.duration);
 
 		if (parent != null && parent.gameObject != null)
 			Destroy(parent.gameObject);

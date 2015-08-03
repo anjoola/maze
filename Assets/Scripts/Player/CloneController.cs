@@ -18,6 +18,8 @@ public class CloneController : MonoBehaviour {
 		Idx = 0;
 		GoalLoc = null;
 		player = GameObject.FindGameObjectWithTag("Player");
+
+		iTween.MoveBy(gameObject, iTween.Hash("y", 10, "looptype", "pingPong", "easetype", "linear", "time", 0.7f));
 	}
 	
 	void FixedUpdate() {

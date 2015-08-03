@@ -10,6 +10,23 @@ public class ForestLevel : Level {
 				"ForestMedium",
 				new string[] {
 					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					"ExplodingEnemy",
+					/*
+					"ExplodingEnemy",
 					"FasterLaserEnemy",
 					"FasterMovingEnemy",
 					"FasterSpikeBallEnemy",
@@ -21,8 +38,14 @@ public class ForestLevel : Level {
 					"SpikeBallEnemy",
 					"StraightShootingEnemy",
 					"TriggeredStraightShootingEnemy"
+					*/
 				},
 				new string[] {
+					"BombItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
+					"TNTItem",
 					"TNTItem",
 					"TNTItem",
 					"TNTItem",
