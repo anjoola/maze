@@ -11,14 +11,11 @@ public class MouseLookCamera : MonoBehaviour {
 	public GameObject player;
 
 	// How quickly to rotate the camera.
-	public float rotateSpeed = 4;
+	public float rotateSpeed = 10;
 
 	// Difference between the camera's position and the player's position.
 	Vector3 offset;
 
-	// List of blocks that are obscuring the camera and have been made transparent.
-	List<GameObject> TransparentBlocks = new List<GameObject>();
-	
 	void Start() {
 		offset = player.transform.position - transform.position;
 	}
@@ -38,27 +35,5 @@ public class MouseLookCamera : MonoBehaviour {
 
 		// Rotate camera.
 		transform.LookAt(player.transform);
-
-		// Un-transparent-ize previously-made transparent objects.
-		foreach (GameObject obj in TransparentBlocks) {
-			try {
-				Color color = obj.GetComponent<Renderer>().material.color;
-				color.a = 1.0f;
-				obj.GetComponent<Renderer>().material.color = color;
-			} catch (UnityException) { }
-		}
-		TransparentBlocks.Clear();
-
-		// If something is in the way between the camera and the player, make it transparent.
-		RaycastHit hit;
-		if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit)) {
-			GameObject item = hit.collider.gameObject;
-			if (item != player && item.tag == "Maze") {
-				Color color = item.GetComponent<Renderer>().material.color;
-				color.a = 0.01f;
-				item.GetComponent<Renderer>().material.color = color;
-				TransparentBlocks.Add(item);
-			}
-		}
 	}
 }

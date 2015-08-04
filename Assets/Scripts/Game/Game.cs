@@ -17,7 +17,6 @@ public class Game {
 	public bool CloneIntroduced;
 	
 	public Game() {
-		// TODO
 		IsNewGame = true;
 		TotalTreasure = 0;
 		LastLevelPlayed = 1;

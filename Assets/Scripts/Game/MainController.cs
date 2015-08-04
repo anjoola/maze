@@ -8,6 +8,7 @@ using System.Collections;
  * - Pause menu
  * - Notes for displaying messages to the player
  * - General game status (current level, floor, etc.)
+ * - Storing clone locations
  */
 public class MainController : MonoBehaviour {
 	public static GameObject instance;
@@ -39,7 +40,7 @@ public class MainController : MonoBehaviour {
 	static LevelCompleteController LevelCompleteCtrl;
 
 	// Player's past few positions.
-	private static int NUM_PLAYER_LOCS = 100;
+	private static int NUM_PLAYER_LOCS = 200;
 	private static int PlayerLocIdx = 0;
 	public static CloneLocation[] PlayerLocations;
 
@@ -86,17 +87,19 @@ public class MainController : MonoBehaviour {
 		SelectedLevel = CurrentGame.LastLevelPlayed;
 		LevelUICtrl.TreasureAmt = CurrentGame.TotalTreasure;
 	}
+
 	void Start() {
 		CurrentFloor = 1;
-
 		AudioController.playContinuousAudio(0);
 	}
+
 	void OnApplicationQuit() {
 		// Save the game before quitting.
 		CurrentGame.LastLevelPlayed = CurrentLevelNumber;
 		CurrentGame.TotalTreasure = LevelUICtrl.TreasureAmt;
 		SaveController.SaveGame();
 	}
+
 	void Update() {
 		if (Notes.activeSelf && Input.GetMouseButtonDown(0)) {
 			HideNote();
@@ -125,14 +128,14 @@ public class MainController : MonoBehaviour {
 		PlayerLocIdx = (PlayerLocIdx + 1) % PlayerLocations.Length;
 
 		// Spawn another clone if desired.
-		if (PlayerLocIdx % NUM_PLAYER_LOCS == 0 && CurrentLevel.ShouldSpawnClone())
+		if ((PlayerLocIdx + 50) % NUM_PLAYER_LOCS == 0 && CurrentLevel.ShouldSpawnClone())
 			CurrentLevel.SpawnClone();
 	}
 	public static CloneLocation GetPlayerLocation(int idx) {
 		return PlayerLocations[idx];
 	}
 	public static void ResetLocations() {
-		PlayerLocations = new CloneLocation[NUM_PLAYER_LOCS * CurrentLevel.Floors[CurrentFloor - 1].NumClones + 5];
+		PlayerLocations = new CloneLocation[NUM_PLAYER_LOCS * CurrentLevel.Floors[CurrentFloor - 1].NumClones + 500];
 		PlayerLocIdx = 0;
 	}
 

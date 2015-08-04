@@ -99,7 +99,7 @@ public abstract class Level {
 	}
 
 	/**
-	 * Whether or not a new clone should be spanwed. Depends on the current number of clones already spawned.
+	 * Whether or not a new clone should be spawned. Depends on the current number of clones already spawned.
 	 */
 	public bool ShouldSpawnClone() {
 		return NumClones < Floors[CurrentFloor - 1].NumClones;

@@ -77,8 +77,8 @@ public class LevelCompleteController : MonoBehaviour {
 
 	public void HideLevelComplete() {
 		AudioController.resumeVolume();
-
-		if (!IsLevelCompleteShown) return;
+		if (!IsLevelCompleteShown && UpperPanel.transform.position.y < 3)
+			return;
 		IsLevelCompleteShown = false;
 		
 		Overlay.SetActive(false);
@@ -106,7 +106,7 @@ public class LevelCompleteController : MonoBehaviour {
 	 */
 	public void Exit() {
 		AudioController.playSFX("ButtonSelect");
-		HideLevelComplete();
 		AutoFade.LoadLevel("WorldMap", 0.2f, 0.2f, Color.black);
+		HideLevelComplete();
 	}
 }

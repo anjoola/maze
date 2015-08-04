@@ -8,13 +8,15 @@ public class CloneController : MonoBehaviour {
 	CloneLocation GoalLoc;
 	GameObject player;
 
+	CharacterController controller;
+
 	// Current index into the array.
 	int Idx;
 
 	void Start() {
+		controller = GetComponent<CharacterController>();
 		LastUpdateTime = Time.time;
 		Idx = 0;
-		GoalLoc = null;
 		player = GameObject.FindGameObjectWithTag("Player");
 
 		iTween.MoveBy(gameObject, iTween.Hash("y", 10, "looptype", "pingPong", "easetype", "linear", "time", 0.7f));
@@ -26,25 +28,20 @@ public class CloneController : MonoBehaviour {
 		}
 	}
 	
-	void FixedUpdate() {
+	void Update() {
+		// Get the next delta to move.
 		if (Time.time - LastUpdateTime >= CharacterMovement.UPDATE_INTERVAL) {
 			LastUpdateTime = Time.time;
 			GoalLoc = MainController.GetPlayerLocation(Idx);
-			if (GoalLoc == null)
-				return;
-
-			GoalLoc.position.y = gameObject.transform.position.y;
 			Idx = (Idx + 1) % MainController.PlayerLocations.Length;
 		}
 
-		if (GoalLoc == null)
-			return;
+		if (GoalLoc != null) {
+			controller.Move(GoalLoc.position);
 
-		// Update position and rotation.
-		gameObject.transform.position =
-			Vector3.Lerp(gameObject.transform.position, GoalLoc.position, Time.fixedDeltaTime);
-		gameObject.transform.rotation =
-			Quaternion.Lerp(gameObject.transform.rotation, GoalLoc.rotation, Time.fixedDeltaTime);
+			gameObject.transform.rotation = 
+					Quaternion.Lerp(gameObject.transform.rotation, GoalLoc.rotation, Time.deltaTime);
+		}
 	}
 
 	void OnTriggerEnter(Collider other) {
@@ -68,8 +65,8 @@ public class CloneLocation {
 	public Vector3 position;
 	public Quaternion rotation;
 
-	public CloneLocation(Transform transform) {
-		position = transform.position;
-		rotation = transform.rotation;
+	public CloneLocation(Vector3 position, Quaternion rotation) {
+		this.position = position;
+		this.rotation = rotation;
 	}
 }
