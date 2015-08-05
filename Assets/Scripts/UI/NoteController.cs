@@ -83,7 +83,10 @@ public class NoteController : MonoBehaviour {
 				break;
 			case "TNTItem":
 				ActiveImage = TNT;
-				text = "Picked up a TNT!\nAll enemies on this floor have been destroyed!";
+				if (MainController.CurrentGame.CloneIntroduced)
+					text = "Picked up a TNT!\nAll enemies on this floor ...except Shadows... have been destroyed!";
+				else
+					text = "Picked up a TNT!\nAll enemies on this floor have been destroyed!";
 				break;
 			default:
 				return;

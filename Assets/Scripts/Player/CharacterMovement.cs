@@ -19,16 +19,17 @@ public class CharacterMovement : MonoBehaviour {
 	bool IsWalking = true;
 	bool StartedWalking = false;
 
+	Vector3 StartPos;
+
 	// Last time the player's position was recorded.
-	public static float UPDATE_INTERVAL = 0.02f;
-	float LastUpdateTime = 0;
+	public static float UPDATE_INTERVAL = 0.05f;
 	
 	void Start() {
 		controller = gameObject.GetComponent<CharacterController>();
-		LastUpdateTime = Time.time;
 
 		iTween.MoveBy(Body, iTween.Hash("y", 20, "looptype", "pingPong", "easetype", "linear", "time", 0.25f));
 		MainController.ResetLocations();
+		StartPos = controller.transform.position;
 	}
 	
 	void Update() {
@@ -41,6 +42,11 @@ public class CharacterMovement : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			MainController.TogglePauseMenu();
 		}
+	}
+
+	void OnTriggerStay(Collider other) {
+		if (other.gameObject.tag == "Maze")
+			Debug.Log("DARNIT");
 	}
 	
 	float UpdateMovement() {
@@ -60,8 +66,10 @@ public class CharacterMovement : MonoBehaviour {
 
 		// Move player, and add move delta so clones can follow later.
 		controller.Move(inputVec * Time.deltaTime);
-		CloneLocation loc = new CloneLocation(inputVec * Time.deltaTime, gameObject.transform.rotation);
-		MainController.AddPlayerLocation(loc);
+		if (StartedWalking) {
+			CloneLocation loc = new CloneLocation(inputVec * Time.deltaTime, gameObject.transform.rotation);
+			MainController.AddPlayerLocation(loc);
+		}
 		return inputVec.magnitude;
 	}
 
@@ -85,7 +93,9 @@ public class CharacterMovement : MonoBehaviour {
 	}
 
 	void Walk() {
-		StartedWalking = true;
+		if (Vector3.Distance(controller.transform.position, StartPos) > 800)
+			StartedWalking = true;
+
 		if (IsWalking)
 			return;
 		IsWalking = true;

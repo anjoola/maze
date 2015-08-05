@@ -40,7 +40,7 @@ public class MainController : MonoBehaviour {
 	static LevelCompleteController LevelCompleteCtrl;
 
 	// Player's past few positions.
-	private static int NUM_PLAYER_LOCS = 200;
+	private static int NUM_PLAYER_LOCS = 150;
 	private static int PlayerLocIdx = 0;
 	public static CloneLocation[] PlayerLocations;
 
@@ -128,7 +128,7 @@ public class MainController : MonoBehaviour {
 		PlayerLocIdx = (PlayerLocIdx + 1) % PlayerLocations.Length;
 
 		// Spawn another clone if desired.
-		if ((PlayerLocIdx + 50) % NUM_PLAYER_LOCS == 0 && CurrentLevel.ShouldSpawnClone())
+		if (PlayerLocIdx % NUM_PLAYER_LOCS == 0 && CurrentLevel.ShouldSpawnClone())
 			CurrentLevel.SpawnClone();
 	}
 	public static CloneLocation GetPlayerLocation(int idx) {

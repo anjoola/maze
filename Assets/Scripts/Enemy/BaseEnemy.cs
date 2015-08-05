@@ -34,16 +34,20 @@ public abstract class BaseEnemy : SpawnObject {
 		isWithinRadius = false;
 		
 		// Get player and parent game object.
-		player = GameObject.FindGameObjectWithTag("Player");
-		if (transform.parent)
-			parent = transform.parent.gameObject;
-		
-		// Set collider radius to be the one specified.
 		try {
+			player = GameObject.FindGameObjectWithTag("Player");
+			if (transform.parent)
+				parent = transform.parent.gameObject;
+			
+			// Set collider radius to be the one specified.
 			this.GetComponent<SphereCollider>().radius = Radius;
-		} catch (MissingComponentException) { }
 
-		doStart();
+			doStart();
+		}
+		catch (MissingComponentException) { }
+		catch (System.NullReferenceException) {
+			Destroy(gameObject);
+		}
 	}
 
 	// To be used by subclasses.

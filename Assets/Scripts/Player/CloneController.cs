@@ -30,14 +30,18 @@ public class CloneController : MonoBehaviour {
 	
 	void Update() {
 		// Get the next delta to move.
-		if (Time.time - LastUpdateTime >= CharacterMovement.UPDATE_INTERVAL) {
+		if (Time.time - LastUpdateTime >= CharacterMovement.UPDATE_INTERVAL && !MainController.ShouldPause()) {
+			controller.enabled = true;
 			LastUpdateTime = Time.time;
 			GoalLoc = MainController.GetPlayerLocation(Idx);
 			Idx = (Idx + 1) % MainController.PlayerLocations.Length;
 		}
+		if (MainController.ShouldPause())
+			controller.enabled = false;
 
-		if (GoalLoc != null) {
-			controller.Move(GoalLoc.position);
+		else if (GoalLoc != null) {
+			if (controller.enabled)
+				controller.Move(GoalLoc.position);
 
 			gameObject.transform.rotation = 
 					Quaternion.Lerp(gameObject.transform.rotation, GoalLoc.rotation, Time.deltaTime);

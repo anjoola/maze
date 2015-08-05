@@ -29,7 +29,7 @@ public class SaveController {
 			file.Close();
 		}
 		// Otherwise, create a new game save.
-		catch (System.SystemException) {
+		catch (System.Exception) {
 			MainController.CurrentGame = new Game();
 		}
 	}
