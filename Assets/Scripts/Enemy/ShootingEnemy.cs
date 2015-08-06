@@ -13,7 +13,7 @@ public class ShootingEnemy : BaseEnemy {
 	public GameObject ProjectileSource;
 
 	// Force to shoot the projectile.
-	public int ProjectileSpeed = 4;
+	public float ProjectileSpeed = 6f;
 	
 	// Last time a projectile was shot.
 	float LastShootTime = 0;

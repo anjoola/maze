@@ -51,8 +51,8 @@ public class PrefabMazeGen : MonoBehaviour {
 	 * Converts a world-space position to a coordinate in the maze.
 	 */
 	private EmptyCell Vector3ToCell(Vector3 position) {
-		int row = (int) Mathf.Floor(position.y / EmptyCell.MAZE_BLOCK_SIZE + MazeCenter);
-		int col = (int) Mathf.Floor(position.x / EmptyCell.MAZE_BLOCK_SIZE + MazeCenter);
+		int row = (int) Mathf.Floor(position.z / EmptyCell.MAZE_BLOCK_SIZE + MazeCenter) + 1;
+		int col = (int) Mathf.Floor(position.x / EmptyCell.MAZE_BLOCK_SIZE + MazeCenter) + 1;
 		return new EmptyCell(row, col);
 	}
 
