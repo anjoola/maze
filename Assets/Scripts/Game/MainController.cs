@@ -52,6 +52,8 @@ public class MainController : MonoBehaviour {
 	public static bool IsInvincible = false;
 	public static PrefabMazeGen MazeGen = null;
 
+	public GameObject overlay;
+
 	void Awake() {
 		instance = this.gameObject;
 
@@ -89,6 +91,7 @@ public class MainController : MonoBehaviour {
 	}
 
 	void Start() {
+		overlay.SetActive(false);
 		CurrentFloor = 1;
 		AudioController.playContinuousAudio(0);
 	}
