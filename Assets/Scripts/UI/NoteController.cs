@@ -16,9 +16,13 @@ public class NoteController : MonoBehaviour {
 	float WAIT_TIME_PER_CHAR = 0.07f;
 	float MIN_WAIT_TIME = 1.5f;
 
-	// Number of notes currently shown. This is to prevent a previous note's disappearance from interfering with a
-	// current note's appearance.
-	int NumShowing = 0;
+	Vector3 StartPos;
+	Vector3 HidePos;
+
+	void Start() {
+		StartPos = new Vector3(1, -166, 0);
+		HidePos = new Vector3(-1000, -1000, -1000);
+	}
 
 	/**
 	 * Show the note.
@@ -28,16 +32,11 @@ public class NoteController : MonoBehaviour {
 	 */
 	public void ShowNote(string text, bool autoDismiss=true) {
 		ActiveImage.SetActive(false);
-		NumShowing++;
 		NoteText.text = text;
-		if (ItemNotePanel.activeSelf)
-			ItemNotePanel.SetActive(false);
 
-		// If the note is already shown, do nothing.
-		if (NotePanel.activeSelf)
-			return;
-		else
-			NotePanel.SetActive(true);
+		// Hide item, show real note.
+		ItemNotePanel.transform.localPosition = HidePos;
+		NotePanel.transform.localPosition = StartPos;
 
 		if (autoDismiss) {
 			StopCoroutine("Dismiss");
@@ -45,7 +44,7 @@ public class NoteController : MonoBehaviour {
 		}
 	}
 
-	public void ShowItemNote(string item, bool autoDismiss=true) {
+	public void ShowItemNote(string item, bool fake=false) {
 		ActiveImage.SetActive(false);
 		string text = "";
 		switch (item) {
@@ -93,43 +92,33 @@ public class NoteController : MonoBehaviour {
 		}
 		ActiveImage.SetActive(true);
 		ItemNoteText.text = text;
-		if (NotePanel.activeSelf)
-			NotePanel.SetActive(false);
 
-		// If the note is already shown, do nothing.
-		if (ItemNotePanel.activeSelf)
-			return;
-		else
-			ItemNotePanel.SetActive(true);
+		// Hide real note panel, show item note.
+		NotePanel.transform.localPosition = HidePos;
+		ItemNotePanel.transform.localPosition = StartPos;
 
-		if (autoDismiss) {
-			StopCoroutine("Dismiss");
-			StartCoroutine("Dismiss", true);
-		}
+		if (fake)
+			ItemNotePanel.transform.localPosition = HidePos;
+		StopCoroutine("Dismiss");
+		StartCoroutine("Dismiss", true);
 	}
 
 	/**
 	 * Hide the note.
 	 */
 	public void HideNote() {
-		// If the note is already hidden, do nothing.
-		if (!NotePanel.activeSelf && !ItemNotePanel.activeSelf)
-			return;
-
 		ActiveImage.SetActive(false);
-		NotePanel.SetActive(false);
-		ItemNotePanel.SetActive(false);
+		HidePos = new Vector3(-1000, -1000, -1000);
+		NotePanel.transform.localPosition = HidePos;
+		ItemNotePanel.transform.localPosition = HidePos;
 	}
 
 	/**
 	 * Dismiss a note after a certain period.
 	 */
 	IEnumerator Dismiss(bool isItemNote) {
-		do {
-			int numChars = isItemNote ? ItemNoteText.text.Length : NoteText.text.Length;
-			yield return new WaitForSeconds(Mathf.Max(numChars * WAIT_TIME_PER_CHAR, MIN_WAIT_TIME));
-			NumShowing--;
-		} while (NumShowing > 1);
+		int numChars = isItemNote ? ItemNoteText.text.Length : NoteText.text.Length;
+		yield return new WaitForSeconds(Mathf.Max(numChars * WAIT_TIME_PER_CHAR, MIN_WAIT_TIME));
 		HideNote();
 	}
 }

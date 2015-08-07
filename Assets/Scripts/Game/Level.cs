@@ -49,6 +49,7 @@ public abstract class Level {
 
 		SpawnGameObjects(floor);
 		AudioController.playContinuousAudio(MainController.CurrentLevelNumber);
+		MainController.ShowItemNote("SmallPotion", true);
 	}
 
 	/**

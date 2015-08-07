@@ -180,8 +180,8 @@ public class MainController : MonoBehaviour {
 	public static void ShowNote(string note, bool autoDismiss=true) {
 		NoteCtrl.ShowNote(note, autoDismiss);
 	}
-	public static void ShowItemNote(string item, bool autoDismiss=true) {
-		NoteCtrl.ShowItemNote(item, autoDismiss);
+	public static void ShowItemNote(string item, bool fake=false) {
+		NoteCtrl.ShowItemNote(item, fake);
 	}
 	public static void HideNote() {
 		NoteCtrl.HideNote();
