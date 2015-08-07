@@ -48,6 +48,19 @@ public class PrefabMazeGen : MonoBehaviour {
 	}
 
 	/**
+	 * Returns true if this position is the location of a maze block.
+	 *
+	 * position: Position to check.
+	 */
+	public bool IsMazeBlock(Vector3 position) {
+		position.x -= 190;
+		position.z -= 190;
+		EmptyCell cell = Vector3ToCell(position);
+		GameObject obj = MazeBlocks[cell.Row * Size + cell.Col];
+		return (obj != null && obj.tag == "Maze");
+	}
+
+	/**
 	 * Converts a world-space position to a coordinate in the maze.
 	 */
 	private EmptyCell Vector3ToCell(Vector3 position) {

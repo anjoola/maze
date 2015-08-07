@@ -19,7 +19,9 @@ public class CharacterMovement : MonoBehaviour {
 	bool IsWalking = true;
 	bool StartedWalking = false;
 
+	// Record starting and last good location (not in a wall).
 	Vector3 StartPos;
+	Vector3 LastGoodLocation;
 
 	// Last time the player's position was recorded.
 	public static float UPDATE_INTERVAL = 0.05f;
@@ -30,6 +32,7 @@ public class CharacterMovement : MonoBehaviour {
 		iTween.MoveBy(Body, iTween.Hash("y", 20, "looptype", "pingPong", "easetype", "linear", "time", 0.25f));
 		MainController.ResetLocations();
 		StartPos = controller.transform.position;
+		LastGoodLocation = StartPos;
 	}
 	
 	void Update() {
@@ -42,13 +45,18 @@ public class CharacterMovement : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			MainController.TogglePauseMenu();
 		}
+
+		Vector3 pos = gameObject.transform.position;
+		pos.y = 0;
+		gameObject.transform.position = pos;
+
+		// Somehow got into a wall. Return to the last known good position.
+		if (MainController.MazeGen != null && MainController.MazeGen.IsMazeBlock(gameObject.transform.position))
+			gameObject.transform.position = LastGoodLocation;
+		else
+			LastGoodLocation = gameObject.transform.position;
 	}
 
-	void OnTriggerStay(Collider other) {
-		if (other.gameObject.tag == "Maze")
-			Debug.Log("DARNIT");
-	}
-	
 	float UpdateMovement() {
 		// Movement amount.
 		float x = Input.GetAxis("Horizontal") * 0.4f;

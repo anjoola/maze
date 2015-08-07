@@ -30,6 +30,5 @@ public class LaserRing : MonoBehaviour {
 
 	private void DoDamage() {
 		MainController.DecreaseHP(1);
-		Destroy(gameObject);
 	}
 }
