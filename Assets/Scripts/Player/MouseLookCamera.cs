@@ -17,8 +17,8 @@ public class MouseLookCamera : MonoBehaviour {
 	Vector3 offset;
 
 	void Start() {
+		transform.position = new Vector3(-1500.0f, 1311.4f, -1900.0f);
 		offset = player.transform.position - transform.position;
-		Debug.Log ("camera offset: " + offset);
 	}
 	
 	void LateUpdate() {
@@ -33,7 +33,6 @@ public class MouseLookCamera : MonoBehaviour {
 		float desiredAngle = player.transform.eulerAngles.y;
 		Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);
 		transform.position = player.transform.position - (rotation * offset);
-		Debug.Log ("camera position moved to : " + transform.position);
 
 		// Rotate camera.
 		transform.LookAt(player.transform);

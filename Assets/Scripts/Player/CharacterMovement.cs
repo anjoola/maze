@@ -9,7 +9,7 @@ public class CharacterMovement : MonoBehaviour {
 	public float WalkSpeed = 1600f;
 	public float RunSpeed = 3000f;
 
-	public new Transform camera;
+	public override Transform camera;
 
 	CharacterController controller;
 	public GameObject LeftLeg;
