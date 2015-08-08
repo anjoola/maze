@@ -40,12 +40,13 @@ public abstract class BaseEnemy : SpawnObject {
 				parent = transform.parent.gameObject;
 			
 			// Set collider radius to be the one specified.
-			this.GetComponent<SphereCollider>().radius = Radius;
+			if (this.GetComponent<SphereCollider>() != null)
+				this.GetComponent<SphereCollider>().radius = Radius;
 
 			doStart();
 		}
-		catch (MissingComponentException) { }
-		catch (System.NullReferenceException) {
+		catch (System.NullReferenceException e) {
+			Debug.Log(e);
 			Destroy(gameObject);
 		}
 	}

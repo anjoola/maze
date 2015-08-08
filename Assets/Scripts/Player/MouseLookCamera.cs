@@ -17,7 +17,9 @@ public class MouseLookCamera : MonoBehaviour {
 	Vector3 offset;
 
 	void Start() {
-		transform.position = new Vector3(-1500.0f, 1311.4f, -1900.0f);
+		Vector3 pos = transform.position;
+		pos.y = 1311.4f;
+		transform.position = pos;
 		offset = player.transform.position - transform.position;
 	}
 	
