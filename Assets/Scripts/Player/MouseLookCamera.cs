@@ -11,7 +11,7 @@ public class MouseLookCamera : MonoBehaviour {
 	public GameObject player;
 
 	// How quickly to rotate the camera.
-	public float rotateSpeed = 10;
+	public float rotateSpeed = 3;
 
 	// Difference between the camera's position and the player's position.
 	Vector3 offset;

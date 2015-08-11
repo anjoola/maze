@@ -101,7 +101,7 @@ public class CharacterMovement : MonoBehaviour {
 	}
 
 	void Walk() {
-		if (Vector3.Distance(controller.transform.position, StartPos) > 800)
+		if (Vector3.Distance(controller.transform.position, StartPos) > 750)
 			StartedWalking = true;
 
 		if (IsWalking)

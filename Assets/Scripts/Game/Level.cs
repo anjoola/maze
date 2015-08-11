@@ -97,6 +97,7 @@ public abstract class Level {
 				MazeGen.FitSpawnObject("Treasure/" + floor.Treasures[i]);
 		}
 		MainController.ShowFloorNumber();
+		MainController.LevelUICtrl.RestoreHP();
 	}
 
 	/**

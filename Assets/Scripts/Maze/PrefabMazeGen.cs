@@ -53,8 +53,8 @@ public class PrefabMazeGen : MonoBehaviour {
 	 * position: Position to check.
 	 */
 	public bool IsMazeBlock(Vector3 position) {
-		position.x -= 190;
-		position.z -= 190;
+		position.x -= 185;
+		position.z -= 185;
 		EmptyCell cell = Vector3ToCell(position);
 		GameObject obj = MazeBlocks[cell.Row * Size + cell.Col];
 		return (obj != null && obj.tag == "Maze");

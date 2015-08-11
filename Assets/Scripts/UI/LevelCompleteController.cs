@@ -90,11 +90,12 @@ public class LevelCompleteController : MonoBehaviour {
 		if (OldTimeScale != -1)
 			Time.timeScale = OldTimeScale;
 	}
-	
+
 	/**
 	 * Restarts the current level.
 	 */
 	public void Restart() {
+		MainController.LevelUICtrl.ResetTreasure();
 		AudioController.playSFX("ButtonSelect");
 		Level level = MainController.CurrentLevel;
 		level.Start();
@@ -105,6 +106,7 @@ public class LevelCompleteController : MonoBehaviour {
 	 * Exits the current level.
 	 */
 	public void Exit() {
+		MainController.LevelUICtrl.ResetTreasure();
 		AudioController.playSFX("ButtonSelect");
 		AutoFade.LoadLevel("WorldMap", 0.2f, 0.2f, Color.black);
 		HideLevelComplete();

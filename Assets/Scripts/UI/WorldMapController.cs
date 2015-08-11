@@ -62,7 +62,7 @@ public class WorldMapController : MonoBehaviour {
 			AudioController.playSFX("NewLevel");
 		}
 
-		TreasureCount.text = ("" + MainController.LevelUICtrl.TreasureAmt).PadLeft(7, '0');
+		TreasureCount.text = ("" + MainController.CurrentGame.TotalTreasure).PadLeft(7, '0');
 
 		// No longer a new game.
 		MainController.CurrentGame.IsNewGame = false;

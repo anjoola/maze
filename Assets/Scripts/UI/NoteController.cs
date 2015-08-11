@@ -50,7 +50,10 @@ public class NoteController : MonoBehaviour {
 		switch (item) {
 			case "Bomb":
 				ActiveImage = Bomb;
-				text = "Picked up a Bomb!\nEnemies nearby have been destroyed!";
+				if (MainController.CurrentGame.CloneIntroduced)
+					text = "Picked up a Bomb!\nEnemies nearby ...except Shadows... have been destroyed!";
+				else
+				    text = "Picked up a Bomb!\nEnemies nearby have been destroyed!";
 				break;
 			case "FullPotion":
 				ActiveImage = FullPotion;
@@ -72,9 +75,9 @@ public class NoteController : MonoBehaviour {
 				else
 					text = "Picked up a Poisonous Elixir!\nOops... health has been reduced by 2 HP.";
 				break;
-			case "SeeAllGoggles":
+			case "MagicGoggles":
 				ActiveImage = SeeAllGoggles;
-				text = "Picked up a See-All Goggles!\nAll maze walls are invisible for this floor!";
+				text = "Picked up a Magic Goggles!\nAll maze walls have disappeared for this floor!";
 				break;
 			case "SmallPotion":
 				ActiveImage = SmallPotion;
